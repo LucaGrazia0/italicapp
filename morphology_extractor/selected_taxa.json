@@ -1,0 +1,366 @@
+{
+  "selection_method": {
+    "version": "1.0",
+    "database": "assets/italic/italic_checklist.json",
+    "database_sha256": "21fba5e72837961e8d4a223426a7f2a55d731d5b9ed09ddb4f85b3ebeaf73b4d",
+    "database_generated_at": "2026-10-08T09:17:16.791916+00:00",
+    "rules": [
+      "Candelariella plumbea (ITALIC ID 509) inclusa obbligatoriamente.",
+      "Quote: 8 crostosi, 6 fogliosi, 6 fruticosi, usando esclusivamente growthForm.",
+      "Campionamento stratificato per terzili della lunghezza della descrizione.",
+      "Preferenza per copertura esplicita di apoteci, periteci, soredi e isidi nel testo.",
+      "Il nome scientifico non partecipa al punteggio di selezione; l'ID risolve soltanto i pareggi."
+    ],
+    "length_band_boundaries": {
+      "crustose": {
+        "short_max": 1172,
+        "medium_max": 1421
+      },
+      "foliose": {
+        "short_max": 1338,
+        "medium_max": 1520
+      },
+      "fruticose": {
+        "short_max": 1122,
+        "medium_max": 1370
+      }
+    }
+  },
+  "taxa": [
+    {
+      "italic_id": 509,
+      "scientific_name": "Candelariella plumbea Poelt & Vězda",
+      "growth_form": "Crustose",
+      "group": "crustose",
+      "description_length": 1450,
+      "explicit_features": [
+        "apothecia",
+        "isidia"
+      ],
+      "length_band": "long",
+      "selection_reason": [
+        "taxon obbligatorio del protocollo",
+        "forma di crescita dichiarata: Crustose",
+        "fascia di lunghezza della descrizione: long",
+        "strutture esplicitamente menzionate: apothecia, isidia"
+      ]
+    },
+    {
+      "italic_id": 39,
+      "scientific_name": "Acarospora scotica Hue",
+      "growth_form": "Crustose",
+      "group": "crustose",
+      "description_length": 1354,
+      "explicit_features": [
+        "apothecia"
+      ],
+      "length_band": "medium",
+      "selection_reason": [
+        "forma di crescita dichiarata: Crustose",
+        "fascia di lunghezza della descrizione: medium",
+        "strutture esplicitamente menzionate: apothecia"
+      ]
+    },
+    {
+      "italic_id": 949,
+      "scientific_name": "Enterographa zonata (Körb.) Torrente & Egea",
+      "growth_form": "Crustose",
+      "group": "crustose",
+      "description_length": 1258,
+      "explicit_features": [
+        "apothecia",
+        "perithecia",
+        "soredia"
+      ],
+      "length_band": "medium",
+      "selection_reason": [
+        "forma di crescita dichiarata: Crustose",
+        "fascia di lunghezza della descrizione: medium",
+        "strutture esplicitamente menzionate: apothecia, perithecia, soredia"
+      ]
+    },
+    {
+      "italic_id": 1528,
+      "scientific_name": "Ochrolechia arborea (Kreyer) Almb.",
+      "growth_form": "Crustose",
+      "group": "crustose",
+      "description_length": 880,
+      "explicit_features": [
+        "apothecia",
+        "soredia"
+      ],
+      "length_band": "short",
+      "selection_reason": [
+        "forma di crescita dichiarata: Crustose",
+        "fascia di lunghezza della descrizione: short",
+        "strutture esplicitamente menzionate: apothecia, soredia"
+      ]
+    },
+    {
+      "italic_id": 1683,
+      "scientific_name": "Lepra schaereri (Hafellner) Hafellner",
+      "growth_form": "Crustose",
+      "group": "crustose",
+      "description_length": 503,
+      "explicit_features": [
+        "apothecia",
+        "isidia"
+      ],
+      "length_band": "short",
+      "selection_reason": [
+        "forma di crescita dichiarata: Crustose",
+        "fascia di lunghezza della descrizione: short",
+        "strutture esplicitamente menzionate: apothecia, isidia"
+      ]
+    },
+    {
+      "italic_id": 1786,
+      "scientific_name": "Placynthium dolichoterum (Nyl.) Trevis.",
+      "growth_form": "Crustose",
+      "group": "crustose",
+      "description_length": 1305,
+      "explicit_features": [
+        "apothecia",
+        "isidia"
+      ],
+      "length_band": "medium",
+      "selection_reason": [
+        "forma di crescita dichiarata: Crustose",
+        "fascia di lunghezza della descrizione: medium",
+        "strutture esplicitamente menzionate: apothecia, isidia"
+      ]
+    },
+    {
+      "italic_id": 3130,
+      "scientific_name": "Lecanora tolypodes Poelt & Vězda",
+      "growth_form": "Crustose",
+      "group": "crustose",
+      "description_length": 2376,
+      "explicit_features": [
+        "apothecia",
+        "soredia"
+      ],
+      "length_band": "long",
+      "selection_reason": [
+        "forma di crescita dichiarata: Crustose",
+        "fascia di lunghezza della descrizione: long",
+        "strutture esplicitamente menzionate: apothecia, soredia"
+      ]
+    },
+    {
+      "italic_id": 3230,
+      "scientific_name": "Verrucaria devensis (G. Salisb.) Orange",
+      "growth_form": "Crustose",
+      "group": "crustose",
+      "description_length": 1920,
+      "explicit_features": [
+        "perithecia"
+      ],
+      "length_band": "long",
+      "selection_reason": [
+        "forma di crescita dichiarata: Crustose",
+        "fascia di lunghezza della descrizione: long",
+        "strutture esplicitamente menzionate: perithecia"
+      ]
+    },
+    {
+      "italic_id": 892,
+      "scientific_name": "Dermatocarpon rivulorum (Arnold) Dalla Torre & Sarnth.",
+      "growth_form": "Foliose, umbilicate",
+      "group": "foliose",
+      "description_length": 1405,
+      "explicit_features": [
+        "perithecia"
+      ],
+      "length_band": "medium",
+      "selection_reason": [
+        "forma di crescita dichiarata: Foliose, umbilicate",
+        "fascia di lunghezza della descrizione: medium",
+        "strutture esplicitamente menzionate: perithecia"
+      ]
+    },
+    {
+      "italic_id": 1101,
+      "scientific_name": "Hypogymnia vittata (Ach.) Parrique",
+      "growth_form": "Foliose, narrow lobed",
+      "group": "foliose",
+      "description_length": 1686,
+      "explicit_features": [
+        "apothecia",
+        "soredia"
+      ],
+      "length_band": "long",
+      "selection_reason": [
+        "forma di crescita dichiarata: Foliose, narrow lobed",
+        "fascia di lunghezza della descrizione: long",
+        "strutture esplicitamente menzionate: apothecia, soredia"
+      ]
+    },
+    {
+      "italic_id": 1943,
+      "scientific_name": "Punctelia stictica (Duby) Krog",
+      "growth_form": "Foliose, broad lobed",
+      "group": "foliose",
+      "description_length": 996,
+      "explicit_features": [
+        "apothecia",
+        "soredia",
+        "isidia"
+      ],
+      "length_band": "short",
+      "selection_reason": [
+        "forma di crescita dichiarata: Foliose, broad lobed",
+        "fascia di lunghezza della descrizione: short",
+        "strutture esplicitamente menzionate: apothecia, soredia, isidia"
+      ]
+    },
+    {
+      "italic_id": 2068,
+      "scientific_name": "Ricasolia amplissima (Scop.) De Not. - chloromorph",
+      "growth_form": "Foliose, broad lobed",
+      "group": "foliose",
+      "description_length": 2115,
+      "explicit_features": [
+        "apothecia"
+      ],
+      "length_band": "long",
+      "selection_reason": [
+        "forma di crescita dichiarata: Foliose, broad lobed",
+        "fascia di lunghezza della descrizione: long",
+        "strutture esplicitamente menzionate: apothecia"
+      ]
+    },
+    {
+      "italic_id": 2559,
+      "scientific_name": "Tingiopsidium sonomense (Tuck.) Hafellner & T. Sprib.",
+      "growth_form": "Foliose, narrow lobed",
+      "group": "foliose",
+      "description_length": 1069,
+      "explicit_features": [
+        "apothecia"
+      ],
+      "length_band": "short",
+      "selection_reason": [
+        "forma di crescita dichiarata: Foliose, narrow lobed",
+        "fascia di lunghezza della descrizione: short",
+        "strutture esplicitamente menzionate: apothecia"
+      ]
+    },
+    {
+      "italic_id": 2594,
+      "scientific_name": "Xanthoria parietina (L.) Th. Fr.",
+      "growth_form": "Foliose, broad lobed",
+      "group": "foliose",
+      "description_length": 1520,
+      "explicit_features": [
+        "apothecia"
+      ],
+      "length_band": "medium",
+      "selection_reason": [
+        "forma di crescita dichiarata: Foliose, broad lobed",
+        "fascia di lunghezza della descrizione: medium",
+        "strutture esplicitamente menzionate: apothecia"
+      ]
+    },
+    {
+      "italic_id": 588,
+      "scientific_name": "Circinaria nimisii Sohrabi, H. Mayrhofer, Obermayer & S. D. Leav.",
+      "growth_form": "Fruticose",
+      "group": "fruticose",
+      "description_length": 2636,
+      "explicit_features": [
+        "apothecia"
+      ],
+      "length_band": "long",
+      "selection_reason": [
+        "forma di crescita dichiarata: Fruticose",
+        "fascia di lunghezza della descrizione: long",
+        "strutture esplicitamente menzionate: apothecia"
+      ]
+    },
+    {
+      "italic_id": 590,
+      "scientific_name": "Circinaria hispida (Mereschk.) A. Nordin, Savić & Tibell",
+      "growth_form": "Fruticose",
+      "group": "fruticose",
+      "description_length": 1163,
+      "explicit_features": [
+        "apothecia"
+      ],
+      "length_band": "medium",
+      "selection_reason": [
+        "forma di crescita dichiarata: Fruticose",
+        "fascia di lunghezza della descrizione: medium",
+        "strutture esplicitamente menzionate: apothecia"
+      ]
+    },
+    {
+      "italic_id": 675,
+      "scientific_name": "Ramalina maciformis (Delile) Bory",
+      "growth_form": "Fruticose",
+      "group": "fruticose",
+      "description_length": 771,
+      "explicit_features": [
+        "apothecia",
+        "soredia",
+        "isidia"
+      ],
+      "length_band": "short",
+      "selection_reason": [
+        "forma di crescita dichiarata: Fruticose",
+        "fascia di lunghezza della descrizione: short",
+        "strutture esplicitamente menzionate: apothecia, soredia, isidia"
+      ]
+    },
+    {
+      "italic_id": 1366,
+      "scientific_name": "Lichina confinis (O.F. Müll.) C. Agardh",
+      "growth_form": "Fruticose",
+      "group": "fruticose",
+      "description_length": 1324,
+      "explicit_features": [
+        "apothecia",
+        "perithecia"
+      ],
+      "length_band": "medium",
+      "selection_reason": [
+        "forma di crescita dichiarata: Fruticose",
+        "fascia di lunghezza della descrizione: medium",
+        "strutture esplicitamente menzionate: apothecia, perithecia"
+      ]
+    },
+    {
+      "italic_id": 1991,
+      "scientific_name": "Ramalina cribrosa De Not.",
+      "growth_form": "Fruticose",
+      "group": "fruticose",
+      "description_length": 701,
+      "explicit_features": [
+        "apothecia"
+      ],
+      "length_band": "short",
+      "selection_reason": [
+        "forma di crescita dichiarata: Fruticose",
+        "fascia di lunghezza della descrizione: short",
+        "strutture esplicitamente menzionate: apothecia"
+      ]
+    },
+    {
+      "italic_id": 2279,
+      "scientific_name": "Stereocaulon coniophyllum I.M. Lamb",
+      "growth_form": "Fruticose",
+      "group": "fruticose",
+      "description_length": 1586,
+      "explicit_features": [
+        "apothecia",
+        "soredia"
+      ],
+      "length_band": "long",
+      "selection_reason": [
+        "forma di crescita dichiarata: Fruticose",
+        "fascia di lunghezza della descrizione: long",
+        "strutture esplicitamente menzionate: apothecia, soredia"
+      ]
+    }
+  ]
+}

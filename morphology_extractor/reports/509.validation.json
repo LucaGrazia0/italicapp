@@ -1,0 +1,19 @@
+{
+  "files_checked": 1,
+  "valid_files": 1,
+  "total_errors": 0,
+  "total_warnings": 0,
+  "json_schema": "/workspace/italicapp/morphology_extractor/schema/extraction.schema.json",
+  "results": [
+    {
+      "file": "fixtures/509.manual_reference.json",
+      "italic_id": 509,
+      "scientific_name": "Candelariella plumbea Poelt & Vězda",
+      "character_count": 34,
+      "errors": 0,
+      "warnings": 0,
+      "issues": []
+    }
+  ],
+  "scientific_accuracy_note": "Questi controlli verificano forma e tracciabilità, non l'accuratezza dell'interpretazione scientifica."
+}

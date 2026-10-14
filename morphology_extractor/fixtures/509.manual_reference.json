@@ -1,0 +1,443 @@
+{
+  "italic_id": 509,
+  "scientific_name": "Candelariella plumbea Poelt & Vězda",
+  "characters": [
+    {
+      "structure": "thallus",
+      "part": null,
+      "character": "ownership",
+      "original_text": "Thallus (which might belong to a host lichen) crustose to subsquamulose, lead-grey to almost black in sun-forms",
+      "normalized_values": [{"value_type": "text", "raw": "might belong to a host lichen", "value": "possibly belongs to host lichen"}],
+      "qualifiers": ["might", "in sun-forms"],
+      "status": "ambiguous",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "thallus",
+      "part": null,
+      "character": "growth_form",
+      "original_text": "Thallus (which might belong to a host lichen) crustose to subsquamulose, lead-grey to almost black in sun-forms",
+      "normalized_values": [{"value_type": "term", "raw": "crustose to subsquamulose", "value": "crustose to subsquamulose"}],
+      "qualifiers": ["might", "in sun-forms"],
+      "status": "ambiguous",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "thallus",
+      "part": null,
+      "character": "color",
+      "original_text": "lead-grey to almost black in sun-forms",
+      "normalized_values": [{"value_type": "range", "raw": "lead-grey to almost black", "value": "lead-grey to almost black"}],
+      "qualifiers": ["in sun-forms"],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "thallus",
+      "part": null,
+      "character": "thickness",
+      "original_text": "to 1 mm thick",
+      "normalized_values": [{"value_type": "number", "raw": "to 1 mm", "max": 1, "unit": "mm"}],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "thallus",
+      "part": "basis",
+      "character": "attachment",
+      "original_text": "firmly attached with a strongly constricted basis",
+      "normalized_values": [
+        {"value_type": "term", "raw": "firmly attached", "value": "firmly attached"},
+        {"value_type": "term", "raw": "strongly constricted basis", "value": "strongly constricted"}
+      ],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "squamules",
+      "part": "marginal",
+      "character": "size",
+      "original_text": "Marginal squamules to 1 mm long and wide, more or less deeply divided, usually weakly convex",
+      "normalized_values": [{"value_type": "number", "raw": "to 1 mm long and wide", "max": 1, "unit": "mm"}],
+      "qualifiers": ["more or less", "usually", "weakly"],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "squamules",
+      "part": "marginal",
+      "character": "shape",
+      "original_text": "more or less deeply divided, usually weakly convex",
+      "normalized_values": [
+        {"value_type": "term", "raw": "deeply divided", "value": "deeply divided"},
+        {"value_type": "term", "raw": "weakly convex", "value": "weakly convex"}
+      ],
+      "qualifiers": ["more or less", "usually", "weakly"],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "squamules",
+      "part": "inner",
+      "character": "relative_size",
+      "original_text": "inner squamules smaller, some of them ascending",
+      "normalized_values": [{"value_type": "term", "raw": "smaller", "value": "smaller than marginal squamules"}],
+      "qualifiers": ["some of them"],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "isidia_like_structures",
+      "part": null,
+      "character": "presence",
+      "original_text": "some of them ascending and sometimes forming coarse, 0.1-0.25 wide isidia-like outgrowths",
+      "normalized_values": [{"value_type": "term", "raw": "isidia-like outgrowths", "value": "isidia-like outgrowths"}],
+      "qualifiers": ["some of them", "sometimes"],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "isidia_like_structures",
+      "part": null,
+      "character": "width",
+      "original_text": "sometimes forming coarse, 0.1-0.25 wide isidia-like outgrowths",
+      "normalized_values": [{"value_type": "range", "raw": "0.1-0.25 wide", "min": 0.1, "max": 0.25, "unit": null}],
+      "qualifiers": ["sometimes"],
+      "status": "variable",
+      "certainty": "medium",
+      "review_required": true
+    },
+    {
+      "structure": "cortex",
+      "part": null,
+      "character": "anatomy",
+      "original_text": "Cortex of hyphae running parallel to the surface, overlain by a thick epinecral layer and underlain by a paraplectenchymatous tissue",
+      "normalized_values": [
+        {"value_type": "text", "raw": "hyphae running parallel to the surface", "value": "hyphae parallel to surface"},
+        {"value_type": "text", "raw": "overlain by a thick epinecral layer", "value": "thick epinecral layer above"},
+        {"value_type": "text", "raw": "underlain by a paraplectenchymatous tissue", "value": "paraplectenchymatous tissue below"}
+      ],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "apothecia",
+      "part": null,
+      "character": "type",
+      "original_text": "Apothecia lecanorine",
+      "normalized_values": [{"value_type": "term", "raw": "lecanorine", "value": "lecanorine"}],
+      "qualifiers": [],
+      "status": "present",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "apothecia",
+      "part": null,
+      "character": "position",
+      "original_text": "Apothecia lecanorine, immersed in the thallus",
+      "normalized_values": [{"value_type": "term", "raw": "immersed in the thallus", "value": "immersed in thallus"}],
+      "qualifiers": [],
+      "status": "present",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "apothecia",
+      "part": null,
+      "character": "diameter",
+      "original_text": "0.5-1(-1.5) mm across",
+      "normalized_values": [{"value_type": "range", "raw": "0.5-1(-1.5) mm", "min": 0.5, "max": 1, "unit": "mm"}, {"value_type": "number", "raw": "(-1.5) mm", "value": 1.5, "unit": "mm"}],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "apothecia",
+      "part": null,
+      "character": "shape",
+      "original_text": "round to usually undulate",
+      "normalized_values": [{"value_type": "range", "raw": "round to usually undulate", "value": "round to undulate"}],
+      "qualifiers": ["usually"],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "apothecial_disc",
+      "part": null,
+      "character": "profile",
+      "original_text": "with a flat to weakly convex, yellow to ochre-yellow disc",
+      "normalized_values": [{"value_type": "range", "raw": "flat to weakly convex", "value": "flat to weakly convex"}],
+      "qualifiers": ["weakly"],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "apothecial_disc",
+      "part": null,
+      "character": "color",
+      "original_text": "yellow to ochre-yellow disc",
+      "normalized_values": [{"value_type": "range", "raw": "yellow to ochre-yellow", "value": "yellow to ochre-yellow"}],
+      "qualifiers": [],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "proper_margin",
+      "part": null,
+      "character": "thickness",
+      "original_text": "a thick, yellow proper margin",
+      "normalized_values": [{"value_type": "term", "raw": "thick", "value": "thick"}],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "proper_margin",
+      "part": null,
+      "character": "color",
+      "original_text": "a thick, yellow proper margin",
+      "normalized_values": [{"value_type": "term", "raw": "yellow", "value": "yellow"}],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "thalline_margin",
+      "part": null,
+      "character": "color",
+      "original_text": "a grey thalline margin often visible on the flanks of young apothecia",
+      "normalized_values": [{"value_type": "term", "raw": "grey", "value": "grey"}],
+      "qualifiers": ["often"],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "thalline_margin",
+      "part": null,
+      "character": "visibility_position",
+      "original_text": "often visible on the flanks of young apothecia",
+      "normalized_values": [{"value_type": "text", "raw": "visible on the flanks of young apothecia", "value": "visible on flanks of young apothecia"}],
+      "qualifiers": ["often"],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "exciple",
+      "part": "upper part",
+      "character": "anatomy",
+      "original_text": "Exciple paraplectenchymatous, in upper part inspersed with minute brownish yellow crystals",
+      "normalized_values": [
+        {"value_type": "term", "raw": "paraplectenchymatous", "value": "paraplectenchymatous"},
+        {"value_type": "text", "raw": "inspersed with minute brownish yellow crystals", "value": "inspersed with minute brownish-yellow crystals"}
+      ],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "epithecium",
+      "part": null,
+      "character": "color_surface",
+      "original_text": "epithecium yellow, granular",
+      "normalized_values": [
+        {"value_type": "term", "raw": "yellow", "value": "yellow"},
+        {"value_type": "term", "raw": "granular", "value": "granular"}
+      ],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "hymenium",
+      "part": null,
+      "character": "color_height",
+      "original_text": "hymenium colourless, c. 60 µm high",
+      "normalized_values": [
+        {"value_type": "term", "raw": "colourless", "value": "colourless"},
+        {"value_type": "number", "raw": "c. 60 µm high", "value": 60, "unit": "µm"}
+      ],
+      "qualifiers": ["c."],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "paraphyses",
+      "part": "base and terminal cells",
+      "character": "thickness",
+      "original_text": "paraphyses 2-3 µm thick at the base, the terminal cells swollen and up to 5 µm thick",
+      "normalized_values": [
+        {"value_type": "range", "raw": "2-3 µm thick at the base", "min": 2, "max": 3, "unit": "µm"},
+        {"value_type": "number", "raw": "up to 5 µm thick", "max": 5, "unit": "µm"}
+      ],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "asci",
+      "part": null,
+      "character": "spore_count_shape",
+      "original_text": "Asci 8-spored, clavate",
+      "normalized_values": [
+        {"value_type": "number", "raw": "8-spored", "value": 8, "unit": null},
+        {"value_type": "term", "raw": "clavate", "value": "clavate"}
+      ],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "asci",
+      "part": "apical dome",
+      "character": "chemical_reaction",
+      "original_text": "an apical dome which is I+ blue only in the internal, lower part, interrupted in the centre by an I+ paler blue strip",
+      "normalized_values": [
+        {"value_type": "reaction", "raw": "I+ blue", "reaction": "I", "value": "positive", "color": "blue"},
+        {"value_type": "reaction", "raw": "I+ paler blue", "reaction": "I", "value": "positive", "color": "paler blue"}
+      ],
+      "qualifiers": ["only in the internal, lower part"],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "asci",
+      "part": null,
+      "character": "type",
+      "original_text": "Candelaria -type",
+      "normalized_values": [{"value_type": "term", "raw": "Candelaria -type", "value": "Candelaria-type"}],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "ascospores",
+      "part": null,
+      "character": "cell_count_shape_color",
+      "original_text": "Ascospores 1-celled, ellipsoid, hyaline, straight or slightly curved",
+      "normalized_values": [
+        {"value_type": "number", "raw": "1-celled", "value": 1, "unit": null},
+        {"value_type": "term", "raw": "ellipsoid", "value": "ellipsoid"},
+        {"value_type": "term", "raw": "hyaline", "value": "hyaline"},
+        {"value_type": "range", "raw": "straight or slightly curved", "value": "straight or slightly curved"}
+      ],
+      "qualifiers": ["slightly"],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "ascospores",
+      "part": null,
+      "character": "size",
+      "original_text": "13-18(-20) x 4.5-6 µm",
+      "normalized_values": [
+        {"value_type": "range", "raw": "13-18(-20) µm", "min": 13, "max": 18, "unit": "µm"},
+        {"value_type": "number", "raw": "(-20) µm", "value": 20, "unit": "µm"},
+        {"value_type": "range", "raw": "4.5-6 µm", "min": 4.5, "max": 6, "unit": "µm"}
+      ],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "photobiont",
+      "part": null,
+      "character": "type",
+      "original_text": "Photobiont chlorococcoid",
+      "normalized_values": [{"value_type": "term", "raw": "chlorococcoid", "value": "chlorococcoid"}],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "thallus",
+      "part": null,
+      "character": "chemical_reaction",
+      "original_text": "thallus K-, C-, KC-, P-",
+      "normalized_values": [
+        {"value_type": "reaction", "raw": "K-", "reaction": "K", "value": "negative"},
+        {"value_type": "reaction", "raw": "C-", "reaction": "C", "value": "negative"},
+        {"value_type": "reaction", "raw": "KC-", "reaction": "KC", "value": "negative"},
+        {"value_type": "reaction", "raw": "P-", "reaction": "P", "value": "negative"}
+      ],
+      "qualifiers": [],
+      "status": "absent",
+      "certainty": "high",
+      "review_required": false
+    },
+    {
+      "structure": "apothecia",
+      "part": null,
+      "character": "chemical_reaction",
+      "original_text": "apothecia K- or K+ reddish-orange, C-, KC-, P-",
+      "normalized_values": [
+        {"value_type": "reaction", "raw": "K-", "reaction": "K", "value": "negative"},
+        {"value_type": "reaction", "raw": "K+ reddish-orange", "reaction": "K", "value": "positive", "color": "reddish-orange"},
+        {"value_type": "reaction", "raw": "C-", "reaction": "C", "value": "negative"},
+        {"value_type": "reaction", "raw": "KC-", "reaction": "KC", "value": "negative"},
+        {"value_type": "reaction", "raw": "P-", "reaction": "P", "value": "negative"}
+      ],
+      "qualifiers": [],
+      "status": "variable",
+      "certainty": "high",
+      "review_required": true
+    },
+    {
+      "structure": "apothecia",
+      "part": null,
+      "character": "secondary_metabolite",
+      "original_text": "apothecia with pulvinic acid derivatives",
+      "normalized_values": [{"value_type": "term", "raw": "pulvinic acid derivatives", "value": "pulvinic acid derivatives"}],
+      "qualifiers": [],
+      "status": "reported",
+      "certainty": "high",
+      "review_required": false
+    }
+  ],
+  "warnings": [
+    {
+      "code": "possible_host_lichen_structure",
+      "message": "La descrizione avverte che il tallo potrebbe appartenere a un lichene ospite; tutti i caratteri tallini richiedono verifica scientifica.",
+      "original_text": "Thallus (which might belong to a host lichen)"
+    },
+    {
+      "code": "isidia_like_not_isidia",
+      "message": "Il testo riporta escrescenze simili a isidi, non veri isidi.",
+      "original_text": "isidia-like outgrowths"
+    }
+  ],
+  "extraction_method": "manual_reference_for_pipeline_test",
+  "model_name": null,
+  "review_status": "needs_review"
+}

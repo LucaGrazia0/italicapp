@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/italicapp/morphology-extraction.schema.json",
+  "title": "ITALIC morphology extraction",
+  "type": "object",
+  "required": [
+    "italic_id",
+    "scientific_name",
+    "characters",
+    "warnings",
+    "extraction_method",
+    "model_name",
+    "review_status"
+  ],
+  "properties": {
+    "italic_id": {"type": "integer", "minimum": 1},
+    "scientific_name": {"type": "string", "minLength": 1},
+    "source_description_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "characters": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/character"}
+    },
+    "warnings": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/warning"}
+    },
+    "extraction_method": {"type": "string", "minLength": 1},
+    "model_name": {"type": ["string", "null"]},
+    "review_status": {
+      "enum": ["unreviewed", "needs_review", "manually_reviewed", "approved"]
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "character": {
+      "type": "object",
+      "required": [
+        "structure",
+        "part",
+        "character",
+        "original_text",
+        "normalized_values",
+        "qualifiers",
+        "status",
+        "certainty",
+        "review_required"
+      ],
+      "properties": {
+        "structure": {
+          "enum": [
+            "thallus", "lobes", "squamules", "cortex", "medulla",
+            "apothecia", "apothecial_disc", "proper_margin", "thalline_margin",
+            "perithecia", "soredia", "soralia", "isidia",
+            "isidia_like_structures", "pycnidia", "exciple", "epithecium",
+            "hymenium", "paraphyses", "asci", "ascospores", "photobiont", "other"
+          ]
+        },
+        "part": {"type": ["string", "null"]},
+        "character": {"type": "string", "minLength": 1},
+        "original_text": {"type": "string", "minLength": 1},
+        "normalized_values": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/normalizedValue"}
+        },
+        "qualifiers": {"type": "array", "items": {"type": "string"}},
+        "status": {"enum": ["present", "absent", "variable", "ambiguous", "reported"]},
+        "certainty": {"enum": ["high", "medium", "low"]},
+        "review_required": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "normalizedValue": {
+      "type": "object",
+      "required": ["value_type", "raw"],
+      "properties": {
+        "value_type": {"enum": ["term", "number", "range", "reaction", "text"]},
+        "raw": {"type": "string"},
+        "value": {"type": ["string", "number", "boolean", "null"]},
+        "min": {"type": ["number", "null"]},
+        "max": {"type": ["number", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "reaction": {"type": ["string", "null"]},
+        "color": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "warning": {
+      "type": "object",
+      "required": ["code", "message", "original_text"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1},
+        "message": {"type": "string", "minLength": 1},
+        "original_text": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  }
+}
