@@ -173,7 +173,7 @@ class _CapturePageState extends State<CapturePage> {
         ),
         const SizedBox(height: 16),
         DropdownButtonFormField<String>(
-          value: substrate,
+          initialValue: substrate,
           decoration: const InputDecoration(
             labelText: 'Substrato (facoltativo)',
             border: OutlineInputBorder(),

@@ -95,7 +95,7 @@ class _ObservationPageState extends State<ObservationPage> {
               const SizedBox(height: 12),
               if (editing)
                 DropdownButtonFormField<String>(
-                  value: substrate,
+                  initialValue: substrate,
                   decoration: const InputDecoration(labelText: 'Substrato', border: OutlineInputBorder()),
                   items: substrates.map((s) => DropdownMenuItem(value:s, child:Text(s))).toList(),
                   onChanged: (v) => setState(() => substrate = v),
