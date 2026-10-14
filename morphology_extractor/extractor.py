@@ -244,6 +244,7 @@ def select_taxa(database: Path, output_json: Path, output_csv: Path) -> dict[str
         writer = csv.DictWriter(
             handle,
             fieldnames=["italic_id", "scientific_name", "growth_form", "length_band", "description_length", "explicit_features", "selection_reason"],
+            lineterminator="\n",
         )
         writer.writeheader()
         for row in selected:
