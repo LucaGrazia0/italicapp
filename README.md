@@ -625,3 +625,24 @@ persistente offline, conservazione di diario e chiave storica, separazione delle
 quote e consenso GPS negli export. Anteprima visiva controllata. Nessuna misura
 GNSS effettuata su un telefono fisico.
 Riferimento conversione: https://developer.android.com/reference/androidx/core/location/altitude/AltitudeConverterCompat
+
+
+### Navigazione essenziale (0.8.7)
+
+In ITALIC il pulsante **Chiavi di determinazione** è ora un comando principale
+verde subito sotto il titolo, prima della ricerca e dei filtri del catalogo.
+Il menu mette in primo piano **Chiavi · tutti i taxa**. **Riprendi il percorso
+salvato** resta visibile quando l'osservazione contiene una determinazione.
+
+**Strumenti e dati**, chiuso inizialmente, raccoglie Identifica una specie,
+Physcia · revisione e prova, Matrice specie × caratteri, Matrice dei traits,
+dizionario e chiavi originali online. Le matrici hanno fonti e funzioni diverse;
+la revisione Physcia conserva modifiche, evidenze e controllo dei caratteri.
+Il percorso alternativo di confronto dei caratteri resta accessibile, insieme
+alla ripresa delle determinazioni salvate nelle versioni precedenti.
+La chiave generale rimane apribile anche se il caricamento degli strumenti
+aggiuntivi non riesce.
+
+Verifica: 172 test Flutter superati, analisi senza rilievi e controllo visivo
+del comando ITALIC e del menu semplificato. La Release GitHub 0.8.6 rimane
+invariata; la 0.8.7 è una nuova build locale finché non viene pubblicata.

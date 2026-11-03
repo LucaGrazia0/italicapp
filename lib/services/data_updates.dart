@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
+
 import '../data/scientific_data.dart';
 import '../data/italic_reference_repository.dart';
 import '../data/character_matrix_repository.dart';
@@ -63,7 +65,7 @@ class DataRelease {
 class DataUpdates {
   DataUpdates({http.Client? client}) : client = client ?? http.Client();
   final http.Client client;
-  static const appBuild = 19;
+  static const appBuild = 20;
   static final feed = Uri.parse(
     'https://api.github.com/repos/LucaGrazia0/italicapp/releases/latest',
   );

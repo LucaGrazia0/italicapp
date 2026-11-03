@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../data/italic_reference_repository.dart';
 import 'italic_taxon_page.dart';
 import '../services/ecological_compatibility_engine.dart';
@@ -230,12 +231,46 @@ class _ItalicPageState extends State<ItalicPage> {
       children: [
         Text(
           'ITALIC',
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: AppTheme.forest,
-          ),
+          style: Theme.of(context).textTheme.headlineMedium
+              ?.copyWith(fontWeight: FontWeight.w800, color: AppTheme.forest),
         ),
         const Text('Checklist scientifica dei licheni italiani • ITALIC 8.0'),
+        const SizedBox(height: 16),
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton(
+            key: const ValueKey('open-identification-keys'),
+            style: FilledButton.styleFrom(padding: const EdgeInsets.all(20)),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const DeterminationStartPage()),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.account_tree_outlined, size: 32),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Chiavi di determinazione',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      const Text('Identifica un campione con i bivi ITALIC.'),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Icon(Icons.arrow_forward),
+              ],
+            ),
+          ),
+        ),
         const SizedBox(height: 18),
         if (loading) const LinearProgressIndicator(),
         if (error != null)
@@ -304,6 +339,7 @@ class _ItalicPageState extends State<ItalicPage> {
           ),
         const SizedBox(height: 14),
         TextField(
+          key: const ValueKey('italic-species-search'),
           controller: controller,
           enabled: repo.taxa.isNotEmpty,
           onChanged: search,
@@ -312,16 +348,6 @@ class _ItalicPageState extends State<ItalicPage> {
             hintText: 'Cerca una specie o un sinonimo…',
             border: InputBorder.none,
           ),
-        ),
-        const SizedBox(height: 12),
-        OutlinedButton.icon(
-          key: const ValueKey('open-identification-keys'),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const DeterminationStartPage()),
-          ),
-          icon: const Icon(Icons.account_tree_outlined),
-          label: const Text('Chiavi di determinazione'),
         ),
         const SizedBox(height: 12),
         if (repo.taxa.isNotEmpty)

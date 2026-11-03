@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show mapEquals;
+
 import '../app_store.dart';
+import '../theme/app_theme.dart';
 import '../data/identification_repository.dart';
 import '../data/italic_reference_repository.dart';
 import '../models/identification_path.dart';
@@ -105,22 +107,17 @@ class _DeterminationStartPageState extends State<DeterminationStartPage> {
     final path = widget.observation?.identificationPath;
     return _scaffold('Chiavi di determinazione', [
       Text(
-        'Scegli un percorso',
+        'Identifica il campione',
         style: Theme.of(context).textTheme.headlineSmall,
       ),
       const SizedBox(height: 8),
       Text(
         widget.observation == null
-            ? 'Prova libera: confronta i caratteri senza creare un’osservazione.'
+            ? 'Scegli i caratteri del campione e segui i bivi fino alla specie.'
             : 'Le risposte possono essere salvate e riprese da questa osservazione.',
       ),
       const SizedBox(height: 20),
-      if (loading)
-        const Center(child: CircularProgressIndicator())
-      else if (failed) ...[
-        const Text('Impossibile caricare le chiavi locali.'),
-        TextButton(onPressed: _load, child: const Text('Riprova')),
-      ] else ...[
+      if (!loading && !failed) ...[
         if (path != null &&
             [
               StructuredKey.id,
@@ -161,84 +158,112 @@ class _DeterminationStartPageState extends State<DeterminationStartPage> {
                   ),
             key: const ValueKey('resume-key'),
           ),
-        _routeCard(
-          'Chiavi · tutti i taxa',
-          'Segui i bivi nell’app, scegli un genere oppure cerca una specie per studiare i suoi percorsi e i casi mancanti.',
-          Icons.account_tree_outlined,
-          () =>
-              Navigator.push(
+      ],
+      _routeCard(
+        'Chiavi · tutti i taxa',
+        'Segui i bivi nell’app, scegli un genere oppure cerca una specie per studiare i suoi percorsi e i casi mancanti.',
+        Icons.account_tree_outlined,
+        () =>
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => GeneralKeysPage(
+                  observation: widget.observation,
+                  store: widget.store,
+                ),
+              ),
+            ).then((_) {
+              if (mounted) setState(() {});
+            }),
+        key: const ValueKey('open-general-keys'),
+        primary: true,
+      ),
+      const SizedBox(height: 20),
+      ExpansionTile(
+        key: const ValueKey('identification-tools'),
+        leading: const Icon(Icons.tune),
+        title: const Text('Strumenti e dati'),
+        subtitle: const Text('Matrici, revisioni e percorsi alternativi'),
+        tilePadding: const EdgeInsets.symmetric(horizontal: 12),
+        children: [
+          if (loading)
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: LinearProgressIndicator(),
+            )
+          else if (failed) ...[
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                'Strumenti aggiuntivi non disponibili. Puoi comunque aprire la chiave generale.',
+              ),
+            ),
+            TextButton(onPressed: _load, child: const Text('Riprova')),
+          ] else ...[
+            _routeCard(
+              'Identifica una specie',
+              'Scegli i caratteri, confronta i candidati e continua nei bivi originali ITALIC fino alla specie.',
+              Icons.route_outlined,
+              _openSpecies,
+              key: const ValueKey('open-species-key'),
+            ),
+            _routeCard(
+              'Physcia · revisione e prova',
+              'Revisiona i caratteri dei 22 taxa: tallo, colori, lobi, presenza, forme e tipi, e prova la chiave con i dati confermati manualmente.',
+              Icons.fact_check_outlined,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PhysciaReviewPage()),
+              ),
+              key: const ValueKey('open-physcia-review'),
+            ),
+            _routeCard(
+              'Matrice specie × caratteri',
+              'Confronta i taxa e consulta valori, dati mancanti e citazioni dei caratteri.',
+              Icons.table_chart_outlined,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CharacterMatrixPage()),
+              ),
+              key: const ValueKey('open-character-matrix'),
+            ),
+            _routeCard(
+              'Matrice dei traits · ITALIC API',
+              'Consulta 29 stati API e le indicazioni riproduttive di soredi o simili e isidi o simili, con fonte e discrepanze.',
+              Icons.dataset_outlined,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ItalicApiTraitsPage()),
+              ),
+              key: const ValueKey('open-api-traits-matrix'),
+            ),
+            _routeCard(
+              'Dizionario dei caratteri',
+              'Cerca presenza, forme e tipi nelle descrizioni: sorali, soredi, isidi, ciglia, rizine e apoteci.',
+              Icons.manage_search,
+              () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => GeneralKeysPage(
-                    observation: widget.observation,
-                    store: widget.store,
-                  ),
+                  builder: (_) => const CharacterDictionaryPage(),
                 ),
-              ).then((_) {
-                if (mounted) setState(() {});
-              }),
-          key: const ValueKey('open-general-keys'),
-        ),
-        _routeCard(
-          'Identifica una specie',
-          'Scegli i caratteri, confronta i candidati e continua nei bivi originali ITALIC fino alla specie.',
-          Icons.route_outlined,
-          _openSpecies,
-          key: const ValueKey('open-species-key'),
-        ),
-        _routeCard(
-          'Physcia · revisione e prova',
-          'Revisiona i caratteri dei 22 taxa: tallo, colori, lobi, presenza, forme e tipi, e prova la chiave con i dati confermati manualmente.',
-          Icons.fact_check_outlined,
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const PhysciaReviewPage()),
-          ),
-          key: const ValueKey('open-physcia-review'),
-        ),
-        _routeCard(
-          'Matrice specie × caratteri',
-          'Confronta i taxa e consulta valori, dati mancanti e citazioni dei caratteri.',
-          Icons.table_chart_outlined,
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const CharacterMatrixPage()),
-          ),
-          key: const ValueKey('open-character-matrix'),
-        ),
-        _routeCard(
-          'Matrice dei traits · ITALIC API',
-          'Consulta 29 stati API e le indicazioni riproduttive di soredi o simili e isidi o simili, con fonte e discrepanze.',
-          Icons.dataset_outlined,
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ItalicApiTraitsPage()),
-          ),
-          key: const ValueKey('open-api-traits-matrix'),
-        ),
-        _routeCard(
-          'Dizionario dei caratteri',
-          'Cerca presenza, forme e tipi nelle descrizioni: sorali, soredi, isidi, ciglia, rizine e apoteci.',
-          Icons.manage_search,
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const CharacterDictionaryPage()),
-          ),
-          key: const ValueKey('open-character-dictionary'),
-        ),
-        _routeCard(
-          'Chiavi originali ITALIC',
-          '${repo.genusKeys.length} collegamenti per genere. Le chiavi si aprono online.',
-          Icons.menu_book_outlined,
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => OfficialKeysPage(entries: repo.genusKeys),
+              ),
+              key: const ValueKey('open-character-dictionary'),
             ),
-          ),
-          key: const ValueKey('open-official-keys'),
-        ),
-      ],
+            _routeCard(
+              'Chiavi originali ITALIC',
+              '${repo.genusKeys.length} collegamenti per genere. Le chiavi si aprono online.',
+              Icons.menu_book_outlined,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => OfficialKeysPage(entries: repo.genusKeys),
+                ),
+              ),
+              key: const ValueKey('open-official-keys'),
+            ),
+          ],
+        ],
+      ),
     ]);
   }
 }
@@ -875,9 +900,30 @@ Widget _routeCard(
   IconData icon,
   VoidCallback open, {
   Key? key,
+  bool primary = false,
 }) => Card(
+  color: primary ? AppTheme.forest : null,
   child: ListTile(
     key: key,
+    contentPadding: primary ? const EdgeInsets.all(20) : null,
+    iconColor: primary ? Colors.white : null,
+    textColor: primary ? Colors.white : null,
+    titleTextStyle: primary
+        ? const TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          )
+        : null,
+    subtitleTextStyle: primary
+        ? const TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 14,
+            height: 1.4,
+            color: Colors.white,
+          )
+        : null,
     leading: Icon(icon),
     title: Text(title),
     subtitle: Text(subtitle),
