@@ -1,0 +1,47 @@
+{
+  "versionName": "0.8.6",
+  "versionCode": 19,
+  "applicationId": "it.italic.italicapp",
+  "minSdk": 24,
+  "targetSdk": 36,
+  "sizeBytes": 61061684,
+  "sha256": "a78deed201dd2722dd19b09823ab169889dacf84c0fe6ea66edcb2564ca1a3d6",
+  "signing": "Existing Android development certificate; APK v2 verified",
+  "certificateSha256": "aedefb2fe64f37f113d81ff3e3cf560ee914872fa69511d81dac31abe8bf8f7c",
+  "architectures": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86_64"
+  ],
+  "offlineAssetsVerified": [
+    "italic_checklist.json",
+    "italic_genus_keys.json",
+    "flavoparmelia_key.json",
+    "character_matrix_v2.json",
+    "character_dictionary_v3.json",
+    "api_traits_matrix_v2.json",
+    "general_reconstructed_key_v1.json",
+    "physcia_reconstructed_key_v1.json"
+  ],
+  "flutterTestsPassed": 169,
+  "staticAnalysis": "No issues found",
+  "physicalAndroidDeviceTested": false,
+  "gnssNativeBridgeVerified": true,
+  "offlineGeoidDatabaseVerified": true,
+  "altitudeReference": "Android mean sea level; raw WGS84 ellipsoid preserved separately",
+  "geoidConverter": "androidx.core:core-location-altitude:1.0.1",
+  "binaryPrefilterCharacters": 31,
+  "updatesPackagePrepared": "dist/data-update-0.8.6",
+  "updatesPublished": false,
+  "updateFeedHttpStatus": 404,
+  "launcherIconsVerified": true,
+  "launcherArtworkSha256": "676f61a3f6ccd6dc5b3fbae01cc5a47275f3ff37cd352fe9c294592b55e8d85c",
+  "cleanBuildLocation": "/private/tmp/italicapp-release-0.8.6",
+  "unifiedPrefilterForm": true,
+  "nestedPrefilterDropdowns": false,
+  "directTypeChoices": true,
+  "binaryPrefilterExample": {
+    "folioseLocalCandidates": 387,
+    "retainedUnknown": 2
+  }
+}

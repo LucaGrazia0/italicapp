@@ -1,20 +1,28 @@
-import 'package:idb_shim/idb_browser.dart';
+import 'package:idb_shim/idb.dart';
+import 'observation_database.dart';
 import '../models/observation.dart';
 
 class ObservationRepository {
+  ObservationRepository({this.factory});
+  final IdbFactory? factory;
   static const _dbName = 'italicapp_observations';
   static const _storeName = 'observations';
   static const _version = 1;
 
   Database? _db;
 
+  Future<void> close() async {
+    _db?.close();
+    _db = null;
+  }
+
   Future<Database> _database() async {
     if (_db != null) return _db!;
-    final factory = getIdbFactory();
-    if (factory == null) {
-      throw StateError('IndexedDB non disponibile in questo browser.');
+    final databaseFactory = factory ?? await observationDatabaseFactory();
+    if (databaseFactory == null) {
+      throw StateError('Archivio locale non disponibile sul dispositivo.');
     }
-    _db = await factory.open(
+    _db = await databaseFactory.open(
       _dbName,
       version: _version,
       onUpgradeNeeded: (event) {
@@ -32,11 +40,9 @@ class ObservationRepository {
     final txn = db.transaction(_storeName, idbModeReadOnly);
     final values = await txn.objectStore(_storeName).getAll();
     await txn.completed;
-    final observations = values
-        .whereType<Map>()
-        .map(Observation.fromMap)
-        .toList()
-      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final observations =
+        values.whereType<Map>().map(Observation.fromMap).toList()
+          ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
     return observations;
   }
 

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import '../models/observation.dart';
 
 class ObservationPhoto extends StatelessWidget {
-  const ObservationPhoto(this.observation, {super.key, this.fit = BoxFit.cover});
+  const ObservationPhoto(
+    this.observation, {
+    super.key,
+    this.fit = BoxFit.cover,
+  });
   final Observation observation;
   final BoxFit fit;
 
@@ -15,7 +19,11 @@ class ObservationPhoto extends StatelessWidget {
     return Container(
       color: const Color(0xFFE7EEE9),
       alignment: Alignment.center,
-      child: const Icon(Icons.image_outlined, size: 48, color: Color(0xFF547764)),
+      child: const Icon(
+        Icons.image_outlined,
+        size: 48,
+        color: Color(0xFF547764),
+      ),
     );
   }
 }

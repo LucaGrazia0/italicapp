@@ -24,6 +24,7 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'Roboto',
       colorScheme: scheme,
       scaffoldBackgroundColor: ivory,
       appBarTheme: const AppBarTheme(

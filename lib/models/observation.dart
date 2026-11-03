@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'identification_path.dart';
 
 enum IdentificationRank { undetermined, family, genus, species }
 
@@ -11,12 +12,20 @@ class Observation {
     required this.horizontalAccuracy,
     this.gpsAltitude,
     this.altitudeAccuracy,
+    this.seaLevelAltitude,
+    this.seaLevelAccuracy,
+    this.altitudeReference,
+    this.positionMeasuredAt,
+    this.positionProvider,
+    this.satellitesUsed,
+    this.positionMocked,
     this.substrate,
     this.notes = '',
     this.rank = IdentificationRank.undetermined,
     this.taxonName,
     this.photoBytes,
     this.photoName,
+    this.identificationPath,
   });
 
   final String id;
@@ -26,12 +35,18 @@ class Observation {
   double horizontalAccuracy;
   double? gpsAltitude;
   double? altitudeAccuracy;
+  double? seaLevelAltitude, seaLevelAccuracy;
+  String? altitudeReference, positionProvider;
+  DateTime? positionMeasuredAt;
+  int? satellitesUsed;
+  bool? positionMocked;
   String? substrate;
   String notes;
   IdentificationRank rank;
   String? taxonName;
   Uint8List? photoBytes;
   String? photoName;
+  IdentificationPath? identificationPath;
 
   Map<String, Object?> toMap() => {
     'id': id,
@@ -41,12 +56,20 @@ class Observation {
     'horizontalAccuracy': horizontalAccuracy,
     'gpsAltitude': gpsAltitude,
     'altitudeAccuracy': altitudeAccuracy,
+    'seaLevelAltitude': seaLevelAltitude,
+    'seaLevelAccuracy': seaLevelAccuracy,
+    'altitudeReference': altitudeReference,
+    'positionMeasuredAt': positionMeasuredAt?.toIso8601String(),
+    'positionProvider': positionProvider,
+    'satellitesUsed': satellitesUsed,
+    'positionMocked': positionMocked,
     'substrate': substrate,
     'notes': notes,
     'rank': rank.name,
     'taxonName': taxonName,
     'photoBytes': photoBytes,
     'photoName': photoName,
+    'identificationPath': identificationPath?.toMap(),
   };
 
   factory Observation.fromMap(Map map) {
@@ -59,6 +82,15 @@ class Observation {
       horizontalAccuracy: (map['horizontalAccuracy'] as num).toDouble(),
       gpsAltitude: (map['gpsAltitude'] as num?)?.toDouble(),
       altitudeAccuracy: (map['altitudeAccuracy'] as num?)?.toDouble(),
+      seaLevelAltitude: (map['seaLevelAltitude'] as num?)?.toDouble(),
+      seaLevelAccuracy: (map['seaLevelAccuracy'] as num?)?.toDouble(),
+      altitudeReference: map['altitudeReference'] as String?,
+      positionMeasuredAt: DateTime.tryParse(
+        map['positionMeasuredAt']?.toString() ?? '',
+      ),
+      positionProvider: map['positionProvider'] as String?,
+      satellitesUsed: (map['satellitesUsed'] as num?)?.toInt(),
+      positionMocked: map['positionMocked'] as bool?,
       substrate: map['substrate'] as String?,
       notes: map['notes'] as String? ?? '',
       rank: IdentificationRank.values.firstWhere(
@@ -70,6 +102,7 @@ class Observation {
           ? null
           : Uint8List.fromList(List<int>.from(map['photoBytes'] as List)),
       photoName: map['photoName'] as String?,
+      identificationPath: IdentificationPath.fromMap(map['identificationPath']),
     );
   }
 }

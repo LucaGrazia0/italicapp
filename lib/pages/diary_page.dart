@@ -30,8 +30,9 @@ class _DiaryPageState extends State<DiaryPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.store.loading)
+    if (widget.store.loading) {
       return const Center(child: CircularProgressIndicator());
+    }
     final groups = <DateTime, List<Observation>>{};
     for (final o in widget.store.observations) {
       final d = DateTime(o.createdAt.year, o.createdAt.month, o.createdAt.day);

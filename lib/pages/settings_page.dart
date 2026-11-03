@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import '../theme/app_theme.dart';
+import '../widgets/offline_card.dart';
+import '../widgets/data_updates_card.dart';
+import '../widgets/iphone_install_card.dart';
+import '../app_store.dart';
+import 'observation_export_page.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({
+    super.key,
+    required this.store,
+    this.onOpenDiary,
+    this.onOpenItalic,
+  });
+  final AppStore store;
+  final VoidCallback? onOpenDiary, onOpenItalic;
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -29,16 +42,30 @@ class SettingsPage extends StatelessWidget {
         'Informazioni sul progetto e sui dati disponibili sul dispositivo.',
       ),
       const SizedBox(height: 20),
+      const OfflineCard(),
+      const SizedBox(height: 14),
+      const DataUpdatesCard(),
+      if (kIsWeb) ...[
+        const SizedBox(height: 14),
+        IphoneInstallCard(address: Uri.base),
+      ],
+      const SizedBox(height: 14),
       _section(context, 'Dati e archiviazione', [
-        const ListTile(
-          leading: Icon(Icons.storage_outlined),
-          title: Text('Archivio osservazioni'),
-          subtitle: Text('IndexedDB locale • v1'),
+        ListTile(
+          leading: const Icon(Icons.storage_outlined),
+          title: const Text('Archivio osservazioni'),
+          subtitle: const Text('Apri il diario salvato su questo dispositivo'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: onOpenDiary,
         ),
-        const ListTile(
-          leading: Icon(Icons.menu_book_outlined),
-          title: Text('Database ITALIC'),
-          subtitle: Text('Snapshot locale della checklist nazionale'),
+        ListTile(
+          leading: const Icon(Icons.menu_book_outlined),
+          title: const Text('Database ITALIC'),
+          subtitle: const Text(
+            'Apri la checklist nazionale disponibile offline',
+          ),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: onOpenItalic,
         ),
       ]),
       const SizedBox(height: 14),
@@ -48,15 +75,23 @@ class SettingsPage extends StatelessWidget {
           title: Text('GPS'),
           subtitle: Text('Coordinate e accuratezza originali preservate'),
         ),
-        const ListTile(
-          leading: Icon(Icons.ios_share),
-          title: Text('Esportazione'),
-          subtitle: Text('CSV / GeoJSON / Darwin Core • funzionalità futura'),
+        ListTile(
+          leading: const Icon(Icons.ios_share),
+          title: const Text('Condividi ed esporta risultati'),
+          subtitle: const Text('Riepilogo, foto, CSV, GeoJSON e Darwin Core'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) =>
+                  ObservationExportPage(observations: store.observations),
+            ),
+          ),
         ),
       ]),
       const SizedBox(height: 24),
       Text(
-        'italicapp • Natural Theme v0.8.8',
+        'Italicapp · versione 0.8.6',
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodySmall,
       ),

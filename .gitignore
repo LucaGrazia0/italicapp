@@ -46,3 +46,19 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# The source dump includes account data. Keep only scientific exports.
+*.sql
+/cache/
+__pycache__/
+.venv/
+
+# Private Android signing material and distributable builds
+.android-signing/
+android/key.properties
+*.jks
+*.keystore
+/dist/
+
+# Android compiler session cache
+android/.kotlin/

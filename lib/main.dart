@@ -6,11 +6,13 @@ import 'pages/diary_page.dart';
 import 'pages/italic_page.dart';
 import 'pages/settings_page.dart';
 import 'theme/app_theme.dart';
+import 'data/scientific_data.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final store = AppStore(ObservationRepository());
   await store.init();
+  await ScientificData.initialize();
   runApp(ItalicApp(store: store));
 }
 
@@ -37,6 +39,22 @@ class Shell extends StatefulWidget {
 class _ShellState extends State<Shell> {
   int index = 0;
   @override
+  void initState() {
+    super.initState();
+    ScientificData.changes.addListener(_dataChanged);
+  }
+
+  void _dataChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    ScientificData.changes.removeListener(_dataChanged);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final pages = [
       DiaryPage(store: widget.store),
@@ -44,8 +62,12 @@ class _ShellState extends State<Shell> {
         store: widget.store,
         onSaved: () => setState(() => index = 0),
       ),
-      const ItalicPage(),
-      const SettingsPage(),
+      ItalicPage(key: ValueKey(ScientificData.currentRevision)),
+      SettingsPage(
+        store: widget.store,
+        onOpenDiary: () => setState(() => index = 0),
+        onOpenItalic: () => setState(() => index = 2),
+      ),
     ];
     return Scaffold(
       body: SafeArea(

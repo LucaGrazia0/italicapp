@@ -3,6 +3,8 @@ import '../data/italic_reference_repository.dart';
 import 'italic_taxon_page.dart';
 import '../services/ecological_compatibility_engine.dart';
 import '../theme/app_theme.dart';
+import '../widgets/ecological_filters.dart';
+import 'determination_page.dart';
 
 class ItalicPage extends StatefulWidget {
   const ItalicPage({super.key});
@@ -40,6 +42,9 @@ class _ItalicPageState extends State<ItalicPage> {
   String selectedGrowthForm = 'Tutte';
   bool includeUnknownEcology = false;
   bool compatibilityMode = false;
+  String selectedPhotobiont = '';
+  String selectedReproduction = '';
+  final selectedScales = <String, int>{};
   final compatibilityEngine = EcologicalCompatibilityEngine();
 
   EcologicalQuery get ecologicalQuery => EcologicalQuery(
@@ -47,6 +52,9 @@ class _ItalicPageState extends State<ItalicPage> {
     belt: selectedBelt,
     substrate: selectedSubstrate,
     growthForm: selectedGrowthForm,
+    photobiont: selectedPhotobiont,
+    reproductiveStrategy: selectedReproduction,
+    scales: selectedScales,
   );
 
   static const substrateOptions = <String>[
@@ -68,100 +76,28 @@ class _ItalicPageState extends State<ItalicPage> {
     'Non lichenizzato',
   ];
 
-  // Il database non distingue sistematicamente rocce silicee e calcaree.
-  // I testi Photobiont eventualmente accodati non sono substrati.
-  String cleanEcology(String? raw) => (raw ?? '')
-      .split(RegExp(r'\s+Photobiont\s*:', caseSensitive: false))
-      .first
-      .trim()
-      .toLowerCase();
-
-  bool matchesSubstrate(ItalicTaxon taxon) {
-    if (selectedSubstrate == 'Tutti') return true;
-    final value = cleanEcology(taxon.substrata);
-    if (value.isEmpty) return includeUnknownEcology;
-    switch (selectedSubstrate) {
-      case 'Roccia':
-        return RegExp(r'\brocks?\b').hasMatch(value);
-      case 'Corteccia':
-        return RegExp(r'\bbark\b').hasMatch(value);
-      case 'Legno':
-        return RegExp(r'\blignum\b').hasMatch(value);
-      case 'Suolo, muschi e detriti':
-        return RegExp(
-          r'\bsoil\b|\bterricolous mosses\b|\bplant debris\b',
-        ).hasMatch(value);
-      case 'Foglie':
-        return RegExp(r'\bleaves\b').hasMatch(value);
-      default:
-        return true;
-    }
-  }
-
-  bool matchesGrowthForm(ItalicTaxon taxon) {
-    if (selectedGrowthForm == 'Tutte') return true;
-    final value = cleanEcology(taxon.growthForm);
-    if (value.isEmpty) return includeUnknownEcology;
-    switch (selectedGrowthForm) {
-      case 'Crostoso':
-        return value.startsWith('crustose');
-      case 'Foglioso':
-        return value.startsWith('foliose');
-      case 'Fruticoso':
-        return value.startsWith('fruticose');
-      case 'Squamuloso':
-        return value.startsWith('squamulose');
-      case 'Leproso':
-        return value.startsWith('leprose');
-      case 'Fungo lichenicolo':
-        return value.startsWith('lichenicolous fungus');
-      case 'Non lichenizzato':
-        return value.startsWith('non-lichenised');
-      default:
-        return true;
-    }
+  bool matchesEcology(ItalicTaxon taxon) {
+    final assessment = compatibilityEngine.evaluate(
+      taxon,
+      EcologicalQuery(
+        substrate: selectedSubstrate,
+        growthForm: selectedGrowthForm,
+        photobiont: selectedPhotobiont,
+        reproductiveStrategy: selectedReproduction,
+        scales: selectedScales,
+      ),
+    );
+    return assessment.criteria.every(
+      (criterion) =>
+          criterion.status == EvidenceStatus.compatible ||
+          (includeUnknownEcology && criterion.status == EvidenceStatus.unknown),
+    );
   }
 
   String selectedRegion = 'Tutte';
   String selectedBelt = 'Tutte';
   bool includeUnknownRegion = false;
-  bool enableAltitudeRange = false;
-  RangeValues altitudeRange = const RangeValues(1000, 2000);
-  bool includeUnknownAltitude = false;
-
-  // Intervalli euristici, NON equivalenze ufficiali della scala ITALIC.
-  // Usare come preselezione indicativa, non come prova di assenza.
-  static const altitudeBands = <int, (double, double)>{
-    1: (0, 600),
-    2: (400, 1100),
-    3: (900, 1600),
-    4: (1400, 2200),
-    5: (2000, 3000),
-    6: (2700, 4500),
-  };
-
-  static const regionCodes = <String, String>{
-    'Abruzzo': 'Abr',
-    'Basilicata': 'Bas',
-    'Calabria': 'Cal',
-    'Campania': 'Camp',
-    'Emilia-Romagna': 'Emil',
-    'Friuli-Venezia Giulia': 'Frl',
-    'Lazio': 'Laz',
-    'Liguria': 'Lig',
-    'Lombardia': 'Lomb',
-    'Marche': 'Marc',
-    'Molise': 'Mol',
-    'Piemonte': 'Piem',
-    'Puglia': 'Pugl',
-    'Sardegna': 'Sar',
-    'Sicilia': 'Si',
-    'Toscana': 'Tosc',
-    'Trentino-Alto Adige': 'TAA',
-    'Umbria': 'Umb',
-    "Valle d'Aosta": 'VA',
-    'Veneto': 'Ven',
-  };
+  static const regionCodes = EcologicalCompatibilityEngine.regionCodes;
 
   static const climateBelts = <String>[
     'Tutte',
@@ -176,58 +112,10 @@ class _ItalicPageState extends State<ItalicPage> {
     'Dry mediterranean belt',
   ];
 
-  String geographyWithoutCitations(String input) {
-    final output = StringBuffer();
-    var depth = 0;
-    for (final rune in input.runes) {
-      final ch = String.fromCharCode(rune);
-      if (ch == '(') {
-        depth++;
-      } else if (ch == ')') {
-        if (depth > 0) depth--;
-      } else if (depth == 0) {
-        output.write(ch);
-      }
-    }
-    return output.toString();
-  }
-
   bool matchesRegion(ItalicTaxon taxon) {
     if (selectedRegion == 'Tutte') return true;
-    final distribution = taxon.distribution;
-    if (distribution == null || distribution.trim().isEmpty) {
-      return includeUnknownRegion;
-    }
-    final code = regionCodes[selectedRegion];
-    if (code == null) return false;
-    final geography = geographyWithoutCitations(distribution);
-    final codes = selectedRegion == 'Friuli-Venezia Giulia'
-        ? <String>[code, 'VG']
-        : <String>[code];
-    return codes.any(
-      (candidate) => RegExp(
-        r'(^|[^A-Za-z])' + RegExp.escape(candidate) + r'(?=[^A-Za-z]|$)',
-        caseSensitive: false,
-      ).hasMatch(geography),
-    );
-  }
-
-  bool matchesAltitude(ItalicTaxon taxon) {
-    if (!enableAltitudeRange) return true;
-    final scale = taxon.ecologicalScales['Altitudinal distribution'];
-    if (scale is! Map) return includeUnknownAltitude;
-    final values = scale['values'];
-    if (values is! List || values.isEmpty) return includeUnknownAltitude;
-    final codes = values.whereType<num>().map((v) => v.toInt());
-    for (final code in codes) {
-      final band = altitudeBands[code];
-      if (band != null &&
-          band.$1 <= altitudeRange.end &&
-          band.$2 >= altitudeRange.start) {
-        return true;
-      }
-    }
-    return false;
+    return EcologicalCompatibilityEngine.regionMatch(taxon, selectedRegion) ??
+        includeUnknownRegion;
   }
 
   bool matchesBelt(ItalicTaxon taxon) {
@@ -247,15 +135,18 @@ class _ItalicPageState extends State<ItalicPage> {
       final matchesLetter =
           selectedLetter.isEmpty ||
           name.startsWith(selectedLetter.toLowerCase());
-      final matchesQuery = query.isEmpty || name.contains(query);
+      final matchesQuery =
+          query.isEmpty ||
+          name.contains(query) ||
+          taxon.synonyms.any(
+            (synonym) => synonym.toLowerCase().contains(query),
+          );
       return matchesLetter &&
           matchesQuery &&
           (compatibilityMode ||
               (matchesRegion(taxon) &&
                   matchesBelt(taxon) &&
-                  matchesAltitude(taxon) &&
-                  matchesSubstrate(taxon) &&
-                  matchesGrowthForm(taxon)));
+                  matchesEcology(taxon)));
     }).toList();
 
     if (compatibilityMode) {
@@ -269,14 +160,8 @@ class _ItalicPageState extends State<ItalicPage> {
         final bb = assessments[b]!;
         // Ordina per evidenze positive, poi per assenza di contraddizioni.
         // Dati mancanti non equivalgono a compatibilità accertata.
-        final matches = bb.compatible.compareTo(aa.compatible);
-        if (matches != 0) return matches;
-        final contradictions = (aa.incompatible + aa.reportedAbsent).compareTo(
-          bb.incompatible + bb.reportedAbsent,
-        );
-        if (contradictions != 0) return contradictions;
-        final coverageComparison = bb.evaluated.compareTo(aa.evaluated);
-        if (coverageComparison != 0) return coverageComparison;
+        final comparison = EcologicalCompatibilityEngine.compare(aa, bb);
+        if (comparison != 0) return comparison;
         return a.scientificName.toLowerCase().compareTo(
           b.scientificName.toLowerCase(),
         );
@@ -325,11 +210,12 @@ class _ItalicPageState extends State<ItalicPage> {
         applyFilters();
       }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           error = e.toString();
           loading = false;
         });
+      }
     }
   }
 
@@ -407,6 +293,10 @@ class _ItalicPageState extends State<ItalicPage> {
                     Text('Fonte: ${m.sourceName}'),
                     Text('Generato: ${m.generatedAt ?? "—"}'),
                     Text('Stato: ${m.status}'),
+                    if (m.ecologyTaxa > 0)
+                      Text(
+                        'Dati ecologici strutturati per ${m.ecologyTaxa} taxa',
+                      ),
                   ],
                 ],
               ),
@@ -424,8 +314,43 @@ class _ItalicPageState extends State<ItalicPage> {
           ),
         ),
         const SizedBox(height: 12),
+        OutlinedButton.icon(
+          key: const ValueKey('open-identification-keys'),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const DeterminationStartPage()),
+          ),
+          icon: const Icon(Icons.account_tree_outlined),
+          label: const Text('Chiavi di determinazione'),
+        ),
+        const SizedBox(height: 12),
+        if (repo.taxa.isNotEmpty)
+          SwitchListTile(
+            key: const ValueKey('compatibility-mode'),
+            title: const Text('Classifica per compatibilità ecologica'),
+            subtitle: const Text(
+              'Confronta tutti i criteri selezionati e mostra le evidenze per ogni taxon.',
+            ),
+            value: compatibilityMode,
+            onChanged: (value) {
+              compatibilityMode = value;
+              applyFilters();
+            },
+          ),
+        if (compatibilityMode && repo.taxa.isNotEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              'Prima le evidenze positive, poi le evidenze contrarie e la completezza. '
+              'Le regioni non segnalate non sono assenze accertate. '
+              'Il punteggio riguarda i criteri valutabili, comprese le fasce indicate come assenti; '
+              'non è una probabilità di identificazione. Espandi un risultato per leggere il confronto.',
+            ),
+          ),
+        const SizedBox(height: 12),
         if (repo.taxa.isNotEmpty)
           ExpansionTile(
+            key: const PageStorageKey('territorial-filters'),
             title: const Text('Filtri territoriali'),
             shape: const Border(),
             collapsedShape: const Border(),
@@ -495,57 +420,6 @@ class _ItalicPageState extends State<ItalicPage> {
                   applyFilters();
                 },
               ),
-              const Divider(height: 24),
-              SwitchListTile(
-                title: const Text('Filtra per intervallo di quota'),
-                subtitle: const Text(
-                  'Conversione indicativa dalla scala altitudinale ITALIC 1–6',
-                ),
-                value: enableAltitudeRange,
-                onChanged: (value) {
-                  setState(() => enableAltitudeRange = value);
-                  applyFilters();
-                },
-              ),
-              if (enableAltitudeRange) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Quota: ${altitudeRange.start.round()}–${altitudeRange.end.round()} m',
-                      ),
-                      RangeSlider(
-                        min: 0,
-                        max: 4500,
-                        divisions: 45,
-                        labels: RangeLabels(
-                          '${altitudeRange.start.round()} m',
-                          '${altitudeRange.end.round()} m',
-                        ),
-                        values: altitudeRange,
-                        onChanged: (values) {
-                          setState(() => altitudeRange = values);
-                          applyFilters();
-                        },
-                      ),
-                      const Text(
-                        'Quote approssimative: le classi ITALIC non corrispondono a soglie metriche ufficiali. '
-                        'Non usare il filtro per escludere definitivamente un taxon.',
-                      ),
-                    ],
-                  ),
-                ),
-                CheckboxListTile(
-                  title: const Text('Includi taxa senza dati altitudinali'),
-                  value: includeUnknownAltitude,
-                  onChanged: (value) {
-                    includeUnknownAltitude = value ?? false;
-                    applyFilters();
-                  },
-                ),
-              ],
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextButton.icon(
@@ -553,9 +427,6 @@ class _ItalicPageState extends State<ItalicPage> {
                     selectedRegion = 'Tutte';
                     selectedBelt = 'Tutte';
                     includeUnknownRegion = false;
-                    enableAltitudeRange = false;
-                    includeUnknownAltitude = false;
-                    altitudeRange = const RangeValues(1000, 2000);
                     applyFilters();
                   },
                   icon: const Icon(Icons.restart_alt),
@@ -565,7 +436,7 @@ class _ItalicPageState extends State<ItalicPage> {
               const Padding(
                 padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
                 child: Text(
-                  'Filtro regionale sperimentale: le sigle devono essere validate con la legenda ITALIC.',
+                  'La mancata segnalazione in una regione non dimostra l’assenza del taxon.',
                 ),
               ),
             ],
@@ -573,6 +444,7 @@ class _ItalicPageState extends State<ItalicPage> {
         const SizedBox(height: 12),
         if (repo.taxa.isNotEmpty)
           ExpansionTile(
+            key: const PageStorageKey('ecological-filters'),
             title: const Text('Filtri ecologici'),
             shape: const Border(),
             collapsedShape: const Border(),
@@ -631,6 +503,27 @@ class _ItalicPageState extends State<ItalicPage> {
                   applyFilters();
                 },
               ),
+              EcologicalFilters(
+                scales: selectedScales,
+                photobiont: selectedPhotobiont,
+                reproduction: selectedReproduction,
+                onScaleChanged: (key, value) {
+                  if (value == null) {
+                    selectedScales.remove(key);
+                  } else {
+                    selectedScales[key] = value;
+                  }
+                  applyFilters();
+                },
+                onPhotobiontChanged: (value) {
+                  selectedPhotobiont = value;
+                  applyFilters();
+                },
+                onReproductionChanged: (value) {
+                  selectedReproduction = value;
+                  applyFilters();
+                },
+              ),
               CheckboxListTile(
                 title: const Text('Includi taxa con dati ecologici mancanti'),
                 subtitle: const Text(
@@ -646,6 +539,9 @@ class _ItalicPageState extends State<ItalicPage> {
                 onPressed: () {
                   selectedSubstrate = 'Tutti';
                   selectedGrowthForm = 'Tutte';
+                  selectedPhotobiont = '';
+                  selectedReproduction = '';
+                  selectedScales.clear();
                   includeUnknownEcology = false;
                   applyFilters();
                 },
@@ -660,26 +556,6 @@ class _ItalicPageState extends State<ItalicPage> {
                 ),
               ),
             ],
-          ),
-        const SizedBox(height: 12),
-        if (repo.taxa.isNotEmpty)
-          SwitchListTile(
-            title: const Text('Classifica per compatibilità ecologica'),
-            subtitle: const Text(
-              'Disattivata: filtri classici v0.8.5. Attivata: classifica spiegabile; quota esclusa dal punteggio.',
-            ),
-            value: compatibilityMode,
-            onChanged: (value) {
-              compatibilityMode = value;
-              applyFilters();
-            },
-          ),
-        if (compatibilityMode && repo.taxa.isNotEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            child: Text(
-              'Classifica: prima le evidenze positive, poi le evidenze contrarie e la completezza. Le regioni non segnalate non sono assenze accertate. Il punteggio riguarda solo i dati disponibili, NON è una probabilità di identificazione. Tocca un taxon per vedere i dettagli. La quota non partecipa alla classifica.',
-            ),
           ),
         const SizedBox(height: 12),
         if (repo.taxa.isNotEmpty)
