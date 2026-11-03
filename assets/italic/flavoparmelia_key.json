@@ -1,0 +1,40 @@
+{
+  "id": "flavoparmelia-v1",
+  "title": "Flavoparmelia",
+  "genus": "Flavoparmelia",
+  "review_status": "needs_expert_review",
+  "covered_taxa": [978, 979],
+  "scope": "Confronto sperimentale fra le due specie di Flavoparmelia presenti nella checklist. Il genere deve essere già riconosciuto. Le risposte possono suggerire un candidato, da verificare con la chiave ITALIC e una revisione specialistica.",
+  "questions": [
+    {
+      "id": "soredia",
+      "title": "Aspetto dei soredi",
+      "prompt": "Quale aspetto dei soredi osservi?",
+      "a": "Soredi granulari, verrucosi o pustulati",
+      "b": "Soredi finemente polverulenti (farinosi)",
+      "help": "Confronta i soredi, non gli apoteci. Se non riesci a distinguerli o non li osservi, scegli Non so / Non verificato.",
+      "states": {"978": "a", "979": "b"},
+      "evidence": {
+        "978": "granular to wart-like, pustulate soredia",
+        "979": "with farinose soredia in laminal, convex, often elongated soralia"
+      }
+    },
+    {
+      "id": "medulla_k",
+      "title": "Reazione K della medulla",
+      "prompt": "Se il test è già stato eseguito sulla medulla, quale reazione è stata osservata?",
+      "a": "Medulla K+ giallo sporco",
+      "b": "Medulla K+ giallo, poi rosso o rosso-bruno",
+      "help": "Questo confronto riguarda soltanto la medulla. Una reazione della corteccia superiore non risponde alla domanda. Se non hai eseguito il test o la reazione è diversa, scegli Non so / Non verificato.",
+      "states": {"978": "a", "979": "b"},
+      "evidence": {
+        "978": "medulla K+ dirty yellow",
+        "979": "medulla K+ yellow turning red tio brownish red"
+      }
+    }
+  ],
+  "sources": [
+    {"italicId": 978, "url": "https://italic.units.it/index.php?num=978&procedure=taxonpage"},
+    {"italicId": 979, "url": "https://italic.units.it/index.php?num=979&procedure=taxonpage"}
+  ]
+}

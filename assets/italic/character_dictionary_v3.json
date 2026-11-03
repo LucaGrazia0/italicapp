@@ -1,0 +1,1530 @@
+{
+  "schemaVersion": 1,
+  "version": "lichen-characters-v3",
+  "sources": [
+    {
+      "title": "Flora of Australia · Glossario dei licheni",
+      "url": "https://www.dcceew.gov.au/science-research/abrs/online-resources/glossaries/lichen"
+    },
+    {
+      "title": "Australian National Botanic Gardens · Strutture riproduttive",
+      "url": "https://anbg.gov.au/lichen/form-structure-reproduction.html"
+    }
+  ],
+  "blockedContext": [
+    "thallus",
+    "tallo",
+    "lobes",
+    "lobe",
+    "lobi",
+    "hyphae",
+    "ife",
+    "paraphyses",
+    "parafisi",
+    "cells",
+    "cell",
+    "cellule",
+    "spores",
+    "ascospores",
+    "spore",
+    "conidia",
+    "conidi",
+    "pycnidia",
+    "picnidi",
+    "medulla",
+    "cortex",
+    "corteccia"
+  ],
+  "characters": [
+    {
+      "id": "soredia",
+      "label": "Soredi",
+      "parent": "soredia",
+      "kind": "presence",
+      "terms": [
+        "soredia",
+        "soredium",
+        "soredi",
+        "soredio"
+      ],
+      "impliedTerms": [
+        "soralia",
+        "soralium",
+        "sorali",
+        "soralio"
+      ],
+      "context": [],
+      "states": [],
+      "note": "Le parole trovate sono indizi da leggere nella frase. Una parola mancante non dimostra assenza.",
+      "matrixTerms": [
+        "soredia"
+      ],
+      "matrixImpliedTerms": [
+        "soralia",
+        "soralium"
+      ]
+    },
+    {
+      "id": "isidia",
+      "label": "Isidi",
+      "parent": "isidia",
+      "kind": "presence",
+      "terms": [
+        "isidia",
+        "isidium",
+        "isidi",
+        "isidio"
+      ],
+      "impliedTerms": [],
+      "context": [],
+      "states": [],
+      "note": "Le parole trovate sono indizi da leggere nella frase. Una parola mancante non dimostra assenza.",
+      "matrixTerms": [
+        "isidia"
+      ]
+    },
+    {
+      "id": "cilia",
+      "label": "Ciglia",
+      "parent": "cilia",
+      "kind": "presence",
+      "terms": [
+        "cilia",
+        "cilium",
+        "ciglia",
+        "ciglio"
+      ],
+      "impliedTerms": [],
+      "context": [],
+      "states": [],
+      "note": "Le parole trovate sono indizi da leggere nella frase. Una parola mancante non dimostra assenza.",
+      "matrixTerms": [
+        "cilia",
+        "cilium"
+      ]
+    },
+    {
+      "id": "rhizines",
+      "label": "Rizine",
+      "parent": "rhizines",
+      "kind": "presence",
+      "terms": [
+        "rhizines",
+        "rhizine",
+        "rizine",
+        "rizina"
+      ],
+      "impliedTerms": [],
+      "context": [],
+      "states": [],
+      "note": "Le parole trovate sono indizi da leggere nella frase. Una parola mancante non dimostra assenza.",
+      "matrixTerms": [
+        "rhizines"
+      ]
+    },
+    {
+      "id": "soralia_shape",
+      "label": "Sorali · forma",
+      "parent": "soredia",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "soralia",
+        "soralium",
+        "sorali",
+        "soralio"
+      ],
+      "states": [
+        {
+          "value": "hood",
+          "label": "A cappuccio",
+          "terms": [
+            "hood-shaped",
+            "helmet-shaped",
+            "a cappuccio"
+          ]
+        },
+        {
+          "value": "labriform",
+          "label": "Labriformi",
+          "terms": [
+            "labriform",
+            "lip-shaped",
+            "labriformi"
+          ]
+        },
+        {
+          "value": "capitate",
+          "label": "Capitati",
+          "terms": [
+            "capitate",
+            "capitati"
+          ]
+        },
+        {
+          "value": "punctiform",
+          "label": "Puntiformi",
+          "terms": [
+            "punctiform",
+            "puntiformi"
+          ]
+        },
+        {
+          "value": "linear",
+          "label": "Lineari",
+          "terms": [
+            "linear",
+            "lineari"
+          ]
+        },
+        {
+          "value": "crateriform",
+          "label": "Crateriformi",
+          "terms": [
+            "crateriform",
+            "crater-like",
+            "crateriformi"
+          ]
+        },
+        {
+          "value": "orbicular",
+          "label": "Orbicolari",
+          "terms": [
+            "orbicular",
+            "orbicolari"
+          ]
+        }
+      ],
+      "note": "Il descrittore deve riferirsi ai sorali. Forma e posizione non si applicano quando i soredi sono registrati come assenti."
+    },
+    {
+      "id": "soralia_position",
+      "label": "Sorali · posizione",
+      "parent": "soredia",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "soralia",
+        "soralium",
+        "sorali",
+        "soralio"
+      ],
+      "states": [
+        {
+          "value": "terminal",
+          "label": "Terminali / apicali",
+          "terms": [
+            "terminal",
+            "apical",
+            "terminali",
+            "apicali"
+          ]
+        },
+        {
+          "value": "marginal",
+          "label": "Marginali",
+          "terms": [
+            "marginal",
+            "marginali"
+          ]
+        },
+        {
+          "value": "laminal",
+          "label": "Laminali",
+          "terms": [
+            "laminal",
+            "laminali"
+          ]
+        }
+      ],
+      "note": "Non attribuire ai sorali una posizione che descrive ciglia o lobi."
+    },
+    {
+      "id": "soredia_texture",
+      "label": "Soredi · aspetto",
+      "parent": "soredia",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "soredia",
+        "soredium",
+        "soredi",
+        "soredio"
+      ],
+      "states": [
+        {
+          "value": "farinose",
+          "label": "Farinosi",
+          "terms": [
+            "farinose",
+            "powdery",
+            "farinosi"
+          ]
+        },
+        {
+          "value": "granular",
+          "label": "Granulari",
+          "terms": [
+            "granular",
+            "granulose",
+            "granulari"
+          ]
+        }
+      ],
+      "note": "Aspetto dei propaguli: distinto dalla forma della zona che li produce."
+    },
+    {
+      "id": "isidia_shape",
+      "label": "Isidi · forma",
+      "parent": "isidia",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "isidia",
+        "isidium",
+        "isidi",
+        "isidio"
+      ],
+      "states": [
+        {
+          "value": "cylindrical",
+          "label": "Cilindrici",
+          "terms": [
+            "cylindrical",
+            "cilindrici"
+          ]
+        },
+        {
+          "value": "coralloid",
+          "label": "Coralloidi",
+          "terms": [
+            "coralloid",
+            "coralliform",
+            "coralloidi"
+          ]
+        },
+        {
+          "value": "globose",
+          "label": "Globosi",
+          "terms": [
+            "globose",
+            "globosi"
+          ]
+        },
+        {
+          "value": "flattened",
+          "label": "Appiattiti",
+          "terms": [
+            "flattened",
+            "flattened-cylindrical",
+            "appiattiti"
+          ]
+        },
+        {
+          "value": "branched",
+          "label": "Ramificati",
+          "terms": [
+            "branched",
+            "ramificati"
+          ]
+        }
+      ],
+      "note": "Le strutture isidia-like rimangono da verificare: non sono automaticamente isidi veri."
+    },
+    {
+      "id": "cilia_type",
+      "label": "Ciglia · forma e tipo",
+      "parent": "cilia",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "cilia",
+        "cilium",
+        "ciglia",
+        "ciglio"
+      ],
+      "states": [
+        {
+          "value": "simple",
+          "label": "Semplici",
+          "terms": [
+            "simple",
+            "unbranched",
+            "semplici"
+          ]
+        },
+        {
+          "value": "branched",
+          "label": "Ramificate",
+          "terms": [
+            "branched",
+            "ramificate"
+          ]
+        },
+        {
+          "value": "forked",
+          "label": "Biforcate",
+          "terms": [
+            "forked",
+            "bifurcate",
+            "biforcate"
+          ]
+        },
+        {
+          "value": "bulbate",
+          "label": "Con base bulbosa",
+          "terms": [
+            "bulbate",
+            "bulbous-based",
+            "bulbose"
+          ]
+        }
+      ],
+      "note": "Il termine deve descrivere le ciglia, non rizine, ife o parafisi."
+    },
+    {
+      "id": "rhizines_type",
+      "label": "Rizine · forma e tipo",
+      "parent": "rhizines",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "rhizines",
+        "rhizine",
+        "rizine",
+        "rizina"
+      ],
+      "states": [
+        {
+          "value": "simple",
+          "label": "Semplici",
+          "terms": [
+            "simple",
+            "unbranched",
+            "semplici"
+          ]
+        },
+        {
+          "value": "branched",
+          "label": "Ramificate",
+          "terms": [
+            "branched",
+            "ramificate"
+          ]
+        },
+        {
+          "value": "dichotomous",
+          "label": "Dicotomiche",
+          "terms": [
+            "dichotomously branched",
+            "dichotomously-branched",
+            "dichotomous",
+            "dicotomiche"
+          ]
+        },
+        {
+          "value": "squarrose",
+          "label": "Squarrose",
+          "terms": [
+            "squarrosely branched",
+            "squarrose",
+            "squarrose-branched"
+          ]
+        },
+        {
+          "value": "tufted",
+          "label": "A ciuffo",
+          "terms": [
+            "tufted",
+            "a ciuffo"
+          ]
+        }
+      ],
+      "note": "Conserva combinazioni come simple to squarrose: possono indicare più stati o condizioni."
+    },
+    {
+      "id": "apothecia_type",
+      "label": "Apoteci · tipo",
+      "parent": "apothecia_type",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "apothecia",
+        "apothecium",
+        "apoteci",
+        "apotecio"
+      ],
+      "states": [
+        {
+          "value": "lecideine",
+          "label": "Lecideini",
+          "terms": [
+            "lecideine",
+            "lecideini"
+          ]
+        },
+        {
+          "value": "lecanorine",
+          "label": "Lecanorini",
+          "terms": [
+            "lecanorine",
+            "lecanorini"
+          ]
+        },
+        {
+          "value": "biatorine",
+          "label": "Biatorini",
+          "terms": [
+            "biatorine",
+            "biatorini"
+          ]
+        }
+      ],
+      "note": "Tipo degli apoteci distinto da frequenza, inserzione e pruina del disco. Apothecia very rare, lecanorine documenta il tipo lecanorino conservando la rarità nella citazione.",
+      "scope": "apothecia"
+    },
+    {
+      "id": "apothecia_shape",
+      "label": "Apoteci · forma",
+      "parent": "apothecia_type",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "apothecia",
+        "apothecium",
+        "apoteci",
+        "apotecio"
+      ],
+      "states": [
+        {
+          "value": "rounded",
+          "label": "Arrotondati",
+          "terms": [
+            "round",
+            "rounded",
+            "arrotondati"
+          ]
+        },
+        {
+          "value": "elongate",
+          "label": "Allungati",
+          "terms": [
+            "elongate",
+            "elongated",
+            "allungati"
+          ]
+        },
+        {
+          "value": "lirelliform",
+          "label": "Lirelliformi",
+          "terms": [
+            "lirelliform",
+            "lirellate",
+            "lirelliformi"
+          ]
+        },
+        {
+          "value": "irregular",
+          "label": "Irregolari",
+          "terms": [
+            "irregular",
+            "irregolari"
+          ]
+        }
+      ],
+      "note": "Una cellula arrotondata o una spora allungata non descrive la forma degli apoteci."
+    },
+    {
+      "id": "thallus_type",
+      "label": "Tipo di tallo",
+      "parent": "thallus_type",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "thallus",
+        "tallo"
+      ],
+      "states": [
+        {
+          "value": "foliose",
+          "label": "Foglioso",
+          "terms": [
+            "foliose",
+            "foglioso"
+          ]
+        },
+        {
+          "value": "subfruticose",
+          "label": "Subfruticoso",
+          "terms": [
+            "subfruticose",
+            "subfruticoso"
+          ]
+        },
+        {
+          "value": "fruticose",
+          "label": "Fruticoso",
+          "terms": [
+            "fruticose",
+            "fruticoso"
+          ]
+        },
+        {
+          "value": "crustose",
+          "label": "Crostoso",
+          "terms": [
+            "crustose",
+            "crostoso"
+          ]
+        },
+        {
+          "value": "squamulose",
+          "label": "Squamuloso",
+          "terms": [
+            "squamulose",
+            "squamuloso"
+          ]
+        },
+        {
+          "value": "leprose",
+          "label": "Leproso",
+          "terms": [
+            "leprose",
+            "leproso"
+          ]
+        }
+      ],
+      "note": "Forma descritta nel testo, distinta dal codice generale ITALIC. Puoi conservare più forme, per esempio foglioso e subfruticoso.",
+      "scope": "thallus",
+      "multiple": true
+    },
+    {
+      "id": "upper_surface_colour",
+      "label": "Colore superficie superiore",
+      "parent": "upper_surface_colour",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "upper surface",
+        "lobes",
+        "thallus"
+      ],
+      "states": [
+        {
+          "value": "white",
+          "label": "Bianco / biancastro",
+          "terms": [
+            "white",
+            "whitish",
+            "bianco",
+            "biancastra",
+            "biancastro"
+          ]
+        },
+        {
+          "value": "grey",
+          "label": "Grigio",
+          "terms": [
+            "grey",
+            "gray",
+            "pale grey",
+            "pale gray",
+            "ash-grey",
+            "grigio"
+          ]
+        },
+        {
+          "value": "whitish_grey",
+          "label": "Grigio biancastro",
+          "terms": [
+            "whitish grey",
+            "whitish-grey",
+            "grey-white",
+            "white-grey",
+            "pale whitish grey",
+            "grigio biancastro"
+          ]
+        },
+        {
+          "value": "bluish_grey",
+          "label": "Grigio azzurrato",
+          "terms": [
+            "bluish-grey",
+            "bluish grey",
+            "blue-grey",
+            "blue grey",
+            "grigio azzurrato"
+          ]
+        },
+        {
+          "value": "lead_grey",
+          "label": "Grigio piombo",
+          "terms": [
+            "lead-grey",
+            "lead grey",
+            "grigio piombo"
+          ]
+        },
+        {
+          "value": "brownish_grey",
+          "label": "Grigio brunastro",
+          "terms": [
+            "brownish grey",
+            "brownish-grey",
+            "grigio brunastro"
+          ]
+        },
+        {
+          "value": "greenish_grey",
+          "label": "Grigio verdastro",
+          "terms": [
+            "greenish grey",
+            "greenish-grey",
+            "grigio verdastro"
+          ]
+        },
+        {
+          "value": "greenish_white",
+          "label": "Bianco verdastro",
+          "terms": [
+            "greenish white",
+            "greenish-white",
+            "bianco verdastro"
+          ]
+        },
+        {
+          "value": "cream",
+          "label": "Crema",
+          "terms": [
+            "cream-coloured",
+            "cream-colored",
+            "cream",
+            "crema"
+          ]
+        },
+        {
+          "value": "brown",
+          "label": "Bruno / brunastro",
+          "terms": [
+            "brown",
+            "brownish",
+            "bruno",
+            "brunastro"
+          ]
+        },
+        {
+          "value": "black",
+          "label": "Nero",
+          "terms": [
+            "black",
+            "nero"
+          ]
+        },
+        {
+          "value": "green",
+          "label": "Verde",
+          "terms": [
+            "green",
+            "greenish",
+            "verde"
+          ]
+        },
+        {
+          "value": "yellow",
+          "label": "Giallo",
+          "terms": [
+            "yellow",
+            "yellowish",
+            "giallo"
+          ]
+        },
+        {
+          "value": "orange",
+          "label": "Arancione",
+          "terms": [
+            "orange",
+            "arancione"
+          ]
+        }
+      ],
+      "note": "Colori della superficie superiore o dei lobi. Esclude il colore di macule, pruina, sorali, ciglia e apoteci. Conserva sfumature e localizzazioni nella citazione.",
+      "scope": "upper_surface",
+      "multiple": true
+    },
+    {
+      "id": "lower_surface_colour",
+      "label": "Colore superficie inferiore",
+      "parent": "lower_surface_colour",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "lower surface"
+      ],
+      "states": [
+        {
+          "value": "white",
+          "label": "Bianco / biancastro",
+          "terms": [
+            "white",
+            "whitish",
+            "bianco",
+            "biancastra",
+            "biancastro"
+          ]
+        },
+        {
+          "value": "grey",
+          "label": "Grigio",
+          "terms": [
+            "grey",
+            "gray",
+            "pale grey",
+            "pale gray",
+            "ash-grey",
+            "grigio"
+          ]
+        },
+        {
+          "value": "whitish_grey",
+          "label": "Grigio biancastro",
+          "terms": [
+            "whitish grey",
+            "whitish-grey",
+            "grey-white",
+            "white-grey",
+            "pale whitish grey",
+            "grigio biancastro"
+          ]
+        },
+        {
+          "value": "bluish_grey",
+          "label": "Grigio azzurrato",
+          "terms": [
+            "bluish-grey",
+            "bluish grey",
+            "blue-grey",
+            "blue grey",
+            "grigio azzurrato"
+          ]
+        },
+        {
+          "value": "lead_grey",
+          "label": "Grigio piombo",
+          "terms": [
+            "lead-grey",
+            "lead grey",
+            "grigio piombo"
+          ]
+        },
+        {
+          "value": "brownish_grey",
+          "label": "Grigio brunastro",
+          "terms": [
+            "brownish grey",
+            "brownish-grey",
+            "grigio brunastro"
+          ]
+        },
+        {
+          "value": "greenish_grey",
+          "label": "Grigio verdastro",
+          "terms": [
+            "greenish grey",
+            "greenish-grey",
+            "grigio verdastro"
+          ]
+        },
+        {
+          "value": "greenish_white",
+          "label": "Bianco verdastro",
+          "terms": [
+            "greenish white",
+            "greenish-white",
+            "bianco verdastro"
+          ]
+        },
+        {
+          "value": "cream",
+          "label": "Crema",
+          "terms": [
+            "cream-coloured",
+            "cream-colored",
+            "cream",
+            "crema"
+          ]
+        },
+        {
+          "value": "brown",
+          "label": "Bruno / brunastro",
+          "terms": [
+            "brown",
+            "brownish",
+            "bruno",
+            "brunastro"
+          ]
+        },
+        {
+          "value": "black",
+          "label": "Nero",
+          "terms": [
+            "black",
+            "nero"
+          ]
+        },
+        {
+          "value": "green",
+          "label": "Verde",
+          "terms": [
+            "green",
+            "greenish",
+            "verde"
+          ]
+        },
+        {
+          "value": "yellow",
+          "label": "Giallo",
+          "terms": [
+            "yellow",
+            "yellowish",
+            "giallo"
+          ]
+        },
+        {
+          "value": "orange",
+          "label": "Arancione",
+          "terms": [
+            "orange",
+            "arancione"
+          ]
+        }
+      ],
+      "note": "Colori della superficie inferiore, separati dal colore delle rizine. La citazione conserva eventuali differenze tra base, centro e apici.",
+      "scope": "lower_surface",
+      "multiple": true
+    },
+    {
+      "id": "medulla_colour",
+      "label": "Colore della medulla",
+      "parent": "medulla_colour",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "medulla"
+      ],
+      "states": [
+        {
+          "value": "white",
+          "label": "Bianco / biancastro",
+          "terms": [
+            "white",
+            "whitish",
+            "bianco",
+            "biancastra",
+            "biancastro"
+          ]
+        },
+        {
+          "value": "grey",
+          "label": "Grigio",
+          "terms": [
+            "grey",
+            "gray",
+            "pale grey",
+            "pale gray",
+            "ash-grey",
+            "grigio"
+          ]
+        },
+        {
+          "value": "whitish_grey",
+          "label": "Grigio biancastro",
+          "terms": [
+            "whitish grey",
+            "whitish-grey",
+            "grey-white",
+            "white-grey",
+            "pale whitish grey",
+            "grigio biancastro"
+          ]
+        },
+        {
+          "value": "bluish_grey",
+          "label": "Grigio azzurrato",
+          "terms": [
+            "bluish-grey",
+            "bluish grey",
+            "blue-grey",
+            "blue grey",
+            "grigio azzurrato"
+          ]
+        },
+        {
+          "value": "lead_grey",
+          "label": "Grigio piombo",
+          "terms": [
+            "lead-grey",
+            "lead grey",
+            "grigio piombo"
+          ]
+        },
+        {
+          "value": "brownish_grey",
+          "label": "Grigio brunastro",
+          "terms": [
+            "brownish grey",
+            "brownish-grey",
+            "grigio brunastro"
+          ]
+        },
+        {
+          "value": "greenish_grey",
+          "label": "Grigio verdastro",
+          "terms": [
+            "greenish grey",
+            "greenish-grey",
+            "grigio verdastro"
+          ]
+        },
+        {
+          "value": "greenish_white",
+          "label": "Bianco verdastro",
+          "terms": [
+            "greenish white",
+            "greenish-white",
+            "bianco verdastro"
+          ]
+        },
+        {
+          "value": "cream",
+          "label": "Crema",
+          "terms": [
+            "cream-coloured",
+            "cream-colored",
+            "cream",
+            "crema"
+          ]
+        },
+        {
+          "value": "brown",
+          "label": "Bruno / brunastro",
+          "terms": [
+            "brown",
+            "brownish",
+            "bruno",
+            "brunastro"
+          ]
+        },
+        {
+          "value": "black",
+          "label": "Nero",
+          "terms": [
+            "black",
+            "nero"
+          ]
+        },
+        {
+          "value": "green",
+          "label": "Verde",
+          "terms": [
+            "green",
+            "greenish",
+            "verde"
+          ]
+        },
+        {
+          "value": "yellow",
+          "label": "Giallo",
+          "terms": [
+            "yellow",
+            "yellowish",
+            "giallo"
+          ]
+        },
+        {
+          "value": "orange",
+          "label": "Arancione",
+          "terms": [
+            "orange",
+            "arancione"
+          ]
+        }
+      ],
+      "note": "Colore della medulla nella descrizione anatomica. Le reazioni ai reagenti e la chimica non sono colori della medulla non trattata.",
+      "scope": "medulla",
+      "multiple": true
+    },
+    {
+      "id": "lobe_width_class",
+      "label": "Lobi · larghezza descritta",
+      "parent": "lobe_width_class",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "lobes",
+        "lobi",
+        "thallus"
+      ],
+      "states": [
+        {
+          "value": "narrow",
+          "label": "Stretti",
+          "terms": [
+            "narrow-lobed",
+            "narrow lobed",
+            "lobi stretti"
+          ]
+        },
+        {
+          "value": "broad",
+          "label": "Larghi",
+          "terms": [
+            "broad-lobed",
+            "broad lobed",
+            "lobi larghi"
+          ]
+        }
+      ],
+      "note": "Classe esplicitamente descritta come narrow-lobed o broad-lobed. Non deduce una classe dalle misure in millimetri.",
+      "scope": "lobes",
+      "multiple": true
+    },
+    {
+      "id": "lobe_shape",
+      "label": "Lobi · forma",
+      "parent": "lobe_shape",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "lobes",
+        "lobi",
+        "thallus"
+      ],
+      "states": [
+        {
+          "value": "strap_shaped",
+          "label": "Nastri / strap-shaped",
+          "terms": [
+            "strap-shaped",
+            "strap shaped",
+            "nastriformi"
+          ]
+        },
+        {
+          "value": "linear",
+          "label": "Lineari",
+          "terms": [
+            "linear",
+            "lineari"
+          ]
+        },
+        {
+          "value": "rounded",
+          "label": "Arrotondati",
+          "terms": [
+            "rounded",
+            "arrotondati"
+          ]
+        },
+        {
+          "value": "truncate",
+          "label": "Troncati",
+          "terms": [
+            "truncate",
+            "troncati"
+          ]
+        }
+      ],
+      "note": "Forma dei lobi. Non trasferisce ai lobi forme di cellule, spore, sorali o isidi.",
+      "scope": "lobes",
+      "multiple": true
+    },
+    {
+      "id": "lobe_profile",
+      "label": "Lobi · profilo",
+      "parent": "lobe_profile",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "lobes",
+        "lobi",
+        "thallus"
+      ],
+      "states": [
+        {
+          "value": "flat",
+          "label": "Piatti",
+          "terms": [
+            "flat",
+            "flattened",
+            "piatti"
+          ]
+        },
+        {
+          "value": "convex",
+          "label": "Convessi",
+          "terms": [
+            "convex",
+            "convessi"
+          ]
+        },
+        {
+          "value": "concave",
+          "label": "Concavi",
+          "terms": [
+            "concave",
+            "concavi"
+          ]
+        },
+        {
+          "value": "canaliculate",
+          "label": "Canalicolati",
+          "terms": [
+            "canaliculate",
+            "canalicolati"
+          ]
+        }
+      ],
+      "note": "Profilo dei lobi: per esempio flat to slightly convex conserva piatti e convessi, con la frase completa.",
+      "scope": "lobes",
+      "multiple": true
+    },
+    {
+      "id": "lobe_posture",
+      "label": "Lobi · portamento",
+      "parent": "lobe_posture",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "lobes",
+        "lobi",
+        "thallus"
+      ],
+      "states": [
+        {
+          "value": "ascending",
+          "label": "Ascendenti",
+          "terms": [
+            "ascending",
+            "ascendenti"
+          ]
+        },
+        {
+          "value": "erect",
+          "label": "Eretti",
+          "terms": [
+            "erect",
+            "eretti"
+          ]
+        },
+        {
+          "value": "adpressed",
+          "label": "Appressati",
+          "terms": [
+            "adpressed",
+            "appressed",
+            "appressati"
+          ]
+        },
+        {
+          "value": "spreading",
+          "label": "Distesi / divaricati",
+          "terms": [
+            "spreading",
+            "divaricati"
+          ]
+        }
+      ],
+      "note": "Portamento dei lobi nel tallo. Le condizioni e le variazioni rimangono nella citazione.",
+      "scope": "lobes",
+      "multiple": true
+    },
+    {
+      "id": "thallus_attachment",
+      "label": "Adesione del tallo",
+      "parent": "thallus_attachment",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "thallus",
+        "tallo"
+      ],
+      "states": [
+        {
+          "value": "loose",
+          "label": "Lassamente aderente",
+          "terms": [
+            "loosely attached",
+            "loosely adnate",
+            "lassamente aderente"
+          ]
+        },
+        {
+          "value": "close",
+          "label": "Strettamente appressato",
+          "terms": [
+            "closely adpressed",
+            "closely appressed",
+            "closely adnate",
+            "strettamente appressato"
+          ]
+        },
+        {
+          "value": "firm",
+          "label": "Saldamente aderente",
+          "terms": [
+            "firmly attached",
+            "firmly adnate",
+            "saldamente aderente"
+          ]
+        }
+      ],
+      "note": "Grado di adesione descritto per il tallo; distinto dalla forma e dalla larghezza dei lobi.",
+      "scope": "thallus",
+      "multiple": true
+    },
+    {
+      "id": "thallus_outline",
+      "label": "Tallo · contorno",
+      "parent": "thallus_outline",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "thallus",
+        "tallo"
+      ],
+      "states": [
+        {
+          "value": "orbicular",
+          "label": "Orbicolare / a rosetta",
+          "terms": [
+            "orbicular",
+            "orbicolare"
+          ]
+        },
+        {
+          "value": "irregular",
+          "label": "Chiazze irregolari",
+          "terms": [
+            "irregular patches",
+            "irregular",
+            "chiazze irregolari"
+          ]
+        }
+      ],
+      "note": "Contorno delle colonie descritto nel testo. Più contorni possono essere documentati; non estende al tallo l’irregolarità di altre strutture.",
+      "scope": "thallus",
+      "multiple": true
+    },
+    {
+      "id": "upper_surface_pruina",
+      "label": "Superficie superiore · pruina",
+      "parent": "upper_surface_pruina",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "upper surface",
+        "lobes",
+        "thallus"
+      ],
+      "states": [
+        {
+          "value": "present",
+          "label": "Presente",
+          "terms": [
+            "pruinose",
+            "pruina",
+            "pruinosa",
+            "pruinoso"
+          ]
+        },
+        {
+          "value": "absent",
+          "label": "Assente (epruinose)",
+          "terms": [
+            "epruinose",
+            "non-pruinose",
+            "not pruinose",
+            "without pruina",
+            "senza pruina"
+          ]
+        }
+      ],
+      "note": "Pruina della superficie superiore o dei lobi. La pruina del disco degli apoteci non documenta quella del tallo. La mancata menzione non significa assenza.",
+      "scope": "upper_surface",
+      "multiple": false
+    },
+    {
+      "id": "upper_surface_maculation",
+      "label": "Superficie superiore · macule",
+      "parent": "upper_surface_maculation",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "upper surface",
+        "lobes",
+        "thallus"
+      ],
+      "states": [
+        {
+          "value": "present",
+          "label": "Presenti (maculate)",
+          "terms": [
+            "white-maculate",
+            "maculate",
+            "maculae",
+            "maculata",
+            "maculato"
+          ]
+        },
+        {
+          "value": "absent",
+          "label": "Assenti (emaculate)",
+          "terms": [
+            "emaculate",
+            "not maculate",
+            "without maculae",
+            "immaculate",
+            "senza macule"
+          ]
+        }
+      ],
+      "note": "Macule della superficie superiore o dei lobi. Emaculate documenta l’assenza; il bianco delle macule non diventa automaticamente il colore del tallo.",
+      "scope": "upper_surface",
+      "multiple": false
+    },
+    {
+      "id": "soralia",
+      "label": "Sorali · presenza",
+      "parent": "soredia",
+      "kind": "presence",
+      "terms": [
+        "soralia",
+        "soralium",
+        "sorali",
+        "soralio"
+      ],
+      "impliedTerms": [],
+      "context": [],
+      "states": [],
+      "note": "Presenza dei sorali distinta da quella dei soredi. Sorali presenti documentano soredi; soredi senza sorali non dimostrano sorali presenti."
+    },
+    {
+      "id": "apothecia_insertion",
+      "label": "Apoteci · inserzione",
+      "parent": "apothecia_type",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "apothecia",
+        "apothecium",
+        "apoteci",
+        "apotecio"
+      ],
+      "scope": "apothecia",
+      "multiple": true,
+      "states": [
+        {
+          "value": "sessile",
+          "label": "Sessili",
+          "terms": [
+            "sessile",
+            "sessili"
+          ]
+        },
+        {
+          "value": "short_stipitate",
+          "label": "Brevemente peduncolati",
+          "terms": [
+            "short-stipitate",
+            "short stipitate",
+            "brevemente peduncolati"
+          ]
+        },
+        {
+          "value": "stipitate",
+          "label": "Peduncolati",
+          "terms": [
+            "stipitate",
+            "stalked",
+            "peduncolati"
+          ]
+        },
+        {
+          "value": "immersed",
+          "label": "Immersi",
+          "terms": [
+            "immersed",
+            "immersi"
+          ]
+        },
+        {
+          "value": "adnate",
+          "label": "Adnati",
+          "terms": [
+            "adnate",
+            "adnati"
+          ]
+        }
+      ],
+      "note": "Inserzione degli apoteci distinta dalla forma del contorno: short-stipitate indica un breve peduncolo. Conserva rarità e condizioni nella citazione."
+    },
+    {
+      "id": "apothecia_disc_pruina",
+      "label": "Apoteci · pruina del disco",
+      "parent": "apothecia_type",
+      "kind": "type",
+      "terms": [],
+      "impliedTerms": [],
+      "context": [
+        "disc",
+        "disco"
+      ],
+      "scope": "apothecia_disc",
+      "states": [
+        {
+          "value": "present",
+          "label": "Presente",
+          "terms": [
+            "pruinose",
+            "pruina",
+            "pruinoso",
+            "pruinosa"
+          ]
+        },
+        {
+          "value": "absent",
+          "label": "Assente (epruinose)",
+          "terms": [
+            "epruinose",
+            "not pruinose",
+            "non-pruinose",
+            "without pruina",
+            "senza pruina"
+          ]
+        }
+      ],
+      "note": "Pruina del disco degli apoteci, distinta dalla pruina del tallo e del margine. Sometimes pruinose resta condizionato e da chiarire."
+    }
+  ]
+}

@@ -1,0 +1,3063 @@
+{
+  "metadata": {
+    "source": "ITALIC SQL: Generi_note",
+    "count": 509,
+    "content": "Links only; external keys require an internet connection"
+  },
+  "keys": [
+    {
+      "id": 1,
+      "genus": "Absconditella",
+      "name": "Absconditella Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=10377"
+    },
+    {
+      "id": 2,
+      "genus": "Acarospora",
+      "name": "Acarospora A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6334"
+    },
+    {
+      "id": 3,
+      "genus": "Acolium",
+      "name": "Acolium (Ach.) Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 4,
+      "genus": "Acrocordia",
+      "name": "Acrocordia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3550"
+    },
+    {
+      "id": 5,
+      "genus": "Adelolecia",
+      "name": "Adelolecia Hertel & Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 6,
+      "genus": "Agonimia",
+      "name": "Agonimia Zahlbr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2439"
+    },
+    {
+      "id": 7,
+      "genus": "Ainoa",
+      "name": "Ainoa Lumbsch & I. Schmitt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3583"
+    },
+    {
+      "id": 8,
+      "genus": "Alectoria",
+      "name": "Alectoria Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1524"
+    },
+    {
+      "id": 9,
+      "genus": "Allantoparmelia",
+      "name": "Allantoparmelia (Vain.) Essl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1711"
+    },
+    {
+      "id": 467,
+      "genus": "Alloarthopyrenia",
+      "name": "Alloarthopyrenia Phukhams., Lücking & K.D. Hyde",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4005"
+    },
+    {
+      "id": 482,
+      "genus": "Allocalicium",
+      "name": "Allocalicium M. Prieto & Wedin",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 508,
+      "genus": "Allopyrenis",
+      "name": "Allopyrenis M. Schultz & M. Prieto",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 11,
+      "genus": "Alyxoria",
+      "name": "Alyxoria Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 12,
+      "genus": "Amandinea",
+      "name": "Amandinea Choisy ex Scheid. & H. Mayrhofer",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1781"
+    },
+    {
+      "id": 13,
+      "genus": "Amygdalaria",
+      "name": "Amygdalaria Norman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 14,
+      "genus": "Amylora",
+      "name": "Amylora Rambold",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 15,
+      "genus": "Anaptychia",
+      "name": "Anaptychia Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 466,
+      "genus": "Andreiomyces",
+      "name": "Andreiomyces B.P. Hodk. & Lendemer",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8528"
+    },
+    {
+      "id": 16,
+      "genus": "Anema",
+      "name": "Anema Forssell",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 17,
+      "genus": "Anisomeridium",
+      "name": "Anisomeridium (Müll. Arg.) M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7417"
+    },
+    {
+      "id": 18,
+      "genus": "Anthracocarpon",
+      "name": "Anthracocarpon Breuss",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1743"
+    },
+    {
+      "id": 19,
+      "genus": "Anzina",
+      "name": "Anzina Scheid.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7404"
+    },
+    {
+      "id": 20,
+      "genus": "Aphanopsis",
+      "name": "Aphanopsis Sydow",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 472,
+      "genus": "Aquacidia",
+      "name": "Aquacidia Aptroot",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8528"
+    },
+    {
+      "id": 473,
+      "genus": "Arctomia",
+      "name": "Arctomia Th. Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9323"
+    },
+    {
+      "id": 21,
+      "genus": "Arctoparmelia",
+      "name": "Arctoparmelia Hale",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1593"
+    },
+    {
+      "id": 22,
+      "genus": "Arthonia",
+      "name": "Arthonia Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 23,
+      "genus": "Arthopyrenia",
+      "name": "Arthopyrenia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4005"
+    },
+    {
+      "id": 24,
+      "genus": "Arthothelium",
+      "name": "Arthothelium A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 25,
+      "genus": "Arthrorhaphis",
+      "name": "Arthrorhaphis Poelt & Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7420"
+    },
+    {
+      "id": 27,
+      "genus": "Aspicilia",
+      "name": "Aspicilia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 483,
+      "genus": "Aspiciliella",
+      "name": "Aspiciliella M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 28,
+      "genus": "Aspilidea",
+      "name": "Aspilidea Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 29,
+      "genus": "Athallia",
+      "name": "Athallia Arup, Frödén & Søchting",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 30,
+      "genus": "Atla",
+      "name": "Atla Savić & Tibell",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3218"
+    },
+    {
+      "id": 31,
+      "genus": "Bacidia",
+      "name": "Bacidia De Not.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9656"
+    },
+    {
+      "id": 32,
+      "genus": "Bacidina",
+      "name": "Bacidina Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9656"
+    },
+    {
+      "id": 33,
+      "genus": "Bactrospora",
+      "name": "Bactrospora A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 34,
+      "genus": "Baeomyces",
+      "name": "Baeomyces Pers.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7383"
+    },
+    {
+      "id": 35,
+      "genus": "Bagliettoa",
+      "name": "Bagliettoa A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2366"
+    },
+    {
+      "id": 36,
+      "genus": "Bellemerea",
+      "name": "Bellemerea Hafellner & Cl. Roux",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 443,
+      "genus": "Bellicidia",
+      "name": "Bellicidia Kistenich, Timdal, Bendiksby & S. Ekman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9656"
+    },
+    {
+      "id": 37,
+      "genus": "Biatora",
+      "name": "Biatora Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6196"
+    },
+    {
+      "id": 38,
+      "genus": "Biatorella",
+      "name": "Biatorella De Not.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4858"
+    },
+    {
+      "id": 39,
+      "genus": "Biatoridium",
+      "name": "Biatoridium Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4858"
+    },
+    {
+      "id": 444,
+      "genus": "Bibbya",
+      "name": "Bibbya J.H. Willis",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6771"
+    },
+    {
+      "id": 40,
+      "genus": "Bilimbia",
+      "name": "Bilimbia De Not.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7458"
+    },
+    {
+      "id": 41,
+      "genus": "Blastenia",
+      "name": "Blastenia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2013"
+    },
+    {
+      "id": 42,
+      "genus": "Blastodesmia",
+      "name": "Blastodesmia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1847"
+    },
+    {
+      "id": 43,
+      "genus": "Blennothallia",
+      "name": "Blennothallia Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 44,
+      "genus": "Botryolepraria",
+      "name": "Botryolepraria Canals, Hern.-Mar., Gómez-Bolea & Llimona",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7585"
+    },
+    {
+      "id": 45,
+      "genus": "Brianaria",
+      "name": "Brianaria S. Ekman & M. Svenss.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5029"
+    },
+    {
+      "id": 46,
+      "genus": "Brodoa",
+      "name": "Brodoa Goward",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1711"
+    },
+    {
+      "id": 47,
+      "genus": "Bryobilimbia",
+      "name": "Bryobilimbia Fryday, Printzen & S. Ekman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7458"
+    },
+    {
+      "id": 49,
+      "genus": "Bryonora",
+      "name": "Bryonora Poelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=13210"
+    },
+    {
+      "id": 50,
+      "genus": "Bryoplaca",
+      "name": "Bryoplaca Søchting, Frödén & Arup",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 51,
+      "genus": "Bryoria",
+      "name": "Bryoria Brodo & D. Hawksw.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1524"
+    },
+    {
+      "id": 52,
+      "genus": "Bryostigma",
+      "name": "Bryostigma Poelt & Döbbeler",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 53,
+      "genus": "Buellia",
+      "name": "Buellia De Not.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1781"
+    },
+    {
+      "id": 54,
+      "genus": "Bunodophoron",
+      "name": "Bunodophoron A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 55,
+      "genus": "Byssoloma",
+      "name": "Byssoloma Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=13231"
+    },
+    {
+      "id": 523,
+      "genus": "Caelochroma",
+      "name": "Caelochroma M.Svenss., S.Ekman & M.Westb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3665"
+    },
+    {
+      "id": 56,
+      "genus": "Caeruleum",
+      "name": "Caeruleum K. Knudsen & Arcadia",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6334"
+    },
+    {
+      "id": 57,
+      "genus": "Calicium",
+      "name": "Calicium Pers.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 58,
+      "genus": "Callome",
+      "name": "Callome Otálora & Wedin",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 59,
+      "genus": "Calogaya",
+      "name": "Calogaya Arup, Frödén & Søchting",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 61,
+      "genus": "Caloplaca",
+      "name": "Caloplaca Th. Fr. s.lat.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 60,
+      "genus": "Caloplaca",
+      "name": "Caloplaca Th. Fr. s.str.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 62,
+      "genus": "Calvitimela",
+      "name": "Calvitimela Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 63,
+      "genus": "Candelaria",
+      "name": "Candelaria A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1930"
+    },
+    {
+      "id": 64,
+      "genus": "Candelariella",
+      "name": "Candelariella Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1930"
+    },
+    {
+      "id": 65,
+      "genus": "Carbonea",
+      "name": "Carbonea (Hertel) Hertel",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 66,
+      "genus": "Carbonicola",
+      "name": "Carbonicola Bendiksby & Timdal",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4920"
+    },
+    {
+      "id": 67,
+      "genus": "Catapyrenium",
+      "name": "Catapyrenium Flot.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1743"
+    },
+    {
+      "id": 68,
+      "genus": "Catillaria",
+      "name": "Catillaria A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3665"
+    },
+    {
+      "id": 69,
+      "genus": "Catinaria",
+      "name": "Catinaria Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3665"
+    },
+    {
+      "id": 70,
+      "genus": "Catolechia",
+      "name": "Catolechia Flot.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=14624"
+    },
+    {
+      "id": 418,
+      "genus": "Cecidonia",
+      "name": "Cecidonia Triebel & Rambold",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 71,
+      "genus": "Celothelium",
+      "name": "Celothelium A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4833"
+    },
+    {
+      "id": 72,
+      "genus": "Cephalophysis",
+      "name": "Cephalophysis (Hertel) H. Kilias",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 73,
+      "genus": "Cerothallia",
+      "name": "Cerothallia Arup, Frödén & Søchting",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 74,
+      "genus": "Cetraria",
+      "name": "Cetraria Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4031"
+    },
+    {
+      "id": 76,
+      "genus": "Cetrelia",
+      "name": "Cetrelia W.L. Culb. & C.F. Culb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4075"
+    },
+    {
+      "id": 77,
+      "genus": "Chaenotheca",
+      "name": "Chaenotheca (Th. Fr.) Th. Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 419,
+      "genus": "Chaenothecopsis",
+      "name": "Chaenothecopsis Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 78,
+      "genus": "Cheiromycina",
+      "name": "Cheiromycina B. Sutton & Muhr",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7727"
+    },
+    {
+      "id": 499,
+      "genus": "Chicitaea",
+      "name": "Chicitaea Guzow-Krzem., Kukwa & Lendemer",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6440"
+    },
+    {
+      "id": 79,
+      "genus": "Chrysothrix",
+      "name": "Chrysothrix Mont.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7490"
+    },
+    {
+      "id": 80,
+      "genus": "Circinaria",
+      "name": "Circinaria Link",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 81,
+      "genus": "Cladonia",
+      "name": "Cladonia P. Browne",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3975"
+    },
+    {
+      "id": 509,
+      "genus": "Cladopsis",
+      "name": "Cladopsis Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 82,
+      "genus": "Clauzadea",
+      "name": "Clauzadea Hafellner & Bellem.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4721"
+    },
+    {
+      "id": 83,
+      "genus": "Clauzadeana",
+      "name": "Clauzadeana Cl. Roux",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 84,
+      "genus": "Clavascidium",
+      "name": "Clavascidium Breuss",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1743"
+    },
+    {
+      "id": 85,
+      "genus": "Cliostomum",
+      "name": "Cliostomum Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3665"
+    },
+    {
+      "id": 86,
+      "genus": "Coenogonium",
+      "name": "Coenogonium Ehrenb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6194"
+    },
+    {
+      "id": 87,
+      "genus": "Collema",
+      "name": "Collema F.H. Wigg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 88,
+      "genus": "Collemopsidium",
+      "name": "Collemopsidium Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=13397"
+    },
+    {
+      "id": 505,
+      "genus": "Collemopsis",
+      "name": "Collemopsis Nyl. ex Crombie",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 89,
+      "genus": "Coniocarpon",
+      "name": "Coniocarpon DC.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 501,
+      "genus": "Coniocybe",
+      "name": "Coniocybe Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 484,
+      "genus": "Coppinsiella",
+      "name": "Coppinsiella S.Y. Kondr. & Lőkös",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 90,
+      "genus": "Cornicularia",
+      "name": "Cornicularia (Schreb.) Hoffm.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4031"
+    },
+    {
+      "id": 91,
+      "genus": "Coscinocladium",
+      "name": "Coscinocladium Kunze",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1781"
+    },
+    {
+      "id": 92,
+      "genus": "Crespoa",
+      "name": "Crespoa (D. Hawksw.) Lendemer & B.P. Hodk.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1521"
+    },
+    {
+      "id": 93,
+      "genus": "Cresponea",
+      "name": "Cresponea Egea & Torrente",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 95,
+      "genus": "Crocodia",
+      "name": "Crocodia Link",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8715"
+    },
+    {
+      "id": 464,
+      "genus": "Cryptodiscus",
+      "name": "Cryptodiscus Corda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=13410"
+    },
+    {
+      "id": 485,
+      "genus": "Cypheliopsis",
+      "name": "Cypheliopsis (Zahlbr.) Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 97,
+      "genus": "Cystocoleus",
+      "name": "Cystocoleus Thwaites",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4158"
+    },
+    {
+      "id": 98,
+      "genus": "Dacampia",
+      "name": "Dacampia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1611"
+    },
+    {
+      "id": 99,
+      "genus": "Dactylina",
+      "name": "Dactylina Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4031"
+    },
+    {
+      "id": 100,
+      "genus": "Dendrographa",
+      "name": "Dendrographa Darb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7513"
+    },
+    {
+      "id": 101,
+      "genus": "Dermatocarpon",
+      "name": "Dermatocarpon Eschw.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7673"
+    },
+    {
+      "id": 512,
+      "genus": "Diarthonis",
+      "name": "Diarthonis Clem.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 102,
+      "genus": "Dibaeis",
+      "name": "Dibaeis Clem.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7383"
+    },
+    {
+      "id": 458,
+      "genus": "Dichoporis",
+      "name": "Dichoporis Clem.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4110"
+    },
+    {
+      "id": 469,
+      "genus": "Dictyocatenulata",
+      "name": "Dictyocatenulata Finley & E.F. Morris",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7727"
+    },
+    {
+      "id": 103,
+      "genus": "Dimelaena",
+      "name": "Dimelaena Norman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1733"
+    },
+    {
+      "id": 104,
+      "genus": "Diploicia",
+      "name": "Diploicia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1781"
+    },
+    {
+      "id": 105,
+      "genus": "Diploschistella",
+      "name": "Diploschistella Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 106,
+      "genus": "Diploschistes",
+      "name": "Diploschistes Norman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2963"
+    },
+    {
+      "id": 107,
+      "genus": "Diplotomma",
+      "name": "Diplotomma Flot.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1781"
+    },
+    {
+      "id": 108,
+      "genus": "Dirina",
+      "name": "Dirina Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6812"
+    },
+    {
+      "id": 109,
+      "genus": "Diromma",
+      "name": "Diromma Ertz & Tehler",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7513"
+    },
+    {
+      "id": 110,
+      "genus": "Eiglera",
+      "name": "Eiglera Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4893"
+    },
+    {
+      "id": 111,
+      "genus": "Elixia",
+      "name": "Elixia Lumbsch",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4705"
+    },
+    {
+      "id": 112,
+      "genus": "Encephalographa",
+      "name": "Encephalographa A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4835"
+    },
+    {
+      "id": 113,
+      "genus": "Enchylium",
+      "name": "Enchylium (Ach.) Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 114,
+      "genus": "Endocarpon",
+      "name": "Endocarpon Hedw.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3044"
+    },
+    {
+      "id": 115,
+      "genus": "Endohyalina",
+      "name": "Endohyalina Marbach",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1733"
+    },
+    {
+      "id": 116,
+      "genus": "Enterographa",
+      "name": "Enterographa Fée",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 117,
+      "genus": "Eopyrenula",
+      "name": "Eopyrenula R.C. Harris",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1847"
+    },
+    {
+      "id": 118,
+      "genus": "Ephebe",
+      "name": "Ephebe Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4158"
+    },
+    {
+      "id": 421,
+      "genus": "Epigloea",
+      "name": "Epigloea Zukal",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7743"
+    },
+    {
+      "id": 486,
+      "genus": "Erichansenia",
+      "name": "Erichansenia S.Y. Kondr., Kärnefelt & A. Thell",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 120,
+      "genus": "Euopsis",
+      "name": "Euopsis Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 121,
+      "genus": "Evernia",
+      "name": "Evernia Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6220"
+    },
+    {
+      "id": 122,
+      "genus": "Farnoldia",
+      "name": "Farnoldia Hertel",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2938"
+    },
+    {
+      "id": 123,
+      "genus": "Felipes",
+      "name": "Felipes Frisch & G. Thor",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 124,
+      "genus": "Fellhanera",
+      "name": "Fellhanera Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7485"
+    },
+    {
+      "id": 125,
+      "genus": "Fellhaneropsis",
+      "name": "Fellhaneropsis Sérus. & Coppins",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7485"
+    },
+    {
+      "id": 127,
+      "genus": "Flavoparmelia",
+      "name": "Flavoparmelia Hale",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=11897"
+    },
+    {
+      "id": 128,
+      "genus": "Flavoplaca",
+      "name": "Flavoplaca Arup, Frödén & Søchting",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 129,
+      "genus": "Flavopunctelia",
+      "name": "Flavopunctelia (Krog) Hale",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=11897"
+    },
+    {
+      "id": 506,
+      "genus": "Forssellia",
+      "name": "Forssellia Zahlbr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 475,
+      "genus": "Frigidopyrenia",
+      "name": "Frigidopyrenia Grube",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9323"
+    },
+    {
+      "id": 130,
+      "genus": "Frutidella",
+      "name": "Frutidella Kalb",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 131,
+      "genus": "Fuscidea",
+      "name": "Fuscidea V. Wirth & Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4804"
+    },
+    {
+      "id": 132,
+      "genus": "Fuscopannaria",
+      "name": "Fuscopannaria P.M. Jørg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 133,
+      "genus": "Gabura",
+      "name": "Gabura Adans.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 468,
+      "genus": "Gilbertaria",
+      "name": "Gilbertaria M. Svensson & Fryday",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3665"
+    },
+    {
+      "id": 481,
+      "genus": "Glaucomaria",
+      "name": "Glaucomaria M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=13500"
+    },
+    {
+      "id": 134,
+      "genus": "Gloeoheppia",
+      "name": "Gloeoheppia Gyeln.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2372"
+    },
+    {
+      "id": 135,
+      "genus": "Glypholecia",
+      "name": "Glypholecia Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1525"
+    },
+    {
+      "id": 136,
+      "genus": "Glyphopeltis",
+      "name": "Glyphopeltis Brusse",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2444"
+    },
+    {
+      "id": 137,
+      "genus": "Gomphillus",
+      "name": "Gomphillus Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 515,
+      "genus": "Gonotichia",
+      "name": "Gonotichia M. Schultz & M. Prieto",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 138,
+      "genus": "Graphis",
+      "name": "Graphis Adans.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2939"
+    },
+    {
+      "id": 452,
+      "genus": "Gregorella",
+      "name": "Gregorella Lumbsch",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 139,
+      "genus": "Gyalecta",
+      "name": "Gyalecta Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 140,
+      "genus": "Gyalectidium",
+      "name": "Gyalectidium Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1884"
+    },
+    {
+      "id": 141,
+      "genus": "Gyalidea",
+      "name": "Gyalidea Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 142,
+      "genus": "Gyalideopsis",
+      "name": "Gyalideopsis Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 143,
+      "genus": "Gyalolechia",
+      "name": "Gyalolechia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 495,
+      "genus": "Gypsoplaca",
+      "name": "Gypsoplaca Timdal",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1611"
+    },
+    {
+      "id": 144,
+      "genus": "Gyrocollema",
+      "name": "Gyrocollema Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 145,
+      "genus": "Gyrographa",
+      "name": "Gyrographa Ertz & Tehler",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 146,
+      "genus": "Haematomma",
+      "name": "Haematomma A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6440"
+    },
+    {
+      "id": 147,
+      "genus": "Halecania",
+      "name": "Halecania M. Mayrhofer",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3013"
+    },
+    {
+      "id": 524,
+      "genus": "Halecaniella",
+      "name": "Halecaniella M.Svenss., S.Ekman & M.Westb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3013"
+    },
+    {
+      "id": 422,
+      "genus": "Halospora",
+      "name": "Halospora (Zschacke) Tomas. & Cif.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3218"
+    },
+    {
+      "id": 148,
+      "genus": "Harpidium",
+      "name": "Harpidium Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 503,
+      "genus": "Haugania",
+      "name": "Haugania E.J. Möller & Timdal",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2375"
+    },
+    {
+      "id": 423,
+      "genus": "Hazslinszkya",
+      "name": "Hazslinszkya Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4835"
+    },
+    {
+      "id": 149,
+      "genus": "Helocarpon",
+      "name": "Helocarpon Th. Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 150,
+      "genus": "Henrica",
+      "name": "Henrica B. de Lesd.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3218"
+    },
+    {
+      "id": 151,
+      "genus": "Heppia",
+      "name": "Heppia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2372"
+    },
+    {
+      "id": 152,
+      "genus": "Hertelidea",
+      "name": "Hertelidea Printzen & Kantvilas",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 153,
+      "genus": "Heterodermia",
+      "name": "Heterodermia Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 154,
+      "genus": "Heteroplacidium",
+      "name": "Heteroplacidium Breuss",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1743"
+    },
+    {
+      "id": 155,
+      "genus": "Huneckia",
+      "name": "Huneckia S.Y. Kondr., Elix, Kärnefelt, A. Thell & Hur",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 156,
+      "genus": "Hydropunctaria",
+      "name": "Hydropunctaria C. Keller, Gueidan & Thüs",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 157,
+      "genus": "Hymenelia",
+      "name": "Hymenelia Kremp.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4893"
+    },
+    {
+      "id": 158,
+      "genus": "Hyperphyscia",
+      "name": "Hyperphyscia Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 159,
+      "genus": "Hypocenomyce",
+      "name": "Hypocenomyce M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4920"
+    },
+    {
+      "id": 160,
+      "genus": "Hypogymnia",
+      "name": "Hypogymnia (Nyl.) Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1711"
+    },
+    {
+      "id": 161,
+      "genus": "Hypotrachyna",
+      "name": "Hypotrachyna (Vain.) Hale",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4732"
+    },
+    {
+      "id": 162,
+      "genus": "Icmadophila",
+      "name": "Icmadophila Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7383"
+    },
+    {
+      "id": 163,
+      "genus": "Immersaria",
+      "name": "Immersaria Rambold & Pietschm.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 164,
+      "genus": "Imshaugia",
+      "name": "Imshaugia S.L.F. Mey.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6436"
+    },
+    {
+      "id": 498,
+      "genus": "Ingaderia",
+      "name": "Ingaderia Darb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8528"
+    },
+    {
+      "id": 165,
+      "genus": "Ingvariella",
+      "name": "Ingvariella Guderley & Lumbsch",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2963"
+    },
+    {
+      "id": 166,
+      "genus": "Inoderma",
+      "name": "Inoderma (Ach.) Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 167,
+      "genus": "Involucropyrenium",
+      "name": "Involucropyrenium Breuss",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1743"
+    },
+    {
+      "id": 168,
+      "genus": "Ionaspis",
+      "name": "Ionaspis Th. Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4893"
+    },
+    {
+      "id": 169,
+      "genus": "Jamesiella",
+      "name": "Jamesiella Lücking, Sérus. & Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 170,
+      "genus": "Japewia",
+      "name": "Japewia Tønsberg",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 171,
+      "genus": "Japewiella",
+      "name": "Japewiella Printzen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 424,
+      "genus": "Julella",
+      "name": "Julella Fabre",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4005"
+    },
+    {
+      "id": 497,
+      "genus": "Karstenia",
+      "name": "Karstenia Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 445,
+      "genus": "Kiliasia",
+      "name": "Kiliasia Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3665"
+    },
+    {
+      "id": 172,
+      "genus": "Koerberia",
+      "name": "Koerberia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9323"
+    },
+    {
+      "id": 173,
+      "genus": "Koerberiella",
+      "name": "Koerberiella Stein",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 456,
+      "genus": "Kuettlingeria",
+      "name": "Kuettlingeria Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 425,
+      "genus": "Labrocarpon",
+      "name": "Labrocarpon Etayo & Pérez-Ortega",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4835"
+    },
+    {
+      "id": 174,
+      "genus": "Lambiella",
+      "name": "Lambiella Hertel",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7545"
+    },
+    {
+      "id": 510,
+      "genus": "Lapismalleus",
+      "name": "Lapismalleus M. Schultz & M. Prieto",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 175,
+      "genus": "Lasallia",
+      "name": "Lasallia Mérat",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2246"
+    },
+    {
+      "id": 176,
+      "genus": "Lathagrium",
+      "name": "Lathagrium (Ach.) Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 496,
+      "genus": "Lecaimmeria",
+      "name": "Lecaimmeria C.M. Xie, Lu L. Zhang & Li S. Wang",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 177,
+      "genus": "Lecanactis",
+      "name": "Lecanactis Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 178,
+      "genus": "Lecania",
+      "name": "Lecania A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3013"
+    },
+    {
+      "id": 179,
+      "genus": "Lecanographa",
+      "name": "Lecanographa Egea & Torrente",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 180,
+      "genus": "Lecanora",
+      "name": "Lecanora Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2474"
+    },
+    {
+      "id": 516,
+      "genus": "Lecanoropsis",
+      "name": "Lecanoropsis M. Choisy ex Ivanovich",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2474"
+    },
+    {
+      "id": 181,
+      "genus": "Lecidea",
+      "name": "Lecidea Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 182,
+      "genus": "Lecidella",
+      "name": "Lecidella Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4754"
+    },
+    {
+      "id": 183,
+      "genus": "Lecidoma",
+      "name": "Lecidoma Gotth. Schneid. & Hertel",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 184,
+      "genus": "Lemmopsis",
+      "name": "Lemmopsis (Vain.) Zahlbr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 185,
+      "genus": "Lempholemma",
+      "name": "Lempholemma Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4846"
+    },
+    {
+      "id": 487,
+      "genus": "Lendemeriella",
+      "name": "Lendemeriella S.Y. Kondr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 186,
+      "genus": "Lepra",
+      "name": "Lepra Scop.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1846"
+    },
+    {
+      "id": 488,
+      "genus": "Leprantha",
+      "name": "Leprantha Dufour ex Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 187,
+      "genus": "Lepraria",
+      "name": "Lepraria Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7585"
+    },
+    {
+      "id": 188,
+      "genus": "Leprocaulon",
+      "name": "Leprocaulon Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9352"
+    },
+    {
+      "id": 189,
+      "genus": "Leproplaca",
+      "name": "Leproplaca (Nyl.) Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 190,
+      "genus": "Leptochidium",
+      "name": "Leptochidium M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9323"
+    },
+    {
+      "id": 191,
+      "genus": "Leptogium",
+      "name": "Leptogium (Ach.) Gray s.str.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 426,
+      "genus": "Leptorhaphis",
+      "name": "Leptorhaphis Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4833"
+    },
+    {
+      "id": 451,
+      "genus": "Leptosillia",
+      "name": "Leptosillia Höhn.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4833"
+    },
+    {
+      "id": 192,
+      "genus": "Letharia",
+      "name": "Letharia (Th. Fr.) Zahlbr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6220"
+    },
+    {
+      "id": 193,
+      "genus": "Lethariella",
+      "name": "Lethariella (Motyka) Krog",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9352"
+    },
+    {
+      "id": 194,
+      "genus": "Leucodermia",
+      "name": "Leucodermia Kalb",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 195,
+      "genus": "Lichenomphalia",
+      "name": "Lichenomphalia Redhead, Lutzoni, Moncalvo & Vilgalys",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4746"
+    },
+    {
+      "id": 196,
+      "genus": "Lichina",
+      "name": "Lichina C. Agardh",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 197,
+      "genus": "Lichinella",
+      "name": "Lichinella Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 198,
+      "genus": "Lithographa",
+      "name": "Lithographa Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4705"
+    },
+    {
+      "id": 199,
+      "genus": "Lithothelium",
+      "name": "Lithothelium Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=14075"
+    },
+    {
+      "id": 200,
+      "genus": "Lobaria",
+      "name": "Lobaria (Schreb.) Hoffm.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4699"
+    },
+    {
+      "id": 201,
+      "genus": "Lobarina",
+      "name": "Lobarina Cromb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4699"
+    },
+    {
+      "id": 202,
+      "genus": "Lobothallia",
+      "name": "Lobothallia (Clauzade & Cl. Roux) Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 203,
+      "genus": "Lopadium",
+      "name": "Lopadium Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7544"
+    },
+    {
+      "id": 204,
+      "genus": "Loxospora",
+      "name": "Loxospora A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6440"
+    },
+    {
+      "id": 450,
+      "genus": "Marchantiana",
+      "name": "Marchantiana S.Y. Kondr., Kärnefelt, Elix, A. Thell & Hur",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 205,
+      "genus": "Maronea",
+      "name": "Maronea A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4804"
+    },
+    {
+      "id": 514,
+      "genus": "Maronella",
+      "name": "Maronella M. Steiner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4858"
+    },
+    {
+      "id": 206,
+      "genus": "Massalongia",
+      "name": "Massalongia Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 207,
+      "genus": "Megalaria",
+      "name": "Megalaria Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3665"
+    },
+    {
+      "id": 208,
+      "genus": "Megalospora",
+      "name": "Megalospora Meyen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8528"
+    },
+    {
+      "id": 209,
+      "genus": "Megaspora",
+      "name": "Megaspora (Clauzade & Cl. Roux) Hafellner & V. Wirth",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 210,
+      "genus": "Melanelia",
+      "name": "Melanelia Essl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4633"
+    },
+    {
+      "id": 211,
+      "genus": "Melanelixia",
+      "name": "Melanelixia O. Blanco, A. Crespo, Divakar, Essl., D. Hawksw. & Lumbsch",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4633"
+    },
+    {
+      "id": 212,
+      "genus": "Melanohalea",
+      "name": "Melanohalea O. Blanco, A. Crespo, Divakar, Essl., D. Hawksw. & Lumbsch",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4633"
+    },
+    {
+      "id": 213,
+      "genus": "Melanolecia",
+      "name": "Melanolecia Hertel",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2938"
+    },
+    {
+      "id": 214,
+      "genus": "Melaspilea",
+      "name": "Melaspilea Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4835"
+    },
+    {
+      "id": 428,
+      "genus": "Melaspileella",
+      "name": "Melaspileella (P. Karst.) Boud.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4835"
+    },
+    {
+      "id": 215,
+      "genus": "Menegazzia",
+      "name": "Menegazzia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1711"
+    },
+    {
+      "id": 477,
+      "genus": "Metamelanea",
+      "name": "Metamelanea Henssen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 216,
+      "genus": "Micarea",
+      "name": "Micarea Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5029"
+    },
+    {
+      "id": 429,
+      "genus": "Microcalicium",
+      "name": "Microcalicium Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 529,
+      "genus": "Microlecia",
+      "name": "Microlecia M.Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3665"
+    },
+    {
+      "id": 217,
+      "genus": "Miriquidica",
+      "name": "Miriquidica Hertel & Rambold",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4083"
+    },
+    {
+      "id": 430,
+      "genus": "Mniaecia",
+      "name": "Mniaecia Boud.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7489"
+    },
+    {
+      "id": 218,
+      "genus": "Monerolechia",
+      "name": "Monerolechia Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1781"
+    },
+    {
+      "id": 219,
+      "genus": "Montanelia",
+      "name": "Montanelia Divakar, A. Crespo, Wedin & Essl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4633"
+    },
+    {
+      "id": 220,
+      "genus": "Multiclavula",
+      "name": "Multiclavula R.H. Petersen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4746"
+    },
+    {
+      "id": 221,
+      "genus": "Mycobilimbia",
+      "name": "Mycobilimbia Rehm",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7458"
+    },
+    {
+      "id": 222,
+      "genus": "Mycoblastus",
+      "name": "Mycoblastus Norman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7575"
+    },
+    {
+      "id": 431,
+      "genus": "Mycocalicium",
+      "name": "Mycocalicium Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 517,
+      "genus": "Mycoglaena",
+      "name": "Mycoglaena Höhn.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4005"
+    },
+    {
+      "id": 432,
+      "genus": "Mycomicrothelia",
+      "name": "Mycomicrothelia Keissl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9563"
+    },
+    {
+      "id": 433,
+      "genus": "Mycoporum",
+      "name": "Mycoporum Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7656"
+    },
+    {
+      "id": 223,
+      "genus": "Myochroidea",
+      "name": "Myochroidea Printzen, T. Sprib. & Tønsberg",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 518,
+      "genus": "Myrionora",
+      "name": "Myrionora R.C. Harris",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 225,
+      "genus": "Myriospora",
+      "name": "Myriospora Uloth",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6334"
+    },
+    {
+      "id": 226,
+      "genus": "Naetrocymbe",
+      "name": "Naetrocymbe Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4005"
+    },
+    {
+      "id": 470,
+      "genus": "Naevia",
+      "name": "Naevia Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 227,
+      "genus": "Neocatapyrenium",
+      "name": "Neocatapyrenium H. Harada",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1743"
+    },
+    {
+      "id": 463,
+      "genus": "Neopetractis",
+      "name": "Neopetractis Ertz",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 228,
+      "genus": "Nephroma",
+      "name": "Nephroma Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2807"
+    },
+    {
+      "id": 229,
+      "genus": "Nephromopsis",
+      "name": "Nephromopsis Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4031"
+    },
+    {
+      "id": 471,
+      "genus": "Nesothele",
+      "name": "Nesothele Orange",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3044"
+    },
+    {
+      "id": 230,
+      "genus": "Nevesia",
+      "name": "Nevesia P. M. Jørg., L. Lindblom, Wedin & S. Ekman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 434,
+      "genus": "Nigropuncta",
+      "name": "Nigropuncta D. Hawksw.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8528"
+    },
+    {
+      "id": 231,
+      "genus": "Normandina",
+      "name": "Normandina Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9048"
+    },
+    {
+      "id": 232,
+      "genus": "Ocellomma",
+      "name": "Ocellomma Ertz & Tehler",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7513"
+    },
+    {
+      "id": 233,
+      "genus": "Ochrolechia",
+      "name": "Ochrolechia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1846"
+    },
+    {
+      "id": 489,
+      "genus": "Olegblumia",
+      "name": "Olegblumia S.Y. Kondr., Lőkös & Hur",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 234,
+      "genus": "Opegrapha",
+      "name": "Opegrapha Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 235,
+      "genus": "Ophioparma",
+      "name": "Ophioparma Norman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6440"
+    },
+    {
+      "id": 236,
+      "genus": "Orphniospora",
+      "name": "Orphniospora Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 237,
+      "genus": "Pachnolepia",
+      "name": "Pachnolepia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 490,
+      "genus": "Pachypeltis",
+      "name": "Pachypeltis Søchting, Arup & Frödén",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 461,
+      "genus": "Palicella",
+      "name": "Palicella Rodr. Flakus & Printzen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 238,
+      "genus": "Pannaria",
+      "name": "Pannaria Bory",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 239,
+      "genus": "Parabagliettoa",
+      "name": "Parabagliettoa Gueidan & Cl. Roux",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 240,
+      "genus": "Paracollema",
+      "name": "Paracollema Otálora & Wedin",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 241,
+      "genus": "Parainoa",
+      "name": "Parainoa Resl & T. Sprib.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3583"
+    },
+    {
+      "id": 242,
+      "genus": "Paralecanographa",
+      "name": "Paralecanographa Ertz & Tehler",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 243,
+      "genus": "Parmelia",
+      "name": "Parmelia Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4689"
+    },
+    {
+      "id": 244,
+      "genus": "Parmeliella",
+      "name": "Parmeliella Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 245,
+      "genus": "Parmelina",
+      "name": "Parmelina Hale",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3718"
+    },
+    {
+      "id": 246,
+      "genus": "Parmeliopsis",
+      "name": "Parmeliopsis (Nyl.) Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6436"
+    },
+    {
+      "id": 247,
+      "genus": "Parmotrema",
+      "name": "Parmotrema A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1521"
+    },
+    {
+      "id": 248,
+      "genus": "Parvoplaca",
+      "name": "Parvoplaca Arup, Søchting & Frödén",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 249,
+      "genus": "Paulia",
+      "name": "Paulia Fée",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 250,
+      "genus": "Peccania",
+      "name": "Peccania Arnold",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 251,
+      "genus": "Pectenia",
+      "name": "Pectenia P.M. Jørg., L. Lindblom, Wedin & S. Ekman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 252,
+      "genus": "Peltigera",
+      "name": "Peltigera Willd.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1566"
+    },
+    {
+      "id": 253,
+      "genus": "Peltula",
+      "name": "Peltula Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2369"
+    },
+    {
+      "id": 254,
+      "genus": "Pertusaria",
+      "name": "Pertusaria DC.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1846"
+    },
+    {
+      "id": 255,
+      "genus": "Petractis",
+      "name": "Petractis Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 435,
+      "genus": "Phacographa",
+      "name": "Phacographa Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=14577"
+    },
+    {
+      "id": 436,
+      "genus": "Phacothecium",
+      "name": "Phacothecium Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 437,
+      "genus": "Phaeocalicium",
+      "name": "Phaeocalicium A.F.W. Schmidt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1750"
+    },
+    {
+      "id": 256,
+      "genus": "Phaeographis",
+      "name": "Phaeographis Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2939"
+    },
+    {
+      "id": 257,
+      "genus": "Phaeophyscia",
+      "name": "Phaeophyscia Moberg",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 258,
+      "genus": "Phaeorrhiza",
+      "name": "Phaeorrhiza H. Mayrhofer & Poelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1733"
+    },
+    {
+      "id": 259,
+      "genus": "Phlyctis",
+      "name": "Phlyctis (Wallr.) Flot.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7507"
+    },
+    {
+      "id": 260,
+      "genus": "Phylliscum",
+      "name": "Phylliscum Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 261,
+      "genus": "Phylloblastia",
+      "name": "Phylloblastia Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1884"
+    },
+    {
+      "id": 262,
+      "genus": "Phyllopsora",
+      "name": "Phyllopsora Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9656"
+    },
+    {
+      "id": 263,
+      "genus": "Physcia",
+      "name": "Physcia (Schreb.) Michx.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 264,
+      "genus": "Physciella",
+      "name": "Physciella Essl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 265,
+      "genus": "Physconia",
+      "name": "Physconia Poelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 266,
+      "genus": "Piccolia",
+      "name": "Piccolia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4858"
+    },
+    {
+      "id": 267,
+      "genus": "Pilophorus",
+      "name": "Pilophorus Th. Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3975"
+    },
+    {
+      "id": 491,
+      "genus": "Pisutiella",
+      "name": "Pisutiella S.Y. Kondr., Lőkös & Farkas",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 268,
+      "genus": "Placidiopsis",
+      "name": "Placidiopsis Beltr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1748"
+    },
+    {
+      "id": 269,
+      "genus": "Placidium",
+      "name": "Placidium A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1743"
+    },
+    {
+      "id": 270,
+      "genus": "Placocarpus",
+      "name": "Placocarpus Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 530,
+      "genus": "Placolecania",
+      "name": "Placolecania (J.Steiner) Zahlbr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2223"
+    },
+    {
+      "id": 271,
+      "genus": "Placolecis",
+      "name": "Placolecis Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2444"
+    },
+    {
+      "id": 272,
+      "genus": "Placopsis",
+      "name": "Placopsis (Nyl.) Linds.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9561"
+    },
+    {
+      "id": 273,
+      "genus": "Placopyrenium",
+      "name": "Placopyrenium Breuss",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5739"
+    },
+    {
+      "id": 274,
+      "genus": "Placynthiella",
+      "name": "Placynthiella Elenkin",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4729"
+    },
+    {
+      "id": 275,
+      "genus": "Placynthium",
+      "name": "Placynthium (Ach.) Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2280"
+    },
+    {
+      "id": 277,
+      "genus": "Platismatia",
+      "name": "Platismatia W.L. Culb. & C.F. Culb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4031"
+    },
+    {
+      "id": 276,
+      "genus": "Pleopsidium",
+      "name": "Pleopsidium Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6334"
+    },
+    {
+      "id": 511,
+      "genus": "Pleopyrenis",
+      "name": "Pleopyrenis Clem.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 278,
+      "genus": "Pleurosticta",
+      "name": "Pleurosticta Petr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4633"
+    },
+    {
+      "id": 279,
+      "genus": "Poeltinula",
+      "name": "Poeltinula Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=14695"
+    },
+    {
+      "id": 280,
+      "genus": "Polyblastia",
+      "name": "Polyblastia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3218"
+    },
+    {
+      "id": 281,
+      "genus": "Polyblastidium",
+      "name": "Polyblastidium Kalb",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 282,
+      "genus": "Polycauliona",
+      "name": "Polycauliona Hue",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1605"
+    },
+    {
+      "id": 283,
+      "genus": "Polychidium",
+      "name": "Polychidium (Ach.) Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4158"
+    },
+    {
+      "id": 474,
+      "genus": "Polyozosia",
+      "name": "Polyozosia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1525"
+    },
+    {
+      "id": 284,
+      "genus": "Polysporina",
+      "name": "Polysporina Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1583"
+    },
+    {
+      "id": 285,
+      "genus": "Porina",
+      "name": "Porina Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4110"
+    },
+    {
+      "id": 286,
+      "genus": "Porocyphus",
+      "name": "Porocyphus Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 287,
+      "genus": "Porpidia",
+      "name": "Porpidia Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1868"
+    },
+    {
+      "id": 288,
+      "genus": "Porpidinia",
+      "name": "Porpidinia Timdal",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6771"
+    },
+    {
+      "id": 289,
+      "genus": "Protoblastenia",
+      "name": "Protoblastenia (Zahlbr.) J. Steiner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2926"
+    },
+    {
+      "id": 502,
+      "genus": "Protocandelariella",
+      "name": "Protocandelariella Poelt ex D. Liu, Hur & S.Y. Kondr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1930"
+    },
+    {
+      "id": 290,
+      "genus": "Protomicarea",
+      "name": "Protomicarea Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5029"
+    },
+    {
+      "id": 291,
+      "genus": "Protopannaria",
+      "name": "Protopannaria (Gyeln.) P.M. Jørg. & S. Ekman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 292,
+      "genus": "Protoparmelia",
+      "name": "Protoparmelia M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2447"
+    },
+    {
+      "id": 293,
+      "genus": "Protoparmeliopsis",
+      "name": "Protoparmeliopsis M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1717"
+    },
+    {
+      "id": 294,
+      "genus": "Protothelenella",
+      "name": "Protothelenella Räsänen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4836"
+    },
+    {
+      "id": 295,
+      "genus": "Pseudephebe",
+      "name": "Pseudephebe M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1524"
+    },
+    {
+      "id": 296,
+      "genus": "Pseudevernia",
+      "name": "Pseudevernia Zopf",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6220"
+    },
+    {
+      "id": 492,
+      "genus": "Pseudobogoriella",
+      "name": "Pseudobogoriella Lücking, R. Miranda & Aptroot",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9563"
+    },
+    {
+      "id": 297,
+      "genus": "Pseudoleptogium",
+      "name": "Pseudoleptogium Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 299,
+      "genus": "Pseudoschismatomma",
+      "name": "Pseudoschismatomma Ertz & Tehler",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 300,
+      "genus": "Pseudothelomma",
+      "name": "Pseudothelomma M. Prieto & Wedin",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1750"
+    },
+    {
+      "id": 521,
+      "genus": "Pseudotichia",
+      "name": "Pseudotichia M. Schultz & M. Prieto",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 301,
+      "genus": "Psilolechia",
+      "name": "Psilolechia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=14982"
+    },
+    {
+      "id": 302,
+      "genus": "Psora",
+      "name": "Psora Hoffm.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2444"
+    },
+    {
+      "id": 304,
+      "genus": "Psorinia",
+      "name": "Psorinia Gotth. Schneid.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2444"
+    },
+    {
+      "id": 303,
+      "genus": "Psoroglaena",
+      "name": "Psoroglaena Müll. Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7504"
+    },
+    {
+      "id": 305,
+      "genus": "Psoroma",
+      "name": "Psoroma Michx.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 306,
+      "genus": "Psoronactis",
+      "name": "Psoronactis Ertz & Tehler",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 307,
+      "genus": "Psorotichia",
+      "name": "Psorotichia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 308,
+      "genus": "Psorula",
+      "name": "Psorula Gotth. Schneid.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2444"
+    },
+    {
+      "id": 531,
+      "genus": "Pulvinora",
+      "name": "Pulvinora Davydov, Yakovch. & Printzen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8528"
+    },
+    {
+      "id": 310,
+      "genus": "Punctelia",
+      "name": "Punctelia Krog",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6435"
+    },
+    {
+      "id": 311,
+      "genus": "Puttea",
+      "name": "Puttea S. Stenroos & Huhtinen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 312,
+      "genus": "Pycnora",
+      "name": "Pycnora Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4920"
+    },
+    {
+      "id": 313,
+      "genus": "Pycnothelia",
+      "name": "Pycnothelia Dufour",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3975"
+    },
+    {
+      "id": 314,
+      "genus": "Pyrenocarpon",
+      "name": "Pyrenocarpon Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 315,
+      "genus": "Pyrenodesmia",
+      "name": "Pyrenodesmia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 317,
+      "genus": "Pyrenopsis",
+      "name": "Pyrenopsis (Nyl.) Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 316,
+      "genus": "Pyrenula",
+      "name": "Pyrenula Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1847"
+    },
+    {
+      "id": 318,
+      "genus": "Pyrgidium",
+      "name": "Pyrgidium Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 319,
+      "genus": "Pyrrhospora",
+      "name": "Pyrrhospora Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 320,
+      "genus": "Pyxine",
+      "name": "Pyxine Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 321,
+      "genus": "Racodium",
+      "name": "Racodium Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4158"
+    },
+    {
+      "id": 322,
+      "genus": "Ramalina",
+      "name": "Ramalina Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1762"
+    },
+    {
+      "id": 323,
+      "genus": "Ramboldia",
+      "name": "Ramboldia Kantvilas & Elix",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5180"
+    },
+    {
+      "id": 324,
+      "genus": "Ramonia",
+      "name": "Ramonia Stizenb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 520,
+      "genus": "Rehmia",
+      "name": "Rehmia Kremp.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2375"
+    },
+    {
+      "id": 325,
+      "genus": "Reichlingia",
+      "name": "Reichlingia Diederich & Scheid.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 522,
+      "genus": "Rhaphidicyrtis",
+      "name": "Rhaphidicyrtis Vain.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4833"
+    },
+    {
+      "id": 326,
+      "genus": "Rhizocarpon",
+      "name": "Rhizocarpon DC.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2375"
+    },
+    {
+      "id": 327,
+      "genus": "Rhizoplaca",
+      "name": "Rhizoplaca Zopf",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2474"
+    },
+    {
+      "id": 328,
+      "genus": "Ricasolia",
+      "name": "Ricasolia De Not.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4699"
+    },
+    {
+      "id": 329,
+      "genus": "Rimularia",
+      "name": "Rimularia Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7545"
+    },
+    {
+      "id": 330,
+      "genus": "Rinodina",
+      "name": "Rinodina (Ach.) Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1733"
+    },
+    {
+      "id": 331,
+      "genus": "Rinodinella",
+      "name": "Rinodinella H. Mayrhofer & Poelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1733"
+    },
+    {
+      "id": 332,
+      "genus": "Roccella",
+      "name": "Roccella DC.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6869"
+    },
+    {
+      "id": 333,
+      "genus": "Roccellographa",
+      "name": "Roccellographa J. Steiner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 334,
+      "genus": "Romjularia",
+      "name": "Romjularia Timdal",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2444"
+    },
+    {
+      "id": 335,
+      "genus": "Ropalospora",
+      "name": "Ropalospora A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4804"
+    },
+    {
+      "id": 336,
+      "genus": "Rostania",
+      "name": "Rostania Trevis.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 337,
+      "genus": "Rufoplaca",
+      "name": "Rufoplaca Arup, Søchting & Frödén",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 338,
+      "genus": "Rusavskia",
+      "name": "Rusavskia S.Y. Kondr. & Kärnefelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1605"
+    },
+    {
+      "id": 339,
+      "genus": "Sagedia",
+      "name": "Sagedia Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3321"
+    },
+    {
+      "id": 340,
+      "genus": "Sagiolechia",
+      "name": "Sagiolechia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1882"
+    },
+    {
+      "id": 457,
+      "genus": "Sanguineodiscus",
+      "name": "Sanguineodiscus I.V. Frolov & Vondrák",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 478,
+      "genus": "Santessoniella",
+      "name": "Santessoniella Henssen",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 341,
+      "genus": "Sarcogyne",
+      "name": "Sarcogyne Flot.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1583"
+    },
+    {
+      "id": 342,
+      "genus": "Sarcosagium",
+      "name": "Sarcosagium A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4858"
+    },
+    {
+      "id": 438,
+      "genus": "Sarea",
+      "name": "Sarea Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4858"
+    },
+    {
+      "id": 343,
+      "genus": "Schadonia",
+      "name": "Schadonia Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7544"
+    },
+    {
+      "id": 344,
+      "genus": "Schaereria",
+      "name": "Schaereria Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=15242"
+    },
+    {
+      "id": 345,
+      "genus": "Schismatomma",
+      "name": "Schismatomma A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7513"
+    },
+    {
+      "id": 479,
+      "genus": "Schizotrema",
+      "name": "Schizotrema Mangold & Lumbsch",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8528"
+    },
+    {
+      "id": 346,
+      "genus": "Sclerophora",
+      "name": "Sclerophora Chevall.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1750"
+    },
+    {
+      "id": 347,
+      "genus": "Scoliciosporum",
+      "name": "Scoliciosporum A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4625"
+    },
+    {
+      "id": 446,
+      "genus": "Scutula",
+      "name": "Scutula Tul.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=15385"
+    },
+    {
+      "id": 348,
+      "genus": "Scytinium",
+      "name": "Scytinium (Ach.) Gray",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1953"
+    },
+    {
+      "id": 349,
+      "genus": "Seirophora",
+      "name": "Seirophora Poelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1605"
+    },
+    {
+      "id": 442,
+      "genus": "Snippocia",
+      "name": "Snippocia Ertz, Kukwa & Sanderson",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 350,
+      "genus": "Solenopsora",
+      "name": "Solenopsora A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2223"
+    },
+    {
+      "id": 351,
+      "genus": "Solitaria",
+      "name": "Solitaria Arup, Søchting & Frödén",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 352,
+      "genus": "Solorina",
+      "name": "Solorina Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2443"
+    },
+    {
+      "id": 353,
+      "genus": "Sparria",
+      "name": "Sparria Ertz & Tehler",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 354,
+      "genus": "Sphaerophorus",
+      "name": "Sphaerophorus Pers.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 439,
+      "genus": "Sphinctrina",
+      "name": "Sphinctrina Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 355,
+      "genus": "Spilonema",
+      "name": "Spilonema Bornet",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4158"
+    },
+    {
+      "id": 356,
+      "genus": "Sporastatia",
+      "name": "Sporastatia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7506"
+    },
+    {
+      "id": 357,
+      "genus": "Sporodictyon",
+      "name": "Sporodictyon A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3218"
+    },
+    {
+      "id": 358,
+      "genus": "Sporodophoron",
+      "name": "Sporodophoron Frisch, Y. Ohmura, Ertz & G. Thor",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7513"
+    },
+    {
+      "id": 359,
+      "genus": "Squamarina",
+      "name": "Squamarina Poelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2442"
+    },
+    {
+      "id": 360,
+      "genus": "Squamulea",
+      "name": "Squamulea Arup, Søchting & Frödén",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 361,
+      "genus": "Staurolemma",
+      "name": "Staurolemma Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 362,
+      "genus": "Staurothele",
+      "name": "Staurothele Norman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3044"
+    },
+    {
+      "id": 363,
+      "genus": "Steinia",
+      "name": "Steinia Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 364,
+      "genus": "Stenhammarella",
+      "name": "Stenhammarella Hertel",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1868"
+    },
+    {
+      "id": 440,
+      "genus": "Stenocybe",
+      "name": "Stenocybe Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 365,
+      "genus": "Stereocaulon",
+      "name": "Stereocaulon Hoffm.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2977"
+    },
+    {
+      "id": 366,
+      "genus": "Sticta",
+      "name": "Sticta (Schreb.) Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4699"
+    },
+    {
+      "id": 533,
+      "genus": "Straminella",
+      "name": "Straminella M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=15943"
+    },
+    {
+      "id": 367,
+      "genus": "Strangospora",
+      "name": "Strangospora Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4858"
+    },
+    {
+      "id": 368,
+      "genus": "Strigula",
+      "name": "Strigula Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4110"
+    },
+    {
+      "id": 459,
+      "genus": "Swinscowia",
+      "name": "Swinscowia S.H. Jiang, Lücking & Sérus.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4110"
+    },
+    {
+      "id": 369,
+      "genus": "Synalissa",
+      "name": "Synalissa Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 507,
+      "genus": "Synalissina",
+      "name": "Synalissina Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 449,
+      "genus": "Synarthonia",
+      "name": "Synarthonia Müll.Arg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2731"
+    },
+    {
+      "id": 370,
+      "genus": "Syncesia",
+      "name": "Syncesia Taylor",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 371,
+      "genus": "Teloschistes",
+      "name": "Teloschistes Norman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1605"
+    },
+    {
+      "id": 372,
+      "genus": "Tephromela",
+      "name": "Tephromela M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=15136"
+    },
+    {
+      "id": 373,
+      "genus": "Tetramelas",
+      "name": "Tetramelas Norman",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1781"
+    },
+    {
+      "id": 447,
+      "genus": "Thalloidima",
+      "name": "Thalloidima A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6771"
+    },
+    {
+      "id": 374,
+      "genus": "Thamnolia",
+      "name": "Thamnolia Schaer.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9524"
+    },
+    {
+      "id": 375,
+      "genus": "Thelenella",
+      "name": "Thelenella Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4836"
+    },
+    {
+      "id": 480,
+      "genus": "Thelenidia",
+      "name": "Thelenidia Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1611"
+    },
+    {
+      "id": 376,
+      "genus": "Thelidium",
+      "name": "Thelidium A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3218"
+    },
+    {
+      "id": 377,
+      "genus": "Thelignya",
+      "name": "Thelignya A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 378,
+      "genus": "Thelocarpon",
+      "name": "Thelocarpon Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2009"
+    },
+    {
+      "id": 379,
+      "genus": "Thelomma",
+      "name": "Thelomma A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1619"
+    },
+    {
+      "id": 380,
+      "genus": "Thelopsis",
+      "name": "Thelopsis Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2967"
+    },
+    {
+      "id": 381,
+      "genus": "Thelotrema",
+      "name": "Thelotrema Ach.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7570"
+    },
+    {
+      "id": 382,
+      "genus": "Thermutis",
+      "name": "Thermutis Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4158"
+    },
+    {
+      "id": 383,
+      "genus": "Thrombium",
+      "name": "Thrombium Wallr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 384,
+      "genus": "Thyrea",
+      "name": "Thyrea A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 385,
+      "genus": "Timdalia",
+      "name": "Timdalia Hafellner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6334"
+    },
+    {
+      "id": 460,
+      "genus": "Tingiopsidium",
+      "name": "Tingiopsidium Werner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9323"
+    },
+    {
+      "id": 455,
+      "genus": "Toensbergia",
+      "name": "Toensbergia Bendiksby & Timdal",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4920"
+    },
+    {
+      "id": 441,
+      "genus": "Tomasellia",
+      "name": "Tomasellia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7656"
+    },
+    {
+      "id": 386,
+      "genus": "Toninia",
+      "name": "Toninia A. Massal.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6771"
+    },
+    {
+      "id": 448,
+      "genus": "Toniniopsis",
+      "name": "Toniniopsis Frey",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6771"
+    },
+    {
+      "id": 387,
+      "genus": "Topelia",
+      "name": "Topelia P.M. Jørg. & Vězda",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2967"
+    },
+    {
+      "id": 388,
+      "genus": "Tornabea",
+      "name": "Tornabea Østh.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6405"
+    },
+    {
+      "id": 389,
+      "genus": "Trapelia",
+      "name": "Trapelia M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3583"
+    },
+    {
+      "id": 390,
+      "genus": "Trapeliopsis",
+      "name": "Trapeliopsis Hertel & Gotth. Schneid.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=3583"
+    },
+    {
+      "id": 391,
+      "genus": "Tremolecia",
+      "name": "Tremolecia M. Choisy",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4893"
+    },
+    {
+      "id": 534,
+      "genus": "Trimmatothele",
+      "name": "Trimmatothele Norman ex Zahlbr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 500,
+      "genus": "Trimmatothelopsis",
+      "name": "Trimmatothelopsis Zschacke",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=6334"
+    },
+    {
+      "id": 519,
+      "genus": "Tsarenkoella",
+      "name": "Tsarenkoella S. Y. Kondr., Kärnefelt & A. Thell",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 393,
+      "genus": "Umbilicaria",
+      "name": "Umbilicaria Hoffm.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2246"
+    },
+    {
+      "id": 394,
+      "genus": "Usnea",
+      "name": "Usnea Adans.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=9475"
+    },
+    {
+      "id": 395,
+      "genus": "Usnochroma",
+      "name": "Usnochroma Søchting, Arup & Frödén",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 397,
+      "genus": "Vahliella",
+      "name": "Vahliella P.M. Jørg.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=16310"
+    },
+    {
+      "id": 398,
+      "genus": "Varicellaria",
+      "name": "Varicellaria Nyl.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1846"
+    },
+    {
+      "id": 399,
+      "genus": "Variospora",
+      "name": "Variospora Arup, Søchting & Frödén",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=15747"
+    },
+    {
+      "id": 400,
+      "genus": "Verrucaria",
+      "name": "Verrucaria Schrad.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 535,
+      "genus": "Verrucariopsis",
+      "name": "Verrucariopsis Gueidan, Monnat & Cl. Roux",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 401,
+      "genus": "Verrucula",
+      "name": "Verrucula J. Steiner",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 402,
+      "genus": "Verruculopsis",
+      "name": "Verruculopsis Gueidan, Nav.-Ros. & Cl. Roux",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5708"
+    },
+    {
+      "id": 536,
+      "genus": "Verseghya",
+      "name": "Verseghya S.Y. Kondr., Lőkös & Hur",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=8528"
+    },
+    {
+      "id": 404,
+      "genus": "Vezdaea",
+      "name": "Vezdaea Tscherm.-Woess & Poelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7489"
+    },
+    {
+      "id": 494,
+      "genus": "Villophora",
+      "name": "Villophora Søchting, Arup & Frödén",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 405,
+      "genus": "Violella",
+      "name": "Violella T. Sprib.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7575"
+    },
+    {
+      "id": 407,
+      "genus": "Wadeana",
+      "name": "Wadeana Coppins & P. James",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4705"
+    },
+    {
+      "id": 408,
+      "genus": "Waynea",
+      "name": "Waynea Moberg",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=7488"
+    },
+    {
+      "id": 409,
+      "genus": "Xalocoa",
+      "name": "Xalocoa Kraichak, Lücking & Lumbsch",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2963"
+    },
+    {
+      "id": 410,
+      "genus": "Xanthocarpia",
+      "name": "Xanthocarpia A. Massal. & De Not.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2040"
+    },
+    {
+      "id": 411,
+      "genus": "Xanthomendoza",
+      "name": "Xanthomendoza S.Y. Kondr. & Kärnefelt",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1605"
+    },
+    {
+      "id": 412,
+      "genus": "Xanthoparmelia",
+      "name": "Xanthoparmelia (Vain.) Hale",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1593"
+    },
+    {
+      "id": 413,
+      "genus": "Xanthoria",
+      "name": "Xanthoria (Fr.) Th. Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=1605"
+    },
+    {
+      "id": 504,
+      "genus": "Xanthosyne",
+      "name": "Xanthosyne Lendemer, R.C. Harris, Brodo & McMullin",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5181"
+    },
+    {
+      "id": 414,
+      "genus": "Xylographa",
+      "name": "Xylographa (Fr.) Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4705"
+    },
+    {
+      "id": 415,
+      "genus": "Xylopsora",
+      "name": "Xylopsora Bendiksby & Timdal",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4920"
+    },
+    {
+      "id": 416,
+      "genus": "Zahlbrucknerella",
+      "name": "Zahlbrucknerella Herre",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=5546"
+    },
+    {
+      "id": 532,
+      "genus": "Zeora",
+      "name": "Zeora Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=15944"
+    },
+    {
+      "id": 417,
+      "genus": "Zwackhia",
+      "name": "Zwackhia Körb.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=2869"
+    },
+    {
+      "id": 465,
+      "genus": "Zythia",
+      "name": "Zythia Fr.",
+      "url": "https://italic.units.it/flora/index.php?procedure=ext_key_home&key_id=4858"
+    }
+  ]
+}

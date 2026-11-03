@@ -1,0 +1,1858 @@
+{
+  "schemaVersion": 1,
+  "id": "italic-physcia-reconstructed-v1",
+  "genus": "Physcia",
+  "title": "Physcia · bivi ricostruiti",
+  "root": "lead_1504",
+  "status": "reconstructed_key_conditions",
+  "source": {
+    "fullKeyUrl": "https://italic.units.it/api/v1/full-key",
+    "keyUrl": "https://italic.units.it/key-maker/dc7ee764-79a3-11ef-aabf-000c2978584b/nodes/1/interactive",
+    "keyId": "dc7ee764-79a3-11ef-aabf-000c2978584b",
+    "sha256": "36edf3b62cf6b70ee73cb4f0c906f07463c07597b966e744dad43a051619d6f0",
+    "accessedOn": "2026-11-02",
+    "citation": "Nimis P.L. (2026), The lichens of Italy – An interactive guide; Conti M., Martellos S., Nimis P.L. (2026), ITALIC Keymaker.",
+    "adaptation": "Sintesi italiana dei caratteri; ordine dei bivi ricostruito dalla fonte. Non è una chiave validata da ITALIC."
+  },
+  "diagnostics": {
+    "duplicateImageVariants": [
+      947,
+      5796,
+      6283,
+      6723,
+      6831
+    ],
+    "unavailableRecords": [
+      "4184"
+    ]
+  },
+  "taxa": [
+    {
+      "italicId": 1717,
+      "scientificName": "Physcia adscendens H. Olivier"
+    },
+    {
+      "italicId": 1718,
+      "scientificName": "Physcia aipolia (Humb.) Fürnr."
+    },
+    {
+      "italicId": 1719,
+      "scientificName": "Physcia albinea (Ach.) Nyl."
+    },
+    {
+      "italicId": 1720,
+      "scientificName": "Physcia aipolioides (Nádv.) Breuss & Türk"
+    },
+    {
+      "italicId": 1721,
+      "scientificName": "Physcia biziana var. leptophylla Vězda"
+    },
+    {
+      "italicId": 1722,
+      "scientificName": "Physcia biziana var. phyllidiata Poelt & Vězda"
+    },
+    {
+      "italicId": 1723,
+      "scientificName": "Physcia caesia (Hoffm.) Fürnr. var. caesia"
+    },
+    {
+      "italicId": 1724,
+      "scientificName": "Physcia subalbinea Nyl."
+    },
+    {
+      "italicId": 1725,
+      "scientificName": "Physcia caesia var. rhaetica Frey"
+    },
+    {
+      "italicId": 1726,
+      "scientificName": "Physcia clementei (Turner) Lynge"
+    },
+    {
+      "italicId": 1727,
+      "scientificName": "Physcia dimidiata (Arnold) Nyl."
+    },
+    {
+      "italicId": 1728,
+      "scientificName": "Physcia dubia (Hoffm.) Lettau"
+    },
+    {
+      "italicId": 1729,
+      "scientificName": "Physcia erumpens Moberg"
+    },
+    {
+      "italicId": 1730,
+      "scientificName": "Physcia leptalea (Ach.) DC."
+    },
+    {
+      "italicId": 1731,
+      "scientificName": "Physcia magnussonii Frey"
+    },
+    {
+      "italicId": 1732,
+      "scientificName": "Physcia mediterranea Nimis"
+    },
+    {
+      "italicId": 1733,
+      "scientificName": "Physcia phaea (Tuck.) J.W. Thomson"
+    },
+    {
+      "italicId": 1734,
+      "scientificName": "Physcia stellaris (L.) Nyl."
+    },
+    {
+      "italicId": 1735,
+      "scientificName": "Physcia tenella (Scop.) DC."
+    },
+    {
+      "italicId": 1736,
+      "scientificName": "Physcia tribacia (Ach.) Nyl."
+    },
+    {
+      "italicId": 1737,
+      "scientificName": "Physcia tribacioides Nyl."
+    },
+    {
+      "italicId": 1738,
+      "scientificName": "Physcia vitii Nádv."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "lead_1504",
+      "sourceLeadIds": [
+        0,
+        2,
+        24,
+        40,
+        725,
+        728,
+        1300,
+        1364,
+        1390,
+        1486,
+        1504
+      ],
+      "officialNode": 1,
+      "choices": [
+        {
+          "target": "lead_1507",
+          "sourceLeadId": 1507,
+          "sourceLeadIds": [
+            1507
+          ],
+          "label": "Soredi e isidi assenti",
+          "bindings": {
+            "soredia": "absent",
+            "isidia": "absent"
+          }
+        },
+        {
+          "target": "lead_1676",
+          "sourceLeadId": 1508,
+          "sourceLeadIds": [
+            1508,
+            1676
+          ],
+          "label": "Soredi, isidi oppure tallo con lobuli fitti e sovrapposti",
+          "note": "Alternativa composta: non conferma da sola la presenza di veri isidi o di soredi.",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "id": "lead_1507",
+      "sourceLeadIds": [
+        1507
+      ],
+      "officialNode": 2,
+      "choices": [
+        {
+          "target": "lead_1513",
+          "sourceLeadId": 1509,
+          "sourceLeadIds": [
+            1509,
+            1511,
+            1513
+          ],
+          "label": "Lobi stretti, poco aderenti, con ciglia marginali evidenti",
+          "bindings": {
+            "cilia": "present"
+          }
+        },
+        {
+          "target": "lead_1517",
+          "sourceLeadId": 1510,
+          "sourceLeadIds": [
+            1510,
+            1517
+          ],
+          "label": "Ciglia marginali mancanti; se brevi e poco visibili, lobi larghi e aderenti",
+          "note": "La condizione ammette anche ciglia poco appariscenti: non viene codificata come assenza assoluta.",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1509,
+        1511,
+        1513
+      ],
+      "taxonId": 1730,
+      "scientificName": "Physcia leptalea (Ach.) DC.",
+      "recordId": "1379",
+      "id": "lead_1513",
+      "choices": []
+    },
+    {
+      "id": "lead_1517",
+      "sourceLeadIds": [
+        1510,
+        1517
+      ],
+      "officialNode": 3,
+      "choices": [
+        {
+          "target": "lead_1532",
+          "sourceLeadId": 1519,
+          "sourceLeadIds": [
+            1519,
+            1522,
+            1524,
+            1530,
+            1532
+          ],
+          "label": "Campione su roccia",
+          "bindings": {}
+        },
+        {
+          "target": "lead_1544",
+          "sourceLeadId": 1520,
+          "sourceLeadIds": [
+            1520,
+            1542,
+            1544
+          ],
+          "label": "Campione su corteccia o legno",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "id": "lead_1532",
+      "sourceLeadIds": [
+        1519,
+        1522,
+        1524,
+        1530,
+        1532
+      ],
+      "officialNode": 4,
+      "choices": [
+        {
+          "target": "lead_1535",
+          "sourceLeadId": 1535,
+          "sourceLeadIds": [
+            1535
+          ],
+          "label": "Medulla K+ gialla e superficie con macule bianche",
+          "bindings": {
+            "upper_surface_maculation": "present"
+          }
+        },
+        {
+          "target": "lead_1536",
+          "sourceLeadId": 1536,
+          "sourceLeadIds": [
+            1536
+          ],
+          "label": "Medulla K− e superficie senza macule",
+          "bindings": {
+            "upper_surface_maculation": "absent"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lead_1535",
+      "sourceLeadIds": [
+        1535
+      ],
+      "officialNode": 5,
+      "choices": [
+        {
+          "target": "lead_1537",
+          "sourceLeadId": 1537,
+          "sourceLeadIds": [
+            1537
+          ],
+          "label": "Tallo chiaro; ambiente mediterraneo, soprattutto costiero",
+          "bindings": {}
+        },
+        {
+          "target": "lead_1538",
+          "sourceLeadId": 1538,
+          "sourceLeadIds": [
+            1538
+          ],
+          "label": "Tallo grigio, anche scuro al centro; ambiente montano o alpino",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1537
+      ],
+      "taxonId": 1732,
+      "scientificName": "Physcia mediterranea Nimis",
+      "recordId": "3091",
+      "id": "lead_1537",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1538
+      ],
+      "taxonId": 1733,
+      "scientificName": "Physcia phaea (Tuck.) J.W. Thomson",
+      "recordId": "1404",
+      "id": "lead_1538",
+      "choices": []
+    },
+    {
+      "id": "lead_1536",
+      "sourceLeadIds": [
+        1536
+      ],
+      "officialNode": 6,
+      "choices": [
+        {
+          "target": "lead_1539",
+          "sourceLeadId": 1539,
+          "sourceLeadIds": [
+            1539
+          ],
+          "label": "Pruina abbondante e parete delle ascospore verrucosa",
+          "bindings": {
+            "upper_surface_pruina": "present"
+          }
+        },
+        {
+          "target": "lead_1540",
+          "sourceLeadId": 1540,
+          "sourceLeadIds": [
+            1540
+          ],
+          "label": "Pruina assente e ascospore senza verruche",
+          "bindings": {
+            "upper_surface_pruina": "absent"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1539
+      ],
+      "taxonId": 1731,
+      "scientificName": "Physcia magnussonii Frey",
+      "recordId": "1405",
+      "id": "lead_1539",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1540
+      ],
+      "taxonId": 1719,
+      "scientificName": "Physcia albinea (Ach.) Nyl.",
+      "recordId": "1141",
+      "id": "lead_1540",
+      "choices": []
+    },
+    {
+      "id": "lead_1544",
+      "sourceLeadIds": [
+        1520,
+        1542,
+        1544
+      ],
+      "officialNode": 7,
+      "choices": [
+        {
+          "target": "lead_1547",
+          "sourceLeadId": 1547,
+          "sourceLeadIds": [
+            1547
+          ],
+          "label": "Medulla K+ gialla; macule bianche sul tallo",
+          "bindings": {
+            "upper_surface_maculation": "present"
+          }
+        },
+        {
+          "target": "lead_1548",
+          "sourceLeadId": 1548,
+          "sourceLeadIds": [
+            1548
+          ],
+          "label": "Medulla K−; tallo privo di macule",
+          "bindings": {
+            "upper_surface_maculation": "absent"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1547
+      ],
+      "taxonId": 1718,
+      "scientificName": "Physcia aipolia (Humb.) Fürnr.",
+      "recordId": "580",
+      "id": "lead_1547",
+      "choices": []
+    },
+    {
+      "id": "lead_1548",
+      "sourceLeadIds": [
+        1548
+      ],
+      "officialNode": 8,
+      "choices": [
+        {
+          "target": "lead_1549",
+          "sourceLeadId": 1549,
+          "sourceLeadIds": [
+            1549
+          ],
+          "label": "Lobi senza pruina, da piatti a convessi",
+          "bindings": {
+            "upper_surface_pruina": "absent"
+          }
+        },
+        {
+          "target": "lead_1550",
+          "sourceLeadId": 1550,
+          "sourceLeadIds": [
+            1550
+          ],
+          "label": "Pruina bianca fine su tutti i lobi; apici spesso concavi",
+          "bindings": {
+            "upper_surface_pruina": "present"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1549
+      ],
+      "taxonId": 1734,
+      "scientificName": "Physcia stellaris (L.) Nyl.",
+      "recordId": "1140",
+      "id": "lead_1549",
+      "choices": []
+    },
+    {
+      "id": "lead_1550",
+      "sourceLeadIds": [
+        1550
+      ],
+      "officialNode": 9,
+      "choices": [
+        {
+          "target": "lead_1551",
+          "sourceLeadId": 1551,
+          "sourceLeadIds": [
+            1551
+          ],
+          "label": "Molti lobuli; apoteci scarsi o mancanti",
+          "note": "Apoteci scarsi non significa apoteci assenti nella specie.",
+          "bindings": {}
+        },
+        {
+          "target": "lead_1552",
+          "sourceLeadId": 1552,
+          "sourceLeadIds": [
+            1552
+          ],
+          "label": "Apoteci frequenti; lobuli scarsi o mancanti",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1551
+      ],
+      "taxonId": 1721,
+      "scientificName": "Physcia biziana var. leptophylla Vězda",
+      "recordId": "3086",
+      "id": "lead_1551",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1552
+      ],
+      "taxonId": 1720,
+      "scientificName": "Physcia aipolioides (Nádv.) Breuss & Türk",
+      "recordId": "1403",
+      "id": "lead_1552",
+      "choices": []
+    },
+    {
+      "id": "lead_1676",
+      "sourceLeadIds": [
+        1508,
+        1676
+      ],
+      "officialNode": 10,
+      "choices": [
+        {
+          "target": "lead_1734",
+          "sourceLeadId": 1721,
+          "sourceLeadIds": [
+            1721,
+            1723,
+            1726,
+            1731,
+            1734
+          ],
+          "label": "Senza soredi, con isidi, fillidi oppure tallo panniforme",
+          "note": "Isidi, fillidi e tallo panniforme sono alternative; non vengono assimilati tra loro.",
+          "bindings": {
+            "soredia": "absent"
+          }
+        },
+        {
+          "target": "lead_1820",
+          "sourceLeadId": 1722,
+          "sourceLeadIds": [
+            1722,
+            1798,
+            1817,
+            1820
+          ],
+          "label": "Soredi presenti, talvolta insieme a escrescenze isidioidi",
+          "bindings": {
+            "soredia": "present"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lead_1734",
+      "sourceLeadIds": [
+        1721,
+        1723,
+        1726,
+        1731,
+        1734
+      ],
+      "officialNode": 11,
+      "choices": [
+        {
+          "target": "lead_1735",
+          "sourceLeadId": 1735,
+          "sourceLeadIds": [
+            1735
+          ],
+          "label": "Medulla K−; pruina e fillidi o lobuli avventizi",
+          "bindings": {
+            "upper_surface_pruina": "present"
+          }
+        },
+        {
+          "target": "lead_1740",
+          "sourceLeadId": 1736,
+          "sourceLeadIds": [
+            1736,
+            1740
+          ],
+          "label": "Medulla K+ gialla; senza pruina, fillidi e lobuli",
+          "bindings": {
+            "upper_surface_pruina": "absent"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lead_1735",
+      "sourceLeadIds": [
+        1735
+      ],
+      "officialNode": 12,
+      "choices": [
+        {
+          "target": "lead_1737",
+          "sourceLeadId": 1737,
+          "sourceLeadIds": [
+            1737
+          ],
+          "label": "Pruina su tutto il tallo; fillidi centrali con base ristretta; soprattutto su roccia",
+          "bindings": {
+            "upper_surface_pruina": "present"
+          }
+        },
+        {
+          "target": "lead_1738",
+          "sourceLeadId": 1738,
+          "sourceLeadIds": [
+            1738
+          ],
+          "label": "Pruina spesso solo al margine; lobuli robusti soprattutto marginali; principalmente su corteccia",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1737
+      ],
+      "taxonId": 1722,
+      "scientificName": "Physcia biziana var. phyllidiata Poelt & Vězda",
+      "recordId": "3087",
+      "id": "lead_1737",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1738
+      ],
+      "taxonId": 1721,
+      "scientificName": "Physcia biziana var. leptophylla Vězda",
+      "recordId": "4183",
+      "id": "lead_1738",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1736,
+        1740
+      ],
+      "taxonId": 1726,
+      "scientificName": "Physcia clementei (Turner) Lynge",
+      "recordId": "1408",
+      "id": "lead_1740",
+      "choices": []
+    },
+    {
+      "id": "lead_1820",
+      "sourceLeadIds": [
+        1722,
+        1798,
+        1817,
+        1820
+      ],
+      "officialNode": 13,
+      "choices": [
+        {
+          "target": "lead_1846",
+          "sourceLeadId": 1839,
+          "sourceLeadIds": [
+            1839,
+            1842,
+            1844,
+            1846
+          ],
+          "label": "Ciglia presenti sul margine dei lobi",
+          "bindings": {
+            "cilia": "present"
+          }
+        },
+        {
+          "target": "lead_1840",
+          "sourceLeadId": 1840,
+          "sourceLeadIds": [
+            1840
+          ],
+          "label": "Margini senza ciglia, anche con rizine sporgenti",
+          "bindings": {
+            "cilia": "absent"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lead_1846",
+      "sourceLeadIds": [
+        1839,
+        1842,
+        1844,
+        1846
+      ],
+      "officialNode": 14,
+      "choices": [
+        {
+          "target": "lead_1847",
+          "sourceLeadId": 1847,
+          "sourceLeadIds": [
+            1847
+          ],
+          "label": "Sorali a cappuccio",
+          "bindings": {
+            "soralia_shape": "hood"
+          }
+        },
+        {
+          "target": "lead_1848",
+          "sourceLeadId": 1848,
+          "sourceLeadIds": [
+            1848
+          ],
+          "label": "Sorali a labbro",
+          "bindings": {
+            "soralia_shape": "labriform"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1847
+      ],
+      "taxonId": 1717,
+      "scientificName": "Physcia adscendens H. Olivier",
+      "recordId": "581",
+      "id": "lead_1847",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1848
+      ],
+      "taxonId": 1735,
+      "scientificName": "Physcia tenella (Scop.) DC.",
+      "recordId": "1378",
+      "id": "lead_1848",
+      "choices": []
+    },
+    {
+      "id": "lead_1840",
+      "sourceLeadIds": [
+        1840
+      ],
+      "officialNode": 15,
+      "choices": [
+        {
+          "target": "lead_1852",
+          "sourceLeadId": 1849,
+          "sourceLeadIds": [
+            1849,
+            1852
+          ],
+          "label": "Campione su corteccia o legno",
+          "bindings": {}
+        },
+        {
+          "target": "lead_1850",
+          "sourceLeadId": 1850,
+          "sourceLeadIds": [
+            1850
+          ],
+          "label": "Campione su roccia",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "id": "lead_1852",
+      "sourceLeadIds": [
+        1849,
+        1852
+      ],
+      "officialNode": 16,
+      "choices": [
+        {
+          "target": "lead_1865",
+          "sourceLeadId": 1865,
+          "sourceLeadIds": [
+            1865
+          ],
+          "label": "Lobi ascendenti e sorali a cappuccio",
+          "bindings": {
+            "lobe_posture": "ascending",
+            "soralia_shape": "hood"
+          }
+        },
+        {
+          "target": "lead_1872",
+          "sourceLeadId": 1866,
+          "sourceLeadIds": [
+            1866,
+            1868,
+            1872
+          ],
+          "label": "Lobi appressati; sorali diffusi, a macchia, a labbro o capitati",
+          "bindings": {
+            "lobe_posture": "adpressed"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1865
+      ],
+      "taxonId": 1738,
+      "scientificName": "Physcia vitii Nádv.",
+      "recordId": "3092",
+      "id": "lead_1865",
+      "choices": []
+    },
+    {
+      "id": "lead_1872",
+      "sourceLeadIds": [
+        1866,
+        1868,
+        1872
+      ],
+      "officialNode": 17,
+      "choices": [
+        {
+          "target": "lead_1875",
+          "sourceLeadId": 1873,
+          "sourceLeadIds": [
+            1873,
+            1875
+          ],
+          "label": "Sorali a labbro",
+          "bindings": {
+            "soralia_shape": "labriform"
+          }
+        },
+        {
+          "target": "lead_1874",
+          "sourceLeadId": 1874,
+          "sourceLeadIds": [
+            1874
+          ],
+          "label": "Sorali di forma diversa da un labbro",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1873,
+        1875
+      ],
+      "taxonId": 1728,
+      "scientificName": "Physcia dubia (Hoffm.) Lettau",
+      "recordId": "4187",
+      "id": "lead_1875",
+      "choices": []
+    },
+    {
+      "id": "lead_1874",
+      "sourceLeadIds": [
+        1874
+      ],
+      "officialNode": 18,
+      "choices": [
+        {
+          "target": "lead_1877",
+          "sourceLeadId": 1877,
+          "sourceLeadIds": [
+            1877
+          ],
+          "label": "Pustule isidioidi fitte al centro, poi soredi granulari diffusi",
+          "note": "Pustule isidioidi non equivalgono automaticamente a veri isidi.",
+          "bindings": {
+            "soredia": "present"
+          }
+        },
+        {
+          "target": "lead_1880",
+          "sourceLeadId": 1878,
+          "sourceLeadIds": [
+            1878,
+            1880
+          ],
+          "label": "Pustule isidioidi assenti; sorali circolari",
+          "bindings": {
+            "soralia_shape": "orbicular"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1877
+      ],
+      "taxonId": 1726,
+      "scientificName": "Physcia clementei (Turner) Lynge",
+      "recordId": "3397",
+      "id": "lead_1877",
+      "choices": []
+    },
+    {
+      "id": "lead_1880",
+      "sourceLeadIds": [
+        1878,
+        1880
+      ],
+      "officialNode": 19,
+      "choices": [
+        {
+          "target": "lead_1881",
+          "sourceLeadId": 1881,
+          "sourceLeadIds": [
+            1881
+          ],
+          "label": "Pagina inferiore nera; sorali inizialmente a cratere, talvolta poi capitati",
+          "note": "La forma cambia durante lo sviluppo: viene conservata la sequenza.",
+          "bindings": {
+            "lower_surface_colour": "black"
+          }
+        },
+        {
+          "target": "lead_1882",
+          "sourceLeadId": 1882,
+          "sourceLeadIds": [
+            1882
+          ],
+          "label": "Pagina inferiore soprattutto chiara; sorali presto molto convessi",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1881
+      ],
+      "taxonId": 1729,
+      "scientificName": "Physcia erumpens Moberg",
+      "recordId": "3250",
+      "id": "lead_1881",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1882
+      ],
+      "taxonId": 1737,
+      "scientificName": "Physcia tribacioides Nyl.",
+      "recordId": "1407",
+      "id": "lead_1882",
+      "choices": []
+    },
+    {
+      "id": "lead_1850",
+      "sourceLeadIds": [
+        1850
+      ],
+      "officialNode": 20,
+      "choices": [
+        {
+          "target": "lead_1883",
+          "sourceLeadId": 1883,
+          "sourceLeadIds": [
+            1883
+          ],
+          "label": "Medulla giallo-arancio, con reazione K+ rossa",
+          "bindings": {}
+        },
+        {
+          "target": "lead_1884",
+          "sourceLeadId": 1884,
+          "sourceLeadIds": [
+            1884
+          ],
+          "label": "Medulla bianca; reazione K− oppure K+ gialla",
+          "bindings": {
+            "medulla_colour": "white"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1883
+      ],
+      "taxonId": 1725,
+      "scientificName": "Physcia caesia var. rhaetica Frey",
+      "recordId": "2960",
+      "id": "lead_1883",
+      "choices": []
+    },
+    {
+      "id": "lead_1884",
+      "sourceLeadIds": [
+        1884
+      ],
+      "officialNode": 21,
+      "choices": [
+        {
+          "target": "lead_1885",
+          "sourceLeadId": 1885,
+          "sourceLeadIds": [
+            1885
+          ],
+          "label": "Medulla K−",
+          "bindings": {}
+        },
+        {
+          "target": "lead_1886",
+          "sourceLeadId": 1886,
+          "sourceLeadIds": [
+            1886
+          ],
+          "label": "Medulla K+ gialla",
+          "bindings": {}
+        }
+      ]
+    },
+    {
+      "id": "lead_1885",
+      "sourceLeadIds": [
+        1885
+      ],
+      "officialNode": 22,
+      "choices": [
+        {
+          "target": "lead_1887",
+          "sourceLeadId": 1887,
+          "sourceLeadIds": [
+            1887
+          ],
+          "label": "Sorali apicali, a labbro",
+          "bindings": {
+            "soralia_position": "terminal",
+            "soralia_shape": "labriform"
+          }
+        },
+        {
+          "target": "lead_1888",
+          "sourceLeadId": 1888,
+          "sourceLeadIds": [
+            1888
+          ],
+          "label": "Sorali soprattutto lungo il margine",
+          "bindings": {
+            "soralia_position": "marginal"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1887
+      ],
+      "taxonId": 1728,
+      "scientificName": "Physcia dubia (Hoffm.) Lettau",
+      "recordId": "1409",
+      "id": "lead_1887",
+      "choices": []
+    },
+    {
+      "id": "lead_1888",
+      "sourceLeadIds": [
+        1888
+      ],
+      "officialNode": 23,
+      "choices": [
+        {
+          "target": "lead_1889",
+          "sourceLeadId": 1889,
+          "sourceLeadIds": [
+            1889
+          ],
+          "label": "Pruina fine e abbondante; corteccia inferiore prosoplectenchimatica",
+          "bindings": {
+            "upper_surface_pruina": "present"
+          }
+        },
+        {
+          "target": "lead_1890",
+          "sourceLeadId": 1890,
+          "sourceLeadIds": [
+            1890
+          ],
+          "label": "Pruina assente; corteccia inferiore paraplectenchimatica",
+          "bindings": {
+            "upper_surface_pruina": "absent"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1889
+      ],
+      "taxonId": 1727,
+      "scientificName": "Physcia dimidiata (Arnold) Nyl.",
+      "recordId": "1410",
+      "id": "lead_1889",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1890
+      ],
+      "taxonId": 1736,
+      "scientificName": "Physcia tribacia (Ach.) Nyl.",
+      "recordId": "1411",
+      "id": "lead_1890",
+      "choices": []
+    },
+    {
+      "id": "lead_1886",
+      "sourceLeadIds": [
+        1886
+      ],
+      "officialNode": 24,
+      "choices": [
+        {
+          "target": "lead_1891",
+          "sourceLeadId": 1891,
+          "sourceLeadIds": [
+            1891
+          ],
+          "label": "Sorali a labbro",
+          "bindings": {
+            "soralia_shape": "labriform"
+          }
+        },
+        {
+          "target": "lead_1892",
+          "sourceLeadId": 1892,
+          "sourceLeadIds": [
+            1892
+          ],
+          "label": "Sorali capitati",
+          "bindings": {
+            "soralia_shape": "capitate"
+          }
+        }
+      ]
+    },
+    {
+      "sourceLeadIds": [
+        1891
+      ],
+      "taxonId": 1724,
+      "scientificName": "Physcia subalbinea Nyl.",
+      "recordId": "1406",
+      "id": "lead_1891",
+      "choices": []
+    },
+    {
+      "sourceLeadIds": [
+        1892
+      ],
+      "taxonId": 1723,
+      "scientificName": "Physcia caesia (Hoffm.) Fürnr. var. caesia",
+      "recordId": "1139",
+      "id": "lead_1892",
+      "choices": []
+    }
+  ],
+  "paths": [
+    {
+      "taxonId": 1730,
+      "occurrenceId": "lead_1513",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1513"
+        }
+      ]
+    },
+    {
+      "taxonId": 1732,
+      "occurrenceId": "lead_1537",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1517"
+        },
+        {
+          "node": "lead_1517",
+          "target": "lead_1532"
+        },
+        {
+          "node": "lead_1532",
+          "target": "lead_1535"
+        },
+        {
+          "node": "lead_1535",
+          "target": "lead_1537"
+        }
+      ]
+    },
+    {
+      "taxonId": 1733,
+      "occurrenceId": "lead_1538",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1517"
+        },
+        {
+          "node": "lead_1517",
+          "target": "lead_1532"
+        },
+        {
+          "node": "lead_1532",
+          "target": "lead_1535"
+        },
+        {
+          "node": "lead_1535",
+          "target": "lead_1538"
+        }
+      ]
+    },
+    {
+      "taxonId": 1731,
+      "occurrenceId": "lead_1539",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1517"
+        },
+        {
+          "node": "lead_1517",
+          "target": "lead_1532"
+        },
+        {
+          "node": "lead_1532",
+          "target": "lead_1536"
+        },
+        {
+          "node": "lead_1536",
+          "target": "lead_1539"
+        }
+      ]
+    },
+    {
+      "taxonId": 1719,
+      "occurrenceId": "lead_1540",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1517"
+        },
+        {
+          "node": "lead_1517",
+          "target": "lead_1532"
+        },
+        {
+          "node": "lead_1532",
+          "target": "lead_1536"
+        },
+        {
+          "node": "lead_1536",
+          "target": "lead_1540"
+        }
+      ]
+    },
+    {
+      "taxonId": 1718,
+      "occurrenceId": "lead_1547",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1517"
+        },
+        {
+          "node": "lead_1517",
+          "target": "lead_1544"
+        },
+        {
+          "node": "lead_1544",
+          "target": "lead_1547"
+        }
+      ]
+    },
+    {
+      "taxonId": 1734,
+      "occurrenceId": "lead_1549",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1517"
+        },
+        {
+          "node": "lead_1517",
+          "target": "lead_1544"
+        },
+        {
+          "node": "lead_1544",
+          "target": "lead_1548"
+        },
+        {
+          "node": "lead_1548",
+          "target": "lead_1549"
+        }
+      ]
+    },
+    {
+      "taxonId": 1721,
+      "occurrenceId": "lead_1551",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1517"
+        },
+        {
+          "node": "lead_1517",
+          "target": "lead_1544"
+        },
+        {
+          "node": "lead_1544",
+          "target": "lead_1548"
+        },
+        {
+          "node": "lead_1548",
+          "target": "lead_1550"
+        },
+        {
+          "node": "lead_1550",
+          "target": "lead_1551"
+        }
+      ]
+    },
+    {
+      "taxonId": 1720,
+      "occurrenceId": "lead_1552",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1507"
+        },
+        {
+          "node": "lead_1507",
+          "target": "lead_1517"
+        },
+        {
+          "node": "lead_1517",
+          "target": "lead_1544"
+        },
+        {
+          "node": "lead_1544",
+          "target": "lead_1548"
+        },
+        {
+          "node": "lead_1548",
+          "target": "lead_1550"
+        },
+        {
+          "node": "lead_1550",
+          "target": "lead_1552"
+        }
+      ]
+    },
+    {
+      "taxonId": 1722,
+      "occurrenceId": "lead_1737",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1734"
+        },
+        {
+          "node": "lead_1734",
+          "target": "lead_1735"
+        },
+        {
+          "node": "lead_1735",
+          "target": "lead_1737"
+        }
+      ]
+    },
+    {
+      "taxonId": 1721,
+      "occurrenceId": "lead_1738",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1734"
+        },
+        {
+          "node": "lead_1734",
+          "target": "lead_1735"
+        },
+        {
+          "node": "lead_1735",
+          "target": "lead_1738"
+        }
+      ]
+    },
+    {
+      "taxonId": 1726,
+      "occurrenceId": "lead_1740",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1734"
+        },
+        {
+          "node": "lead_1734",
+          "target": "lead_1740"
+        }
+      ]
+    },
+    {
+      "taxonId": 1717,
+      "occurrenceId": "lead_1847",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1846"
+        },
+        {
+          "node": "lead_1846",
+          "target": "lead_1847"
+        }
+      ]
+    },
+    {
+      "taxonId": 1735,
+      "occurrenceId": "lead_1848",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1846"
+        },
+        {
+          "node": "lead_1846",
+          "target": "lead_1848"
+        }
+      ]
+    },
+    {
+      "taxonId": 1738,
+      "occurrenceId": "lead_1865",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1852"
+        },
+        {
+          "node": "lead_1852",
+          "target": "lead_1865"
+        }
+      ]
+    },
+    {
+      "taxonId": 1728,
+      "occurrenceId": "lead_1875",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1852"
+        },
+        {
+          "node": "lead_1852",
+          "target": "lead_1872"
+        },
+        {
+          "node": "lead_1872",
+          "target": "lead_1875"
+        }
+      ]
+    },
+    {
+      "taxonId": 1726,
+      "occurrenceId": "lead_1877",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1852"
+        },
+        {
+          "node": "lead_1852",
+          "target": "lead_1872"
+        },
+        {
+          "node": "lead_1872",
+          "target": "lead_1874"
+        },
+        {
+          "node": "lead_1874",
+          "target": "lead_1877"
+        }
+      ]
+    },
+    {
+      "taxonId": 1729,
+      "occurrenceId": "lead_1881",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1852"
+        },
+        {
+          "node": "lead_1852",
+          "target": "lead_1872"
+        },
+        {
+          "node": "lead_1872",
+          "target": "lead_1874"
+        },
+        {
+          "node": "lead_1874",
+          "target": "lead_1880"
+        },
+        {
+          "node": "lead_1880",
+          "target": "lead_1881"
+        }
+      ]
+    },
+    {
+      "taxonId": 1737,
+      "occurrenceId": "lead_1882",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1852"
+        },
+        {
+          "node": "lead_1852",
+          "target": "lead_1872"
+        },
+        {
+          "node": "lead_1872",
+          "target": "lead_1874"
+        },
+        {
+          "node": "lead_1874",
+          "target": "lead_1880"
+        },
+        {
+          "node": "lead_1880",
+          "target": "lead_1882"
+        }
+      ]
+    },
+    {
+      "taxonId": 1725,
+      "occurrenceId": "lead_1883",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1850"
+        },
+        {
+          "node": "lead_1850",
+          "target": "lead_1883"
+        }
+      ]
+    },
+    {
+      "taxonId": 1728,
+      "occurrenceId": "lead_1887",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1850"
+        },
+        {
+          "node": "lead_1850",
+          "target": "lead_1884"
+        },
+        {
+          "node": "lead_1884",
+          "target": "lead_1885"
+        },
+        {
+          "node": "lead_1885",
+          "target": "lead_1887"
+        }
+      ]
+    },
+    {
+      "taxonId": 1727,
+      "occurrenceId": "lead_1889",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1850"
+        },
+        {
+          "node": "lead_1850",
+          "target": "lead_1884"
+        },
+        {
+          "node": "lead_1884",
+          "target": "lead_1885"
+        },
+        {
+          "node": "lead_1885",
+          "target": "lead_1888"
+        },
+        {
+          "node": "lead_1888",
+          "target": "lead_1889"
+        }
+      ]
+    },
+    {
+      "taxonId": 1736,
+      "occurrenceId": "lead_1890",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1850"
+        },
+        {
+          "node": "lead_1850",
+          "target": "lead_1884"
+        },
+        {
+          "node": "lead_1884",
+          "target": "lead_1885"
+        },
+        {
+          "node": "lead_1885",
+          "target": "lead_1888"
+        },
+        {
+          "node": "lead_1888",
+          "target": "lead_1890"
+        }
+      ]
+    },
+    {
+      "taxonId": 1724,
+      "occurrenceId": "lead_1891",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1850"
+        },
+        {
+          "node": "lead_1850",
+          "target": "lead_1884"
+        },
+        {
+          "node": "lead_1884",
+          "target": "lead_1886"
+        },
+        {
+          "node": "lead_1886",
+          "target": "lead_1891"
+        }
+      ]
+    },
+    {
+      "taxonId": 1723,
+      "occurrenceId": "lead_1892",
+      "steps": [
+        {
+          "node": "lead_1504",
+          "target": "lead_1676"
+        },
+        {
+          "node": "lead_1676",
+          "target": "lead_1820"
+        },
+        {
+          "node": "lead_1820",
+          "target": "lead_1840"
+        },
+        {
+          "node": "lead_1840",
+          "target": "lead_1850"
+        },
+        {
+          "node": "lead_1850",
+          "target": "lead_1884"
+        },
+        {
+          "node": "lead_1884",
+          "target": "lead_1886"
+        },
+        {
+          "node": "lead_1886",
+          "target": "lead_1892"
+        }
+      ]
+    }
+  ]
+}
