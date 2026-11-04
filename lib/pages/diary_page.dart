@@ -8,6 +8,7 @@ import '../widgets/diary_achievements.dart';
 import 'plot_page.dart';
 import '../widgets/diary_filters.dart';
 import 'dataset_export_page.dart';
+import '../services/diary_filter.dart';
 
 class DiaryPage extends StatefulWidget {
   const DiaryPage({super.key, required this.store});
@@ -91,18 +92,33 @@ class _DiaryPageState extends State<DiaryPage> {
               setState(() => plotsMode = value.single),
         ),
         const SizedBox(height: 16),
-        DiaryFilters(store: widget.store),
-        OutlinedButton.icon(
-          key: const ValueKey('export-diary'),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => DatasetExportPage(store: widget.store),
+        Row(
+          children: [
+            DiaryFilters(store: widget.store, compact: true),
+            const SizedBox(width: 10),
+            IconButton.filledTonal(
+              key: const ValueKey('export-diary'),
+              tooltip: 'Esporta / condividi',
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => DatasetExportPage(store: widget.store),
+                ),
+              ),
+              icon: const Icon(Icons.ios_share),
             ),
-          ),
-          icon: const Icon(Icons.ios_share),
-          label: const Text('Esporta / condividi'),
+            if (widget.store.diaryFilter.active) ...[
+              const SizedBox(width: 10),
+              IconButton(
+                tooltip: 'Azzera filtri',
+                onPressed: () =>
+                    widget.store.setDiaryFilter(const DiaryFilter()),
+                icon: const Icon(Icons.filter_alt_off_outlined),
+              ),
+            ],
+          ],
         ),
+        const SizedBox(height: 12),
         if (widget.store.plotPhotoRecoveryNotice != null)
           Card(
             child: Padding(

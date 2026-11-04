@@ -4,7 +4,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/link.dart';
 import '../models/observation.dart';
 import '../services/field_dataset.dart';
-import '../services/observation_export.dart';
+import '../services/diary_filter.dart';
 import 'observation_export_page.dart';
 
 class INaturalistSharePage extends StatefulWidget {
@@ -12,15 +12,86 @@ class INaturalistSharePage extends StatefulWidget {
     super.key,
     required this.observations,
     this.sender,
+    this.dataset,
+    this.recordedBy = '',
+    this.identifiedBy = '',
   });
   final List<Observation> observations;
   final ObservationShareSender? sender;
+  final FieldDataset? dataset;
+  final String recordedBy, identifiedBy;
   @override
   State<INaturalistSharePage> createState() => _INaturalistSharePageState();
 }
 
 class _INaturalistSharePageState extends State<INaturalistSharePage> {
   bool busy = false, includeGps = false;
+  ItalianRegions? regions;
+  @override
+  void initState() {
+    super.initState();
+    regions = widget.dataset?.regions;
+    ItalianRegions.load()
+        .then((value) {
+          if (mounted) setState(() => regions = value);
+        })
+        .catchError((Object _) {});
+  }
+
+  FieldDataset get data => FieldDataset(
+    observations: widget.dataset?.observations ?? widget.observations,
+    plots: widget.dataset?.plots ?? [],
+    regions: regions,
+  );
+  String notesFor(Observation o) {
+    final record = data
+        .records(
+          includeGps: includeGps,
+          recordedBy: widget.recordedBy,
+          identifiedBy: widget.identifiedBy,
+        )
+        .where((r) => r['occurrenceID'] == 'urn:italicgo:occurrence:${o.id}')
+        .firstOrNull;
+    return record == null ? '' : data.completeNotes(record);
+  }
+
+  Future<void> package(BuildContext ctx) async {
+    final box = ctx.findRenderObject() as RenderBox?;
+    final origin = box == null
+        ? null
+        : box.localToGlobal(Offset.zero) & box.size;
+    setState(() => busy = true);
+    try {
+      final file = data.inaturalistPackage(
+        includeGps: includeGps,
+        recordedBy: widget.recordedBy,
+        identifiedBy: widget.identifiedBy,
+      );
+      await (widget.sender ?? SharePlus.instance.share)(
+        ShareParams(
+          title: 'Dati DoLichens / iNaturalist',
+          files: [XFile.fromData(file.bytes, mimeType: file.mimeType)],
+          fileNameOverrides: [file.name],
+          sharePositionOrigin: origin,
+          downloadFallbackEnabled: true,
+          mailToFallbackEnabled: false,
+        ),
+      );
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Pacchetto non creato. Riprova con un numero minore di foto.',
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
+  }
+
   Future<void> share(Observation o, BuildContext buttonContext) async {
     final bytes = o.photoBytes;
     if (bytes == null || bytes.isEmpty || busy) return;
@@ -85,10 +156,28 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
         ),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
-          title: const Text('Includi posizione nel riepilogo da copiare'),
+          title: const Text(
+            'Includi posizione e quota nei dati da condividere',
+          ),
           value: includeGps,
           onChanged: busy ? null : (v) => setState(() => includeGps = v),
         ),
+        const Text(
+          'Per conservare tutti i dati disponibili usa la scheda DoLichens/Darwin Core: copiala nelle note di iNaturalist dopo aver inviato la foto. L’app ricevente non importa automaticamente una tabella Darwin Core. I campi senza equivalente nativo restano nelle note.',
+        ),
+        const SizedBox(height: 12),
+        Builder(
+          builder: (ctx) => OutlinedButton.icon(
+            key: const ValueKey('inat-complete-package'),
+            onPressed: busy ? null : () => package(ctx),
+            icon: const Icon(Icons.folder_zip_outlined),
+            label: const Text('Esporta pacchetto completo'),
+          ),
+        ),
+        const Text(
+          'Il pacchetto contiene Excel/CSV DoLichens, CSV adattato al caricatore web di iNaturalist, schede e foto. Estrai il ZIP prima dell’importazione; le foto vanno associate alle osservazioni e i nomi verificati. I dati mancanti restano vuoti.',
+        ),
+        const SizedBox(height: 16),
         if (widget.observations.every((o) => o.photoBytes?.isNotEmpty != true))
           const Text(
             'Non ci sono foto da condividere. Per una specie annotata nella lista puoi creare manualmente un’osservazione su iNaturalist.',
@@ -122,27 +211,20 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
                         ? null
                         : () async {
                             await Clipboard.setData(
-                              ClipboardData(
-                                text: observationSummary([
-                                  Observation.fromMap({
-                                    ...o.toMap(),
-                                    'createdAt': o.eventDate.toIso8601String(),
-                                  }),
-                                ], includeGps: includeGps),
-                              ),
+                              ClipboardData(text: notesFor(o)),
                             );
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                    'Dati copiati. Puoi incollarli nelle note di iNaturalist.',
+                                    'Scheda DoLichens copiata. Incollala nelle note di iNaturalist.',
                                   ),
                                 ),
                               );
                             }
                           },
                     icon: const Icon(Icons.copy),
-                    label: const Text('Copia specie, data e note'),
+                    label: const Text('Copia scheda DoLichens completa'),
                   ),
                 ],
               ),

@@ -164,6 +164,9 @@ class _DatasetExportPageState extends State<DatasetExportPage> {
                           .map(data.effective)
                           .toList(),
                       sender: widget.sender,
+                      dataset: data,
+                      recordedBy: observer.text,
+                      identifiedBy: identifier.text,
                     ),
                   ),
                 ),

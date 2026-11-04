@@ -16,6 +16,8 @@ import 'package:italicapp/services/field_dataset.dart';
 import 'package:italicapp/services/map_categories.dart';
 import 'package:italicapp/services/field_achievements.dart';
 import 'package:italicapp/pages/inaturalist_share_page.dart';
+import 'package:italicapp/pages/diary_page.dart';
+import 'package:italicapp/pages/plot_page.dart';
 
 final day = DateTime(2026, 10, 20);
 FieldPlot samplePlot() => FieldPlot(
@@ -323,7 +325,11 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.byKey(const ValueKey('inat-photo-a')));
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('inat-photo-a')),
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.tap(find.byKey(const ValueKey('inat-photo-a')));
       await tester.pumpAndSettle();
       expect(sent?.files?.single.mimeType, 'image/png');
@@ -331,6 +337,102 @@ void main() {
       expect(sent?.fileNameOverrides, ['a.png']);
       expect(await sent!.files!.single.readAsBytes(), o.photoBytes);
       expect(tester.takeException(), isNull);
+    },
+  );
+  test(
+    'iNaturalist adapter retains DoLichens metadata in notes and packages photos separately without inventing taxon IDs',
+    () async {
+      final data = FieldDataset(
+        observations: [samplePhoto('a')],
+        plots: [samplePlot()],
+        regions: await ItalianRegions.load(),
+      );
+      final rows = data.inaturalistRows(
+        includeGps: true,
+        recordedBy: 'Osservatore Test',
+        identifiedBy: 'Determinatore Test',
+      );
+      expect(rows.first, [
+        'species_guess',
+        'observed_on_string',
+        'description',
+        'place_guess',
+        'latitude',
+        'longitude',
+        'positional_accuracy',
+        'tag_list',
+      ]);
+      expect(rows[1][0], 'Physcia aipolia');
+      expect(rows[1][4], 46.067);
+      final description = rows[1][2] as String;
+      for (final value in [
+        'substratum: Corteccia',
+        'organismQuantity: 2a',
+        'minimumElevationInMeters: 198',
+        'recordedBy: Osservatore Test',
+        'identifiedBy: Determinatore Test',
+        'Plot id: p',
+        'italicId',
+      ]) {
+        expect(description, contains(value));
+      }
+      expect(data.inaturalistRows()[1][4], isNull);
+      expect(data.inaturalistRows()[1][2], isNot(contains('46.067')));
+      final zip = ZipDecoder().decodeBytes(
+        data.inaturalistPackage(includeGps: true).bytes,
+      );
+      for (final file in [
+        'DoLichens-DarwinCore.xlsx',
+        'DoLichens-DarwinCore.csv',
+        'iNaturalist-import.csv',
+        'photos/a.png',
+        'schede/occurrence-1.txt',
+        'LEGGIMI.txt',
+      ]) {
+        expect(zip.findFile(file), isNotNull, reason: file);
+      }
+      expect(data.records().first['specimenID'], '');
+      expect(data.records().first['Dem elevation (m)'], isNull);
+    },
+  );
+
+  testWidgets(
+    'Diary actions use adjacent accessible icon buttons; GPS and map share one row on narrow phones',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final store = AppStore(
+        ObservationRepository(factory: newIdbFactoryMemory()),
+      );
+      await tester.runAsync(store.init);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(body: DiaryPage(store: store)),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final filter = find.byKey(const ValueKey('diary-filters')),
+          export = find.byKey(const ValueKey('export-diary'));
+      expect(tester.getTopLeft(filter).dy, tester.getTopLeft(export).dy);
+      expect(find.text('Esporta / condividi'), findsNothing);
+      expect(find.byTooltip('Esporta / condividi'), findsOneWidget);
+      await tester.pumpWidget(MaterialApp(home: PlotFormPage(store: store)));
+      await tester.pumpAndSettle();
+      final gps = find.byKey(const ValueKey('plot-gps')),
+          map = find.byKey(const ValueKey('plot-map'));
+      await tester.scrollUntilVisible(
+        gps,
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(tester.getCenter(gps).dy, tester.getCenter(map).dy);
+      expect(tester.getTopLeft(gps).dx, lessThan(tester.getTopLeft(map).dx));
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+      await tester.runAsync(store.repository.close);
+      await tester.runAsync(store.plotRepository.close);
     },
   );
 }

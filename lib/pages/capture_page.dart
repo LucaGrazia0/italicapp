@@ -354,32 +354,35 @@ class _CapturePageState extends State<CapturePage> {
                   ),
           ),
         ),
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
+        Row(
           children: [
-            Tooltip(
-              message: position == null
-                  ? 'Acquisisci posizione'
-                  : 'Aggiorna posizione',
-              child: FilledButton.icon(
-                key: const ValueKey('capture-gps'),
-                onPressed: busy ? null : locate,
-                icon: const Icon(Icons.gps_fixed),
-                label: const Text('Usa GPS'),
+            Expanded(
+              child: Tooltip(
+                message: position == null
+                    ? 'Acquisisci posizione'
+                    : 'Aggiorna posizione',
+                child: FilledButton.icon(
+                  key: const ValueKey('capture-gps'),
+                  onPressed: busy ? null : locate,
+                  icon: const Icon(Icons.gps_fixed),
+                  label: const Text('Usa GPS'),
+                ),
               ),
             ),
-            OutlinedButton.icon(
-              key: const ValueKey('capture-map'),
-              onPressed: busy ? null : chooseMap,
-              icon: const Icon(Icons.map_outlined),
-              label: const Text('Scegli sulla mappa · online'),
+            const SizedBox(width: 10),
+            Expanded(
+              child: OutlinedButton.icon(
+                key: const ValueKey('capture-map'),
+                onPressed: busy ? null : chooseMap,
+                icon: const Icon(Icons.map_outlined),
+                label: const Text('Scegli mappa'),
+              ),
             ),
           ],
         ),
         const SizedBox(height: 8),
         const Text(
-          'Il GPS registra dove ti trovi adesso. Sulla mappa scegli il luogo del ritrovamento.',
+          'Il GPS registra dove ti trovi adesso. Sulla mappa online scegli il luogo del ritrovamento.',
         ),
         if (locating) ...[
           const LinearProgressIndicator(),

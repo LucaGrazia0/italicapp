@@ -273,35 +273,38 @@ class _ObservationPageState extends State<ObservationPage> {
                       : 'Accuratezza GPS',
                   o.positionLabel,
                 ),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
+              Row(
                 children: [
-                  FilledButton.icon(
-                    key: const ValueKey('observation-gps'),
-                    onPressed: editing || savingPosition ? null : locate,
-                    icon: const Icon(Icons.gps_fixed),
-                    label: const Text('Usa GPS'),
+                  Expanded(
+                    child: FilledButton.icon(
+                      key: const ValueKey('observation-gps'),
+                      onPressed: editing || savingPosition ? null : locate,
+                      icon: const Icon(Icons.gps_fixed),
+                      label: const Text('Usa GPS'),
+                    ),
                   ),
-                  OutlinedButton.icon(
-                    key: const ValueKey('choose-map-position'),
-                    onPressed: editing || savingPosition
-                        ? null
-                        : choosePosition,
-                    icon: const Icon(Icons.add_location_alt_outlined),
-                    label: Text(
-                      savingPosition
-                          ? 'Salvataggio…'
-                          : o.hasPosition
-                          ? 'Correggi sulla mappa · online'
-                          : 'Scegli sulla mappa · online',
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      key: const ValueKey('choose-map-position'),
+                      onPressed: editing || savingPosition
+                          ? null
+                          : choosePosition,
+                      icon: const Icon(Icons.add_location_alt_outlined),
+                      label: Text(
+                        savingPosition
+                            ? 'Salvataggio…'
+                            : o.hasPosition
+                            ? 'Modifica mappa'
+                            : 'Scegli mappa',
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
               const Text(
-                'Il GPS registra dove ti trovi adesso. Sulla mappa scegli il luogo del ritrovamento.',
+                'Il GPS registra dove ti trovi adesso. Sulla mappa online scegli il luogo del ritrovamento.',
               ),
               if (locating) ...[
                 const LinearProgressIndicator(),

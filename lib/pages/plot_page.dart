@@ -399,21 +399,24 @@ class _PlotFormPageState extends State<PlotFormPage> {
                       'Punto scelto sulla mappa · quota non misurata.',
                     ),
                   const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                  Row(
                     children: [
-                      OutlinedButton.icon(
-                        key: const ValueKey('plot-gps'),
-                        onPressed: busy || locating ? null : locate,
-                        icon: const Icon(Icons.gps_fixed),
-                        label: const Text('Usa GPS'),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          key: const ValueKey('plot-gps'),
+                          onPressed: busy || locating ? null : locate,
+                          icon: const Icon(Icons.gps_fixed),
+                          label: const Text('Usa GPS'),
+                        ),
                       ),
-                      OutlinedButton.icon(
-                        key: const ValueKey('plot-map'),
-                        onPressed: busy || locating ? null : map,
-                        icon: const Icon(Icons.map_outlined),
-                        label: const Text('Scegli sulla mappa'),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          key: const ValueKey('plot-map'),
+                          onPressed: busy || locating ? null : map,
+                          icon: const Icon(Icons.map_outlined),
+                          label: const Text('Scegli mappa'),
+                        ),
                       ),
                     ],
                   ),

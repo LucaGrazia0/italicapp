@@ -4,8 +4,9 @@ import '../services/diary_filter.dart';
 import '../pages/area_filter_page.dart';
 
 class DiaryFilters extends StatefulWidget {
-  const DiaryFilters({super.key, required this.store});
+  const DiaryFilters({super.key, required this.store, this.compact = false});
   final AppStore store;
+  final bool compact;
   @override
   State<DiaryFilters> createState() => _DiaryFiltersState();
 }
@@ -47,6 +48,21 @@ class _DiaryFiltersState extends State<DiaryFilters> {
     listenable: widget.store,
     builder: (context, _) {
       final f = widget.store.diaryFilter;
+      if (widget.compact) {
+        return IconButton.filledTonal(
+          key: const ValueKey('diary-filters'),
+          tooltip:
+              error ??
+              (f.active ? 'Filtri attivi · modifica' : 'Filtra diario'),
+          onPressed: edit,
+          icon: Badge(
+            isLabelVisible: f.active,
+            child: Icon(
+              f.active ? Icons.filter_alt : Icons.filter_alt_outlined,
+            ),
+          ),
+        );
+      }
       return Wrap(
         spacing: 8,
         runSpacing: 4,

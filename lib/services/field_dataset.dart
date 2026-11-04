@@ -92,6 +92,28 @@ class FieldDataset {
     'identificationVerificationStatus',
     'associatedMedia',
     'dynamicProperties',
+    'Dem elevation (m)',
+    'Source',
+    'short_source',
+    'Source type',
+    'Source year',
+    'associatedReferences',
+    'Plot id',
+    'Habitat',
+    'Protect area',
+    'Main drainage basin',
+    'Secondary drainage basin',
+    'Soiusa major sector',
+    'Soiusa section',
+    'Soiusa subsection',
+    'Soiusa supergroup',
+    'Soiusa group',
+    'Natura 2000 code',
+    'Natura 2000 site',
+    'SIC/ZSC',
+    'ZPS',
+    'specimenID',
+    'new_identification',
   ];
   List<List<Object?>> occurrences({
     bool includeGps = false,
@@ -143,7 +165,9 @@ class FieldDataset {
         jsonEncode({
           'application': 'Italic Go',
           'italicId': o.taxonItalicId,
-          if (p != null) 'plotAreaM2': p.areaM2,
+          if (p != null) ...{'plotAreaM2': p.areaM2, 'plotNotes': p.notes},
+          if (o.identificationPath != null)
+            'identificationPath': o.identificationPath!.toMap(),
           if (quantity.isNotEmpty) 'quantityMethod': 'unspecified',
           if (position) ...{
             'positionProvider': o.positionProvider,
@@ -152,6 +176,28 @@ class FieldDataset {
           },
           if (o.sourcePlotId != null) 'sourcePlotId': o.sourcePlotId,
         }),
+        null,
+        'Italic Go · unpublished',
+        'unpublished',
+        'unpublished',
+        o.eventDate.year,
+        '',
+        p?.id ?? o.sourcePlotId,
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
       ];
     }
 
@@ -308,6 +354,133 @@ class FieldDataset {
       ],
     ],
   };
+  List<Map<String, Object?>> records({
+    bool includeGps = false,
+    String recordedBy = '',
+    String identifiedBy = '',
+  }) => [
+    for (final row in occurrences(
+      includeGps: includeGps,
+      recordedBy: recordedBy,
+      identifiedBy: identifiedBy,
+    ).skip(1))
+      {for (var i = 0; i < columns.length; i++) columns[i]: row[i]},
+  ];
+  String completeNotes(Map<String, Object?> record) => [
+    'Italic Go · dati DoLichens / Darwin Core',
+    for (final entry in record.entries.where(
+      (e) => e.value != null && e.value.toString().isNotEmpty,
+    ))
+      '${entry.key}: ${entry.value}',
+    'Determinazione personale da verificare; i nomi ITALIC possono differire dalla tassonomia iNaturalist.',
+  ].join('\n');
+  List<List<Object?>> inaturalistRows({
+    bool includeGps = false,
+    String recordedBy = '',
+    String identifiedBy = '',
+  }) => [
+    [
+      'species_guess',
+      'observed_on_string',
+      'description',
+      'place_guess',
+      'latitude',
+      'longitude',
+      'positional_accuracy',
+      'tag_list',
+    ],
+    for (final r in records(
+      includeGps: includeGps,
+      recordedBy: recordedBy,
+      identifiedBy: identifiedBy,
+    ))
+      [
+        r['scientificName'] ?? r['verbatimIdentification'],
+        r['eventDate'],
+        completeNotes(r),
+        r['locality'],
+        r['decimalLatitude'],
+        r['decimalLongitude'],
+        r['coordinateUncertaintyInMeters'],
+        'Italic Go',
+      ],
+  ];
+  ObservationExportFile inaturalistPackage({
+    bool includeGps = false,
+    String recordedBy = '',
+    String identifiedBy = '',
+  }) {
+    final archive = Archive();
+    void add(String name, Uint8List bytes) =>
+        archive.addFile(ArchiveFile(name, bytes.length, bytes));
+    add(
+      'DoLichens-DarwinCore.xlsx',
+      writeXlsx(
+        workbook(
+          includeGps: includeGps,
+          recordedBy: recordedBy,
+          identifiedBy: identifiedBy,
+        ),
+      ),
+    );
+    add(
+      'DoLichens-DarwinCore.csv',
+      writeCsv(
+        occurrences(
+          includeGps: includeGps,
+          recordedBy: recordedBy,
+          identifiedBy: identifiedBy,
+        ),
+      ),
+    );
+    add(
+      'iNaturalist-import.csv',
+      writeCsv(
+        inaturalistRows(
+          includeGps: includeGps,
+          recordedBy: recordedBy,
+          identifiedBy: identifiedBy,
+        ),
+      ),
+    );
+    for (final o in photos) {
+      add(photoFileName(o), o.photoBytes!);
+    }
+    final rows = records(
+      includeGps: includeGps,
+      recordedBy: recordedBy,
+      identifiedBy: identifiedBy,
+    );
+    for (var i = 0; i < rows.length; i++) {
+      archive.addFile(
+        ArchiveFile.string(
+          'schede/occurrence-${i + 1}.txt',
+          completeNotes(rows[i]),
+        ),
+      );
+    }
+    archive.addFile(
+      ArchiveFile.string(
+        'LEGGIMI.txt',
+        'PACCHETTO COMPLETO ITALIC GO / DOLICHENS / INATURALIST\n'
+            'Il ZIP NON viene importato direttamente dall’app iNaturalist. Estrai prima i file.\n'
+            'APP: condividi una foto e copia la sua scheda completa nelle note dell’osservazione prima di pubblicarla.\n'
+            'SITO: nel caricamento iNaturalist scegli More Import Options / CSV e seleziona iNaturalist-import.csv. Controlla corrispondenza delle colonne, data, taxon e coordinate. Allega poi le foto alle osservazioni corrispondenti usando associatedMedia/occurrenceID; i percorsi locali nel CSV NON allegano automaticamente le immagini. Evita di creare una seconda osservazione per la stessa foto.\n'
+            'description conserva tutti i campi DoLichens disponibili come testo; non li trasforma automaticamente in Observation Fields strutturati. Per analisi usa il file Darwin Core originale.\n'
+            'Le celle vuote significano dato mancante. DEM, comuni, province, aree protette e SOIUSA non sono inventati. specimenID resta vuoto per osservazioni fotografiche.\n'
+            'Coordinate nella tabella: ${includeGps ? "incluse" : "escluse"}. Le immagini originali possono contenere metadati propri. Nessuna pubblicazione automatica.\n'
+            'Osservazioni riferite al tuo account iNaturalist; recordedBy/identifiedBy nelle note non cambiano il proprietario del record.\n'
+            'https://italic.units.it/dolichens/?c=60&procedure=base&t=59\n'
+            'https://www.inaturalist.org/observations/upload',
+      ),
+    );
+    return ObservationExportFile(
+      'Italic-Go-iNaturalist-DoLichens.zip',
+      'application/zip',
+      Uint8List.fromList(ZipEncoder().encode(archive)),
+    );
+  }
+
   ObservationExportFile export({
     required bool excel,
     bool includeGps = false,
