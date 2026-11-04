@@ -27,6 +27,7 @@ class GnssCapture(context: Context) {
     private var pending: MethodChannel.Result? = null
     private var best: Location? = null
     private var samples = 0
+    private var altitudeSamples = 0
     private var satellites: Int? = null
     private var listener: LocationListener? = null
     private var status: GnssStatus.Callback? = null
@@ -35,12 +36,12 @@ class GnssCapture(context: Context) {
     fun capture(result: MethodChannel.Result) {
         if (pending != null) { result.error("GPS_BUSY", "Una misura GPS è già in corso.", null); return }
         if (ContextCompat.checkSelfPermission(app, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            result.error("PRECISE_REQUIRED", "Abilita la posizione precisa per Italicapp nelle impostazioni del telefono.", null); return
+            result.error("PRECISE_REQUIRED", "Abilita la posizione precisa per Italic Go nelle impostazioni del telefono.", null); return
         }
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             result.error("GPS_DISABLED", "Attiva il GPS del telefono e riprova.", null); return
         }
-        pending = result; best = null; samples = 0; satellites = null
+        pending = result; best = null; samples = 0; altitudeSamples = 0; satellites = null
         status = object : GnssStatus.Callback() {
             override fun onSatelliteStatusChanged(value: GnssStatus) {
                 satellites = (0 until value.satelliteCount).count { value.usedInFix(it) }
@@ -52,8 +53,10 @@ class GnssCapture(context: Context) {
                 if (age < 0 || age > 30 || !value.latitude.isFinite() || !value.longitude.isFinite() ||
                     !value.hasAccuracy() || !value.accuracy.isFinite() || value.accuracy <= 0) return
                 samples++
-                if (best == null || value.accuracy <= best!!.accuracy) best = Location(value)
-                if (samples >= 2 && best!!.accuracy <= 10f) finish()
+                val candidate = quality(value)
+                if (candidate.altitude) altitudeSamples++
+                if (GnssFixPolicy.prefer(candidate, best?.let { quality(it) })) best = Location(value)
+                if (best != null && GnssFixPolicy.ready(quality(best!!), altitudeSamples)) finish()
             }
             override fun onProviderDisabled(provider: String) { finish() }
             override fun onProviderEnabled(provider: String) {}
@@ -67,6 +70,15 @@ class GnssCapture(context: Context) {
             cleanup(); pending = null
             result.error("GPS_UNAVAILABLE", "GPS non disponibile. Controlla i permessi e riprova all’aperto.", null)
         }
+    }
+
+    private fun quality(fix: Location): GnssQuality {
+        val altitude = (fix.hasAltitude() && fix.altitude.isFinite()) ||
+            (LocationCompat.hasMslAltitude(fix) && LocationCompat.getMslAltitudeMeters(fix).isFinite())
+        val vertical = if (LocationCompat.hasMslAltitudeAccuracy(fix))
+            LocationCompat.getMslAltitudeAccuracyMeters(fix)
+            else if (LocationCompat.hasVerticalAccuracy(fix)) LocationCompat.getVerticalAccuracyMeters(fix) else null
+        return GnssQuality(fix.accuracy, altitude, vertical?.takeIf { it.isFinite() && it > 0 })
     }
 
     private fun cleanup() {
@@ -84,13 +96,13 @@ class GnssCapture(context: Context) {
         worker.execute {
             val ellipsoid = if (fix.hasAltitude() && fix.altitude.isFinite()) fix.altitude else null
             var source: String? = null
-            if (ellipsoid != null) {
+            if (LocationCompat.hasMslAltitude(fix)) source = "Android MSL"
+            else if (ellipsoid != null) {
                 try {
-                    if (LocationCompat.hasMslAltitude(fix)) source = "Android MSL"
-                    else { AltitudeConverterCompat.addMslAltitudeToLocation(app, fix); source = "AndroidX geoid" }
+                    AltitudeConverterCompat.addMslAltitudeToLocation(app, fix); source = "AndroidX geoid"
                 } catch (_: Exception) { source = null }
             }
-            val msl = if (source != null && LocationCompat.hasMslAltitude(fix)) LocationCompat.getMslAltitudeMeters(fix) else null
+            val msl = if (source != null && LocationCompat.hasMslAltitude(fix)) LocationCompat.getMslAltitudeMeters(fix).takeIf { it.isFinite() } else null
             val vertical = if (msl != null && LocationCompat.hasMslAltitudeAccuracy(fix)) LocationCompat.getMslAltitudeAccuracyMeters(fix).toDouble() else null
             val data = mapOf("latitude" to fix.latitude, "longitude" to fix.longitude,
                 "accuracy" to fix.accuracy.toDouble(), "timestamp" to fix.time,

@@ -43,7 +43,7 @@ void main() {
           calls++;
           expect(request.method, 'HEAD');
           expect(request.url, OnlineMap.tileAt(45, 11, 15));
-          expect(request.headers['User-Agent'], contains('Italicapp/'));
+          expect(request.headers['User-Agent'], contains('ItalicGo/'));
           return http.Response(
             '',
             calls == 1 ? 200 : 503,

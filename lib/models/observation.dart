@@ -143,7 +143,7 @@ class Observation {
       taxonName: map['taxonName'] as String?,
       photoBytes: map['photoBytes'] == null
           ? null
-          : Uint8List.fromList(List<int>.from(map['photoBytes'] as List)),
+          : Uint8List.fromList((map['photoBytes'] as List).cast<int>()),
       photoName: map['photoName'] as String?,
       identificationPath: IdentificationPath.fromMap(map['identificationPath']),
     );

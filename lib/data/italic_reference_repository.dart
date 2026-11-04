@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'scientific_data.dart';
+import 'revision_cache.dart';
 
 class ItalicTaxon {
   const ItalicTaxon({
@@ -82,11 +83,22 @@ class ItalicSnapshotMetadata {
 }
 
 class ItalicReferenceRepository {
+  static final _cache = RevisionCache<ItalicReferenceRepository>();
   List<ItalicTaxon> _taxa = const [];
   ItalicSnapshotMetadata? metadata;
   List<ItalicTaxon> get taxa => _taxa;
 
   Future<void> load({int? revision}) async {
+    final snapshot = await _cache.load((key) async {
+      final repository = ItalicReferenceRepository();
+      await repository._read(revision: key);
+      return repository;
+    }, revision: revision);
+    _taxa = snapshot.taxa;
+    metadata = snapshot.metadata;
+  }
+
+  Future<void> _read({int? revision}) async {
     final raw = await ScientificData.loadString(
       'assets/italic/italic_checklist.json',
       revision: revision,
@@ -104,6 +116,7 @@ class ItalicReferenceRepository {
               b.scientificName.toLowerCase(),
             ),
           );
+    _taxa = List.unmodifiable(_taxa);
     metadata = ItalicSnapshotMetadata(
       source: meta['source']?.toString() ?? '',
       sourceName: meta['source_name']?.toString() ?? 'ITALIC 8.0',

@@ -13,7 +13,7 @@ class OnlineMap {
     defaultValue: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   );
   static const userAgent =
-      'Italicapp/0.8.10 (it.italic.italicapp; https://github.com/LucaGrazia0/italicapp)';
+      'ItalicGo/0.8.11 (it.italic.italicapp; https://github.com/LucaGrazia0/italicapp)';
 
   static Uri tileAt(double latitude, double longitude, int zoom) {
     final lat = latitude.clamp(-85.05112878, 85.05112878) * math.pi / 180;

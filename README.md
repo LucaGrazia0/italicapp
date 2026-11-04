@@ -1,7 +1,25 @@
-# italicapp
+# Italic Go
 
 Diario di campo per licheni in Flutter Web: foto, coordinate GPS e note salvate nel browser,
 checklist ITALIC locale e confronto spiegabile dei criteri ecologici.
+
+## Versione 0.8.11
+
+Android, iPhone e web condividono il nome **Italic Go** e lo stesso logo.
+La barra di campo contiene Diario, Fotocamera, ITALIC, Mappa e Impostazioni;
+la mappa online mostra i ritrovamenti del diario e permette di aprire ciascuna osservazione.
+Le schede si caricano al primo utilizzo e conservano le bozze al cambio di schermata.
+Checklist, dizionario e matrice vengono riutilizzati in memoria e ricaricati quando cambia l’edizione scientifica.
+
+Le 3.406 foto dimostrative occupano 183.639.130 byte, il 50,4% in meno rispetto
+alla 0.8.10. Le foto del diario non vengono ricompresse. La quota viene acquisita
+aspettando un fix tridimensionale: Android usa MSL nativa o la conversione geoidale
+locale; iPhone usa la quota ortometrica di Core Location. Se il dispositivo non
+fornisce una quota valida, il dato resta mancante.
+
+L’identificativo dell’app e gli archivi locali restano compatibili con le versioni precedenti.
+La compilazione iPhone produce una IPA **non firmata**, che richiede una firma e
+un metodo di installazione compatibile prima dell’uso su un iPhone.
 
 ## Avvio
 

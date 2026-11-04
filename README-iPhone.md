@@ -1,11 +1,11 @@
-# Italicapp 0.8.10 · progetto iPhone e IPA non firmata
+# Italic Go 0.8.11 · progetto iPhone e IPA non firmata
 
 Il progetto include i sorgenti Flutter e il progetto iOS dell’ultima versione,
 con 3.406 foto offline. Sul Mac locale non sono installati Xcode e l’SDK iOS;
 la compilazione è predisposta su un runner macOS di GitHub Actions.
 
 Il workflow `.github/workflows/ios-unsigned.yml` produce
-`Italicapp-0.8.10-iPhone-non-firmata.ipa`, un bundle arm64 per iPhone fisico con
+`Italic-Go-0.8.11-iPhone-non-firmata.ipa`, un bundle arm64 per iPhone fisico con
 versione e checksum delle foto verificati. **L’IPA non è firmata per
 l’installazione: va firmata e installata con un metodo compatibile, ad esempio
 AltStore Classic. Non si installa toccando il file nei Download e non è un
@@ -13,11 +13,11 @@ pacchetto TestFlight.** Il workflow non richiede credenziali Apple e non pubblic
 l’app su App Store. Gli artefatti GitHub hanno conservazione di un giorno;
 la copia scaricata sul Mac rimane disponibile.
 
-Sono predisposti il nome Italicapp, il logo, l'identificativo
+Sono predisposti il nome Italic Go, il logo, l'identificativo
 `it.italic.italicapp`, iOS 15 o successivo e le descrizioni dei permessi per
 fotocamera, galleria e posizione durante l'uso. Il codice comprende diario,
 chiavi e matrici offline, condivisione e scelta della posizione su mappa online
-della versione 0.8.10, i filtri iniziali e le fotografie dimostrative offline.
+della versione 0.8.11, i filtri iniziali e le fotografie dimostrative offline.
 La firma e il Team Apple non sono inclusi.
 
 ## Per compilare e provare su iPhone
@@ -47,9 +47,9 @@ Il metodo di esportazione deve corrispondere al canale di distribuzione scelto.
 Non basta rinominare un APK o uno ZIP in `.ipa`.
 
 Prima della distribuzione vanno verificati su iPhone foto, GPS e riferimento
-della quota, archivio locale, condivisione e permessi. La gestione della quota
-GPS sul livello del mare specifica di Android non è portata automaticamente
-su iOS. Il diario del Mac o di Android non viene trasferito automaticamente.
+della quota, archivio locale, condivisione e permessi. Su iOS viene usata la quota ortometrica di Core Location, con accuratezza
+verticale positiva. L’acquisizione attende misure tridimensionali valide;
+se la quota non arriva, il dato resta mancante. Il diario del Mac o di Android non viene trasferito automaticamente.
 
 Per creare manualmente l’IPA non firmata su un Mac con Xcode:
 
@@ -57,7 +57,7 @@ Per creare manualmente l’IPA non firmata su un Mac con Xcode:
 flutter pub get
 flutter build ios --release --no-codesign --no-pub
 python3 tools/package_unsigned_ipa.py build/ios/iphoneos/Runner.app \
-  dist/Italicapp-0.8.10-iPhone-non-firmata.ipa --version 0.8.10 --build 23
+  dist/Italic-Go-0.8.11-iPhone-non-firmata.ipa --version 0.8.11 --build 24
 ```
 
 Fonti ufficiali:

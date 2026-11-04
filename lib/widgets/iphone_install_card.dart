@@ -16,7 +16,7 @@ class IphoneInstallCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Usa Italicapp su iPhone',
+              'Usa Italic Go su iPhone',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
@@ -26,12 +26,12 @@ class IphoneInstallCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
             ],
-            const Text('1. Apri il link di Italicapp in Safari sull’iPhone.'),
+            const Text('1. Apri il link di Italic Go in Safari sull’iPhone.'),
             const Text(
               '2. Tocca Condividi → Aggiungi alla schermata Home. Se compare, attiva Apri come app web, poi tocca Aggiungi.',
             ),
             const Text(
-              '3. Apri l’icona Italicapp dalla Home. In Impostazioni tocca Prepara uso offline e attendi «Copia offline pronta».',
+              '3. Apri l’icona Italic Go dalla Home. In Impostazioni tocca Prepara uso offline e attendi «Copia offline pronta».',
             ),
             const SizedBox(height: 8),
             const Text(

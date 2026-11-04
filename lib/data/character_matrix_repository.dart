@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'scientific_data.dart';
 import 'italic_reference_repository.dart';
 import '../models/character_review.dart';
+import 'revision_cache.dart';
 
 class MatrixCharacter {
   const MatrixCharacter({
@@ -188,9 +189,12 @@ class CharacterMatrix {
 }
 
 class CharacterMatrixRepository {
+  static final _cache = RevisionCache<CharacterMatrix>();
   // A versioned filename also refreshes existing browser HTTP caches.
   static const asset = 'assets/italic/character_matrix_v2.json';
-  Future<CharacterMatrix> load({int? revision}) async {
+  Future<CharacterMatrix> load({int? revision}) =>
+      _cache.load(_read, revision: revision);
+  Future<CharacterMatrix> _read(int revision) async {
     final reference = ItalicReferenceRepository();
     await reference.load(revision: revision);
     final data =

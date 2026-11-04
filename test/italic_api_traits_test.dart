@@ -13,7 +13,7 @@ void main() {
   setUpAll(() {
     final raw =
         jsonDecode(
-              File('reports/italic_api_traits/matrix.json').readAsStringSync(),
+              File('assets/italic/api_traits_matrix_v2.json').readAsStringSync(),
             )
             as Map;
     // Fixed local response snapshots keep these tests independent of download size.

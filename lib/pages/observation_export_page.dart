@@ -45,8 +45,8 @@ class _ObservationExportPageState extends State<ObservationExportPage> {
       );
       final result = await (widget.sender ?? SharePlus.instance.share)(
         ShareParams(
-          title: 'Risultati Italicapp',
-          subject: 'Osservazioni Italicapp',
+          title: 'Risultati Italic Go',
+          subject: 'Osservazioni Italic Go',
           text: data.text,
           files: data.files.isEmpty
               ? null

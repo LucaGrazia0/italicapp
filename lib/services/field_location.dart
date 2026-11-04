@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -85,6 +86,118 @@ class FieldFix {
 
 class FieldLocation {
   static const channel = MethodChannel('it.italic.italicapp/gnss');
+  static StreamSubscription<Position>? _appleStream;
+  static Completer<FieldFix>? _applePending;
+  static Timer? _appleTimeout;
+
+  static FieldFix fromApplePosition(Position p) => FieldFix.fromMap({
+    'latitude': p.latitude, 'longitude': p.longitude, 'accuracy': p.accuracy,
+    'timestamp': p.timestamp.millisecondsSinceEpoch,
+    // CLLocation.altitude is orthometric (above mean sea level), not WGS84 height.
+    'seaLevelAltitude':
+        p.hasAltitude &&
+            p.altitude.isFinite &&
+            p.hasAltitudeAccuracy &&
+            p.altitudeAccuracy > 0
+        ? p.altitude
+        : null,
+    'altitudeAccuracy': p.hasAltitudeAccuracy ? p.altitudeAccuracy : null,
+    'altitudeSource': 'Apple Core Location · livello del mare',
+    'provider': 'core_location', 'mocked': p.isMocked,
+  });
+
+  static Future<FieldFix> _captureApple() async {
+    if (_applePending != null) {
+      throw StateError('Una misura GPS è già in corso.');
+    }
+    final pending = Completer<FieldFix>();
+    _applePending = pending;
+    FieldFix? best;
+    var altitudeSamples = 0;
+    void finish([Object? error]) {
+      if (!identical(_applePending, pending)) return;
+      _appleTimeout?.cancel();
+      _appleTimeout = null;
+      unawaited(_appleStream?.cancel());
+      _appleStream = null;
+      _applePending = null;
+      if (error != null) {
+        pending.completeError(error);
+      } else if (best != null) {
+        pending.complete(best);
+      } else {
+        pending.completeError(
+          StateError(
+            'Nessuna posizione recente. Spostati all’aperto e riprova.',
+          ),
+        );
+      }
+    }
+
+    _appleTimeout = Timer(const Duration(seconds: 35), finish);
+    try {
+      _appleStream =
+          Geolocator.getPositionStream(
+            locationSettings: const LocationSettings(
+              accuracy: LocationAccuracy.best,
+              distanceFilter: 0,
+            ),
+          ).listen(
+            (p) {
+              if (!identical(_applePending, pending)) return;
+              if (DateTime.now().difference(p.timestamp).inSeconds.abs() > 15) {
+                return;
+              }
+              try {
+                final fix = fromApplePosition(p);
+                if (fix.seaLevelAltitude != null) altitudeSamples++;
+                final current = best;
+                if (current == null ||
+                    (fix.seaLevelAltitude != null &&
+                        current.seaLevelAltitude == null &&
+                        fix.accuracy <=
+                            (current.accuracy * 2).clamp(
+                              30,
+                              double.infinity,
+                            )) ||
+                    (fix.seaLevelAltitude != null &&
+                        current.seaLevelAltitude != null &&
+                        (fix.accuracy < current.accuracy ||
+                            (fix.accuracy <=
+                                    (current.accuracy * 1.5).clamp(
+                                      15,
+                                      double.infinity,
+                                    ) &&
+                                (fix.altitudeAccuracy ?? double.infinity) <
+                                    (current.altitudeAccuracy ??
+                                        double.infinity)))) ||
+                    (fix.seaLevelAltitude == null &&
+                        current.seaLevelAltitude != null &&
+                        current.accuracy >
+                            (fix.accuracy * 2).clamp(30, double.infinity)) ||
+                    (fix.seaLevelAltitude == null &&
+                        current.seaLevelAltitude == null &&
+                        fix.accuracy < current.accuracy)) {
+                  best = fix;
+                }
+                if (best?.seaLevelAltitude != null &&
+                    best!.accuracy <= 10 &&
+                    altitudeSamples >= 2) {
+                  finish();
+                }
+              } on FormatException {
+                /* Ignore an invalid fix while the receiver settles. */
+              }
+            },
+            onError: (Object error) => finish(error),
+            onDone: finish,
+          );
+    } catch (error) {
+      finish(error);
+    }
+    return pending.future;
+  }
+
   static Future<FieldFix> capture() async {
     if (!await Geolocator.isLocationServiceEnabled()) {
       throw StateError('Attiva la localizzazione del telefono.');
@@ -96,13 +209,16 @@ class FieldLocation {
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
       throw StateError(
-        'Consenti la posizione precisa nelle impostazioni di Italicapp.',
+        'Consenti la posizione precisa nelle impostazioni di Italic Go.',
       );
     }
     if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
       final data = await channel.invokeMapMethod<String, dynamic>('capture');
       if (data == null) throw StateError('Nessuna misura GPS disponibile.');
       return FieldFix.fromMap(data);
+    }
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+      return _captureApple();
     }
     final p = await Geolocator.getCurrentPosition(
       locationSettings: const LocationSettings(
@@ -120,6 +236,19 @@ class FieldLocation {
   }
 
   static Future<void> cancel() async {
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+      final pending = _applePending;
+      _applePending = null;
+      _appleTimeout?.cancel();
+      _appleTimeout = null;
+      await _appleStream?.cancel();
+      _appleStream = null;
+      if (pending != null && !pending.isCompleted) {
+        pending.completeError(
+          PlatformException(code: 'CANCELLED', message: 'Misura annullata.'),
+        );
+      }
+    }
     if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
       try {
         await channel.invokeMethod<void>('cancel');

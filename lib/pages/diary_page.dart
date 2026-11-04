@@ -44,7 +44,7 @@ class _DiaryPageState extends State<DiaryPage> {
       padding: const EdgeInsets.all(20),
       children: [
         Text(
-          'italicapp',
+          'Italic Go',
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
             color: AppTheme.forest,
             fontWeight: FontWeight.bold,

@@ -78,6 +78,13 @@ class _ItalicPageState extends State<ItalicPage> {
   ];
 
   bool matchesEcology(ItalicTaxon taxon) {
+    if (selectedSubstrate == 'Tutti' &&
+        selectedGrowthForm == 'Tutte' &&
+        selectedPhotobiont.isEmpty &&
+        selectedReproduction.isEmpty &&
+        selectedScales.isEmpty) {
+      return true;
+    }
     final assessment = compatibilityEngine.evaluate(
       taxon,
       EcologicalQuery(
@@ -167,12 +174,6 @@ class _ItalicPageState extends State<ItalicPage> {
           b.scientificName.toLowerCase(),
         );
       });
-    } else {
-      filtered.sort(
-        (a, b) => a.scientificName.toLowerCase().compareTo(
-          b.scientificName.toLowerCase(),
-        ),
-      );
     }
 
     setState(() {
@@ -231,8 +232,10 @@ class _ItalicPageState extends State<ItalicPage> {
       children: [
         Text(
           'ITALIC',
-          style: Theme.of(context).textTheme.headlineMedium
-              ?.copyWith(fontWeight: FontWeight.w800, color: AppTheme.forest),
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            color: AppTheme.forest,
+          ),
         ),
         const Text('Checklist scientifica dei licheni italiani • ITALIC 8.0'),
         const SizedBox(height: 16),

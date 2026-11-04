@@ -41,11 +41,13 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('command', choices=['runs', 'jobs', 'artifacts', 'download'])
     parser.add_argument('--run', type=int)
+    parser.add_argument('--branch', default='codex/simplify-navigation')
+    parser.add_argument('--version', default='0.8.11')
     parser.add_argument('--artifact', type=int)
     parser.add_argument('--destination', type=Path)
     args = parser.parse_args()
     if args.command == 'runs':
-        data = request('actions/runs?branch=codex%2Fios-ipa-0.8.10&per_page=5')
+        data = request('actions/runs?branch=' + urllib.parse.quote(args.branch, safe='') + '&per_page=5')
         print(json.dumps([{k: r.get(k) for k in ('id', 'status', 'conclusion', 'head_sha', 'html_url', 'created_at')}
                           for r in data['workflow_runs']], indent=2))
     elif args.command == 'jobs':
@@ -75,10 +77,10 @@ def main():
         with zipfile.ZipFile(temporary) as archive:
             for name in archive.namelist():
                 path = Path(name)
-                if path.name != name or not name.startswith('Italicapp-0.8.10-iPhone-non-firmata.ipa'):
+                if path.name != name or not name.startswith(f'Italic-Go-{args.version}-iPhone-non-firmata.ipa'):
                     raise ValueError('Unexpected artifact member.')
                 (args.destination / name).write_bytes(archive.read(name))
-        ipa = args.destination / 'Italicapp-0.8.10-iPhone-non-firmata.ipa'
+        ipa = args.destination / f'Italic-Go-{args.version}-iPhone-non-firmata.ipa'
         report = json.loads(ipa.with_suffix('.ipa.json').read_text())
         if hashlib.sha256(ipa.read_bytes()).hexdigest() != report['sha256']:
             raise ValueError('IPA download checksum mismatch.')

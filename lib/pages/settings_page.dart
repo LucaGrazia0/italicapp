@@ -22,7 +22,7 @@ class SettingsPage extends StatelessWidget {
     padding: const EdgeInsets.all(20),
     children: [
       Text(
-        'ITALICAPP',
+        'ITALIC GO',
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
           color: AppTheme.forest,
           fontWeight: FontWeight.w800,
@@ -91,7 +91,7 @@ class SettingsPage extends StatelessWidget {
       ]),
       const SizedBox(height: 24),
       Text(
-        'Italicapp · versione 0.8.6',
+        'Italic Go · versione 0.8.11',
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodySmall,
       ),

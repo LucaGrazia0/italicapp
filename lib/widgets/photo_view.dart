@@ -14,7 +14,21 @@ class ObservationPhoto extends StatelessWidget {
   Widget build(BuildContext context) {
     final bytes = observation.photoBytes;
     if (bytes != null && bytes.isNotEmpty) {
-      return Image.memory(bytes, fit: fit, gaplessPlayback: true);
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth.isFinite
+              ? constraints.maxWidth
+              : 720.0;
+          return Image.memory(
+            bytes,
+            fit: fit,
+            gaplessPlayback: true,
+            cacheWidth: (width * MediaQuery.devicePixelRatioOf(context))
+                .round()
+                .clamp(96, 2048),
+          );
+        },
+      );
     }
     return Container(
       color: const Color(0xFFE7EEE9),

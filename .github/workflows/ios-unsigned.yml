@@ -1,10 +1,10 @@
-name: iPhone IPA 0.8.10 (unsigned)
+name: Italic Go iPhone IPA 0.8.11 (unsigned)
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - codex/ios-ipa-0.8.10
+      - codex/simplify-navigation
 
 permissions:
   contents: read
@@ -37,15 +37,15 @@ jobs:
         run: >-
           python3 tools/package_unsigned_ipa.py
           build/ios/iphoneos/Runner.app
-          dist/Italicapp-0.8.10-iPhone-non-firmata.ipa
-          --version 0.8.10 --build 23
+          dist/Italic-Go-0.8.11-iPhone-non-firmata.ipa
+          --version 0.8.11 --build 24
       - uses: actions/upload-artifact@v4
         with:
-          name: Italicapp-0.8.10-iPhone-non-firmata
+          name: Italic-Go-0.8.11-iPhone-non-firmata
           path: |
-            dist/Italicapp-0.8.10-iPhone-non-firmata.ipa
-            dist/Italicapp-0.8.10-iPhone-non-firmata.ipa.json
-            dist/Italicapp-0.8.10-iPhone-non-firmata.ipa.sha256
+            dist/Italic-Go-0.8.11-iPhone-non-firmata.ipa
+            dist/Italic-Go-0.8.11-iPhone-non-firmata.ipa.json
+            dist/Italic-Go-0.8.11-iPhone-non-firmata.ipa.sha256
           if-no-files-found: error
           compression-level: 0
           retention-days: 1

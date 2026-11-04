@@ -64,7 +64,7 @@ String observationSummary(
       'ID osservazione: ${o.id}',
     ].join('\n');
   });
-  return 'Italicapp · ${observations.length} osservazion${observations.length == 1 ? "e" : "i"}\n\n'
+  return 'Italic Go · ${observations.length} osservazion${observations.length == 1 ? "e" : "i"}\n\n'
       '${sections.join('\n\n')}\n\nDeterminazioni registrate dall’utente; da verificare sul campione.';
 }
 
@@ -83,8 +83,8 @@ ObservationExport exportObservations(
   final files = <ObservationExportFile>[];
   final summary = observationSummary(observations, includeGps: includeGps);
   final stem = observations.length == 1
-      ? 'Italicapp-${observations.single.id.replaceAll(RegExp(r"[^a-zA-Z0-9_-]"), "_")}'
-      : 'Italicapp-diario-${observations.length}';
+      ? 'Italic-Go-${observations.single.id.replaceAll(RegExp(r"[^a-zA-Z0-9_-]"), "_")}'
+      : 'Italic-Go-diario-${observations.length}';
   switch (format) {
     case ObservationExportFormat.summary:
       break;
@@ -256,7 +256,7 @@ ObservationExport exportObservations(
   return ObservationExport(
     text: format == ObservationExportFormat.summary
         ? summary
-        : 'Italicapp · ${observations.length} osservazioni · ${format.label}. Determinazioni da verificare.',
+        : 'Italic Go · ${observations.length} osservazioni · ${format.label}. Determinazioni da verificare.',
     files: files,
   );
 }
