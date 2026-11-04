@@ -1,0 +1,51 @@
+name: iPhone IPA 0.8.10 (unsigned)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - codex/ios-ipa-0.8.10
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-unsigned-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install pinned Flutter from its official repository
+        shell: bash
+        run: |
+          git clone --depth 1 --branch 3.47.6 https://github.com/flutter/flutter.git "$RUNNER_TEMP/flutter"
+          test "$(git -C "$RUNNER_TEMP/flutter" rev-parse HEAD)" = 5fc346839b5d0eef006ed8404392afb4dfae428d
+          echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/flutter/bin/flutter" --version
+          xcodebuild -version
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build the release application for a physical iPhone
+        run: flutter build ios --release --no-codesign --no-pub
+      - name: Verify and package the unsigned IPA
+        run: >-
+          python3 tools/package_unsigned_ipa.py
+          build/ios/iphoneos/Runner.app
+          dist/Italicapp-0.8.10-iPhone-non-firmata.ipa
+          --version 0.8.10 --build 23
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Italicapp-0.8.10-iPhone-non-firmata
+          path: |
+            dist/Italicapp-0.8.10-iPhone-non-firmata.ipa
+            dist/Italicapp-0.8.10-iPhone-non-firmata.ipa.json
+            dist/Italicapp-0.8.10-iPhone-non-firmata.ipa.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1

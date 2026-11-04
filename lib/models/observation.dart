@@ -7,9 +7,9 @@ class Observation {
   Observation({
     required this.id,
     required this.createdAt,
-    required this.latitude,
-    required this.longitude,
-    required this.horizontalAccuracy,
+    this.latitude,
+    this.longitude,
+    this.horizontalAccuracy,
     this.gpsAltitude,
     this.altitudeAccuracy,
     this.seaLevelAltitude,
@@ -30,9 +30,9 @@ class Observation {
 
   final String id;
   final DateTime createdAt;
-  double latitude;
-  double longitude;
-  double horizontalAccuracy;
+  double? latitude;
+  double? longitude;
+  double? horizontalAccuracy;
   double? gpsAltitude;
   double? altitudeAccuracy;
   double? seaLevelAltitude, seaLevelAccuracy;
@@ -47,6 +47,49 @@ class Observation {
   Uint8List? photoBytes;
   String? photoName;
   IdentificationPath? identificationPath;
+
+  bool get hasPosition =>
+      latitude != null &&
+      longitude != null &&
+      latitude!.isFinite &&
+      longitude!.isFinite &&
+      latitude!.abs() <= 90 &&
+      longitude!.abs() <= 180;
+
+  bool get isMapPosition => positionProvider == 'manual_map';
+
+  String get positionLabel => !hasPosition
+      ? 'Posizione da aggiungere'
+      : isMapPosition
+      ? 'Punto scelto sulla mappa'
+      : horizontalAccuracy != null && horizontalAccuracy! > 0
+      ? '±${horizontalAccuracy!.toStringAsFixed(1)} m'
+      : 'Accuratezza non disponibile';
+
+  /// A manually selected point must not inherit a previous fix's GNSS metadata.
+  Observation withMapPosition(double lat, double lon, {DateTime? selectedAt}) {
+    if (!lat.isFinite ||
+        !lon.isFinite ||
+        lat.abs() > 85.05112878 ||
+        lon.abs() > 180) {
+      throw ArgumentError('Coordinate non valide per la mappa.');
+    }
+    return Observation.fromMap({
+      ...toMap(),
+      'latitude': lat,
+      'longitude': lon,
+      'horizontalAccuracy': null,
+      'gpsAltitude': null,
+      'altitudeAccuracy': null,
+      'seaLevelAltitude': null,
+      'seaLevelAccuracy': null,
+      'altitudeReference': null,
+      'positionMeasuredAt': (selectedAt ?? DateTime.now()).toIso8601String(),
+      'positionProvider': 'manual_map',
+      'satellitesUsed': null,
+      'positionMocked': null,
+    });
+  }
 
   Map<String, Object?> toMap() => {
     'id': id,
@@ -77,9 +120,9 @@ class Observation {
     return Observation(
       id: map['id'] as String,
       createdAt: DateTime.parse(map['createdAt'] as String),
-      latitude: (map['latitude'] as num).toDouble(),
-      longitude: (map['longitude'] as num).toDouble(),
-      horizontalAccuracy: (map['horizontalAccuracy'] as num).toDouble(),
+      latitude: (map['latitude'] as num?)?.toDouble(),
+      longitude: (map['longitude'] as num?)?.toDouble(),
+      horizontalAccuracy: (map['horizontalAccuracy'] as num?)?.toDouble(),
       gpsAltitude: (map['gpsAltitude'] as num?)?.toDouble(),
       altitudeAccuracy: (map['altitudeAccuracy'] as num?)?.toDouble(),
       seaLevelAltitude: (map['seaLevelAltitude'] as num?)?.toDouble(),

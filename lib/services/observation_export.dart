@@ -44,9 +44,13 @@ String observationSummary(
       'Data: ${two(date.day)}/${two(date.month)}/${date.year} ${two(date.hour)}:${two(date.minute)}',
       'Livello: ${rankLabel(o.rank)}',
       if (o.substrate != null) 'Substrato: ${o.substrate}',
-      if (includeGps) ...[
+      if (includeGps && !o.hasPosition) 'Posizione: da aggiungere',
+      if (includeGps && o.hasPosition) ...[
         'Coordinate: ${o.latitude}, ${o.longitude}',
-        'Accuratezza GPS: ±${o.horizontalAccuracy} m',
+        if (o.isMapPosition)
+          'Origine della posizione: punto scelto manualmente sulla mappa',
+        if (o.horizontalAccuracy != null && o.horizontalAccuracy! > 0)
+          'Accuratezza GPS: ±${o.horizontalAccuracy} m',
         if (o.seaLevelAltitude != null) 'Quota s.l.m.: ${o.seaLevelAltitude} m',
         if (o.seaLevelAccuracy != null)
           'Accuratezza quota s.l.m.: ±${o.seaLevelAccuracy} m',
@@ -102,6 +106,8 @@ ObservationExport exportObservations(
             'seaLevelAltitude',
             'seaLevelAccuracy',
             'altitudeReference',
+            'positionProvider',
+            'positionMeasuredAt',
           ],
           'identificationPath',
         ],
@@ -122,6 +128,8 @@ ObservationExport exportObservations(
               o.seaLevelAltitude,
               o.seaLevelAccuracy,
               o.altitudeReference,
+              o.positionProvider,
+              o.positionMeasuredAt?.toIso8601String(),
             ],
             o.identificationPath == null
                 ? null
@@ -137,7 +145,7 @@ ObservationExport exportObservations(
             {
               'type': 'Feature',
               'id': o.id,
-              'geometry': includeGps
+              'geometry': includeGps && o.hasPosition
                   ? {
                       'type': 'Point',
                       'coordinates': [o.longitude, o.latitude],
@@ -156,6 +164,8 @@ ObservationExport exportObservations(
                   'seaLevelAltitude': o.seaLevelAltitude,
                   'seaLevelAccuracy': o.seaLevelAccuracy,
                   'altitudeReference': o.altitudeReference,
+                  'positionProvider': o.positionProvider,
+                  'positionMeasuredAt': o.positionMeasuredAt?.toIso8601String(),
                 },
                 'identificationPath': o.identificationPath?.toMap(),
               },
@@ -197,8 +207,10 @@ ObservationExport exportObservations(
             o.rank == IdentificationRank.undetermined ? '' : o.rank.name,
             includeGps ? o.latitude : null,
             includeGps ? o.longitude : null,
-            includeGps ? 'WGS84' : null,
-            includeGps && o.horizontalAccuracy > 0
+            includeGps && o.hasPosition ? 'WGS84' : null,
+            includeGps &&
+                    o.horizontalAccuracy != null &&
+                    o.horizontalAccuracy! > 0
                 ? o.horizontalAccuracy
                 : null,
             includeGps && o.seaLevelAltitude != null
@@ -215,6 +227,8 @@ ObservationExport exportObservations(
                 'seaLevelAltitude': o.seaLevelAltitude,
                 'seaLevelAccuracy': o.seaLevelAccuracy,
                 'altitudeReference': o.altitudeReference,
+                'positionProvider': o.positionProvider,
+                'positionMeasuredAt': o.positionMeasuredAt?.toIso8601String(),
               },
               'identificationPath': o.identificationPath?.toMap(),
             }),

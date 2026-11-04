@@ -98,6 +98,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Nessuna'));
       await tester.pumpAndSettle();
+      expect(find.text('0 osservazioni selezionate'), findsOneWidget);
       await tester.scrollUntilVisible(
         find.byKey(const ValueKey('share-observations')),
         200,
@@ -107,7 +108,6 @@ void main() {
         find.byKey(const ValueKey('share-observations')),
       );
       expect(button.onPressed, isNull);
-      expect(find.text('0 osservazioni selezionate'), findsOneWidget);
     },
   );
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import '../models/observation.dart';
 
 class FieldFix {
   const FieldFix({
@@ -24,6 +25,22 @@ class FieldFix {
   final int? satellitesUsed;
   final bool mocked;
   bool get precise => accuracy <= 10;
+
+  Observation applyTo(Observation observation) => Observation.fromMap({
+    ...observation.toMap(),
+    'latitude': latitude,
+    'longitude': longitude,
+    'horizontalAccuracy': accuracy,
+    'gpsAltitude': ellipsoidAltitude,
+    'altitudeAccuracy': null,
+    'seaLevelAltitude': seaLevelAltitude,
+    'seaLevelAccuracy': altitudeAccuracy,
+    'altitudeReference': altitudeSource,
+    'positionMeasuredAt': timestamp.toIso8601String(),
+    'positionProvider': provider,
+    'satellitesUsed': satellitesUsed,
+    'positionMocked': mocked,
+  });
   factory FieldFix.fromMap(Map data) {
     double? finite(Object? v) => v is num && v.isFinite ? v.toDouble() : null;
     final latitude = finite(data['latitude']),

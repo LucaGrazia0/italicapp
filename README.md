@@ -524,6 +524,13 @@ La distribuzione nativa tramite TestFlight o App Store resta una procedura
 separata: richiede Xcode, un progetto iOS e la configurazione di firma Apple.
 Non è stato prodotto né firmato alcun IPA.
 
+Il progetto nativo iOS è ora predisposto in `ios/`, con logo e descrizioni dei
+permessi per foto e posizione, per la versione 0.8.8. Sul Mac attuale mancano
+Xcode, SDK iOS e configurazione di firma, quindi non è stato compilato né
+provato su iPhone. Le istruzioni sono in [README-iPhone.md](README-iPhone.md).
+Il pacchetto `Italicapp-0.8.8-Progetto-iPhone.zip` contiene i sorgenti per la
+compilazione; non è un'app installabile né un IPA.
+
 ### Condivisione dei risultati (0.8.4)
 
 Dalla singola osservazione usare l'icona Condividi; per esportare più record
@@ -646,3 +653,87 @@ aggiuntivi non riesce.
 Verifica: 172 test Flutter superati, analisi senza rilievi e controllo visivo
 del comando ITALIC e del menu semplificato. La Release GitHub 0.8.6 rimane
 invariata; la 0.8.7 è una nuova build locale finché non viene pubblicata.
+
+### Posizione dal diario su mappa online (0.8.8)
+
+La foto può essere salvata anche senza GPS. Nel diario, aprire l'osservazione e
+scegliere **Scegli sulla mappa · online** (oppure **Correggi sulla mappa · online**
+per un punto esistente). Ingrandire la mappa OpenStreetMap, toccare il luogo del
+ritrovamento e confermare **Usa questo punto**. Non viene richiesta la posizione
+attuale del dispositivo. La disponibilità del servizio viene controllata
+all'apertura e prima della conferma; in caso di errore è possibile riprovare.
+
+Solo la mappa richiede internet. Foto, coordinate confermate, note e percorso
+di determinazione restano nell'archivio locale. Il punto manuale è identificato
+da `positionProvider: manual_map`; non eredita precisione, satelliti, quota
+ellissoidica o quota sul livello del mare del vecchio rilievo GPS. Annullare
+la scelta o un errore di scrittura conservano l'osservazione precedente.
+Una posizione da aggiungere è rappresentata con coordinate nulle, mai con 0,0.
+Gli export distinguono i punti manuali, gestiscono le posizioni mancanti e
+continuano a escludere le coordinate finché l'utente non le include.
+
+Le mappe non sono incluse nel pacchetto offline e non vengono scaricate in
+blocco. Il visualizzatore conserva la normale cache HTTP delle sole tessere
+viste, identifica l'app e mostra l'attribuzione OpenStreetMap.
+Riferimenti: https://docs.fleaflet.dev/ e
+https://operations.osmfoundation.org/policies/tiles/.
+
+### Filtro colore e scelta GPS/mappa (0.8.9)
+
+In **Chiavi · tutti i taxa → Caratteri del campione → Tallo** è disponibile
+il colore della superficie superiore: bianco/grigio, verde, giallo/crema,
+arancione, bruno e nero. Il confronto indicativo usa il dizionario con regioni
+anatomiche distinte, escludendo colori di pagina inferiore, medulla, apoteci,
+sorali, ciglia, macule, pruina e reazioni chimiche. Le descrizioni condizionali
+o insufficienti restano sconosciute. Le revisioni manuali correnti hanno
+precedenza; bozze, sospensioni, stati sconosciuti e revisioni obsolete non
+riattivano l'estrazione automatica. Sull'edizione inclusa, senza revisioni
+personali, sono confrontabili 857 dei 3.588 taxa; gli altri 2.731 sono mantenuti
+tra i candidati. I filtri colore sono combinati agli altri caratteri, salvati
+nel percorso e ripristinati con l'edizione scientifica richiesta.
+
+**Usa GPS** e **Scegli sulla mappa · online** sono disponibili sia durante
+la creazione della foto sia riaprendo un'osservazione dal diario. Il GPS
+registra la posizione attuale del dispositivo; la mappa permette di scegliere
+il luogo del ritrovamento. Il passaggio al punto manuale rimuove i metadati
+GNSS precedenti; una nuova misura GPS li sostituisce con quelli del nuovo
+rilievo, senza perdere foto, note o determinazione. Annullamento ed errori
+mantengono la posizione precedente; una risposta GPS successiva all'annullamento
+non viene applicata.
+
+Le fotografie delle specie non sono state aggiunte. La sola analisi del peso
+è in `reports/species_photos/size-estimate.md`, con campione e misure HEAD nel
+JSON affiancato. Lo script `tools/estimate_species_photos.py` non scarica corpi
+immagine e non modifica gli asset dell'app.
+
+
+## Foto delle specie offline · versione 0.8.10
+
+Le schede ITALIC e l’esito della chiave generale mostrano la prima fotografia della
+corrispondente scheda DoLichens, con ingrandimento locale e collegamento alla fonte.
+Il catalogo `assets/italic/species_photos_v1.json` associa ogni immagine all’ID
+ITALIC e al nome scientifico controllato nella pagina sorgente. Una modifica del
+nome negli aggiornamenti scientifici sospende l’associazione fotografica, senza
+riutilizzare la foto di un altro taxon. Gli otto archivi scientifici e il diario
+non vengono riscritti da questa integrazione.
+
+Le foto sono incluse nell’APK in WebP, con lato maggiore massimo di 960 pixel,
+senza ingrandire immagini piccole o ritagliare tavole composte. La compressione
+usa qualità encoder 82 (78 per file più grandi), mantenendo i crediti originali
+nel catalogo e nella scheda. Gli originali e i metadati intermedi restano nella
+cache ignorata da Git. Se un originale supera 8 MB, viene usata la miniatura
+ITALIC della stessa prima foto; un file non disponibile o un’identità discordante
+rimangono esplicitamente senza foto offline. Il rapporto di copertura è in
+`reports/species_photos/offline-build-0.8.10.json`.
+
+Per ripetere l’importazione riprendibile (richiede Pillow con WebP e connessione):
+
+```sh
+python3 tools/build_species_photos.py --workers 4
+```
+
+Nell’APK non serve preparare un ulteriore download fotografico. Sul web,
+**Prepara uso offline** verifica anche catalogo e immagini. I pulsanti alle
+pagine esterne richiedono internet. Le foto di questa prima versione si
+aggiornano con l’APK; il pulsante degli aggiornamenti scientifici continua a
+riguardare i suoi otto archivi, senza sostituire diario o foto di osservazioni.

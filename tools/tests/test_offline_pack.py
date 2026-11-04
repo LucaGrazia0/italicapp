@@ -27,13 +27,19 @@ class OfflinePackTests(unittest.TestCase):
         }
         pubspec = SCRIPT.parents[1] / 'pubspec.yaml'
         paths.update('assets/' + m[1] for m in re.finditer(
-            r'^\s+- (?:asset: )?(assets/[^\s]+)$', pubspec.read_text(), re.M))
+            r'^\s+- (?:asset: )?(assets/[^\s]+)$', pubspec.read_text(), re.M)
+                     if not m[1].endswith('/'))
+        photo = 'assets/assets/photos/' + 'a' * 24 + '.webp'
+        paths.add(photo)
         for path in paths:
             file = root / path
             file.parent.mkdir(parents=True, exist_ok=True)
             file.write_text('fixture')
         (root / 'assets/FontManifest.json').write_text(json.dumps([
             {'family':'Icons', 'fonts':[{'asset':'fonts/icons.otf'}]}]))
+        (root / 'assets/assets/italic/species_photos_v1.json').write_text(json.dumps({
+            'photos': [{'asset': 'assets/photos/' + 'a' * 24 + '.webp'}]}))
+        (root / 'assets/assets/photos/unlisted.webp').write_text('stale')
         (root / 'assets/assets/italic/old_checklist 3.json').write_text('stale')
         (root / 'canvaskit/canvaskit 2.wasm').write_text('duplicate')
         return paths
@@ -61,3 +67,11 @@ class OfflinePackTests(unittest.TestCase):
             with self.assertRaises(FileNotFoundError):
                 self.prepare(root)
             self.assertFalse((root / 'italic_offline_worker.js').exists())
+
+    def test_missing_photo_prevents_reporting_the_pack_complete(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            self.fixture(root)
+            (root / ('assets/assets/photos/' + 'a' * 24 + '.webp')).unlink()
+            with self.assertRaises(FileNotFoundError):
+                self.prepare(root)

@@ -2,6 +2,7 @@ import '../data/character_matrix_repository.dart';
 import '../data/italic_api_traits_repository.dart';
 import 'reconstructed_key.dart';
 import 'structured_key_engine.dart';
+import 'thallus_colour.dart';
 
 /// Optional comparisons with documented structured and binary traits.
 /// Unknown or stale evidence never excludes a taxon.
@@ -82,7 +83,11 @@ class KeyPrefilter {
         ],
       ),
   ];
-  static final questions = [...legacyQuestions, ...binaryQuestions];
+  static final questions = [
+    ...legacyQuestions,
+    ThallusColour.question,
+    ...binaryQuestions,
+  ];
   static Map<String, String> normalize(Map<String, String> input) => {
     for (final q in questions)
       if (q.choice(input[q.id] ?? '') != null) q.id: input[q.id]!,
@@ -120,8 +125,17 @@ class KeyPrefilter {
           : engine.assess(row, selections);
       var differs = assessment?.differs == true;
       var missing =
-          filters.keys.any((id) => !id.startsWith('binary:')) &&
+          filters.keys.any((id) => legacyQuestions.any((q) => q.id == id)) &&
           (assessment == null || assessment.uncertain);
+      final colour = filters[ThallusColour.id];
+      if (colour != null) {
+        final agrees =
+            row == null || row.taxon.scientificName != t.scientificName
+            ? null
+            : ThallusColour.matches(row, colour);
+        if (agrees == null) missing = true;
+        if (agrees == false) differs = true;
+      }
       final api = apiRows[t.italicId];
       for (final entry in filters.entries.where(
         (e) => e.key.startsWith('binary:'),

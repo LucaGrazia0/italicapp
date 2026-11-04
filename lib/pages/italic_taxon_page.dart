@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../data/italic_reference_repository.dart';
 import '../models/ecological_scale.dart';
 import '../widgets/official_key_link.dart';
+import '../widgets/taxon_photo_card.dart';
 
 class ItalicTaxonPage extends StatelessWidget {
   const ItalicTaxonPage({super.key, required this.taxon});
@@ -25,6 +26,7 @@ class ItalicTaxonPage extends StatelessWidget {
               ),
             ),
             if (taxon.italicId != null) Text('ITALIC ID ${taxon.italicId}'),
+            TaxonPhotoCard(taxon: taxon),
             const Divider(height: 32),
             if (taxon.description?.trim().isNotEmpty == true)
               block(context, 'Descrizione', taxon.description!),

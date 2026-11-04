@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:idb_shim/idb_client_memory.dart';
 import 'package:italicapp/app_store.dart';
 import 'package:italicapp/data/observation_repository.dart';
@@ -52,6 +53,8 @@ void main() {
     _Picker picker,
     _Store store, {
     VoidCallback? onSaved,
+    Widget Function(double?, double?)? mapBuilder,
+    Future<FieldFix> Function()? locationCapture,
   }) async {
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
@@ -64,6 +67,8 @@ void main() {
             picker: picker,
             store: store,
             onSaved: onSaved ?? () {},
+            mapBuilder: mapBuilder,
+            locationCapture: locationCapture,
           ),
         ),
       ),
@@ -132,12 +137,14 @@ void main() {
       await show(tester, picker, store, onSaved: () => saved = true);
       await tester.tap(gallery);
       await tester.pumpAndSettle();
-      final gps = find.byTooltip('Acquisisci posizione');
+      final gps = find.byKey(const ValueKey('capture-gps'));
       await tester.scrollUntilVisible(
         gps,
         180,
         scrollable: find.byType(Scrollable).first,
       );
+      await tester.ensureVisible(gps);
+      await tester.pump();
       await tester.tap(gps);
       await tester.pumpAndSettle();
       final notes = find.byType(TextField);
@@ -165,6 +172,184 @@ void main() {
       expect(store.saved!.gpsAltitude, 400);
       expect(store.saved!.seaLevelAltitude, 350);
       expect(store.saved!.seaLevelAccuracy, 5);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'A photo can be saved without GPS, leaving the position genuinely missing for later map selection',
+    (tester) async {
+      final store = _Store();
+      await show(tester, _Picker()..next = image(), store);
+      await tester.tap(gallery);
+      await tester.pumpAndSettle();
+      final save = find.text('Salva osservazione');
+      await tester.scrollUntilVisible(
+        save,
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(save);
+      await tester.pumpAndSettle();
+      expect(store.saved!.photoBytes, imageBytes);
+      expect(store.saved!.hasPosition, false);
+      expect(store.saved!.latitude, isNull);
+      expect(store.saved!.longitude, isNull);
+      expect(store.saved!.horizontalAccuracy, isNull);
+      expect(store.saved!.seaLevelAltitude, isNull);
+      expect(store.saved!.positionProvider, isNull);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'GPS can be replaced by a map point before saving, with no stale altitude or precision',
+    (tester) async {
+      final store = _Store();
+      await show(
+        tester,
+        _Picker()..next = image(),
+        store,
+        locationCapture: () async => FieldFix(
+          latitude: 45.1,
+          longitude: 11.2,
+          accuracy: 3,
+          timestamp: DateTime.now(),
+          seaLevelAltitude: 350,
+          ellipsoidAltitude: 400,
+          altitudeAccuracy: 5,
+          provider: 'gps',
+          satellitesUsed: 8,
+        ),
+        mapBuilder: (lat, lon) {
+          expect(lat, 45.1);
+          expect(lon, 11.2);
+          return Builder(
+            builder: (context) => Scaffold(
+              body: Center(
+                child: FilledButton(
+                  onPressed: () => Navigator.pop(context, const LatLng(46, 12)),
+                  child: const Text('Punto di prova'),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+      await tester.tap(gallery);
+      await tester.pumpAndSettle();
+      final gps = find.byKey(const ValueKey('capture-gps'));
+      await tester.scrollUntilVisible(
+        gps,
+        150,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.ensureVisible(gps);
+      await tester.pump();
+      await tester.tap(gps);
+      await tester.pumpAndSettle();
+      final map = find.byKey(const ValueKey('capture-map'));
+      await tester.ensureVisible(map);
+      await tester.ensureVisible(map);
+      await tester.pump();
+      await tester.tap(map);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Punto di prova'));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('Salva osservazione'),
+        150,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(find.text('Salva osservazione'));
+      await tester.pumpAndSettle();
+      expect(store.saved!.latitude, 46);
+      expect(store.saved!.longitude, 12);
+      expect(store.saved!.isMapPosition, true);
+      expect(store.saved!.photoBytes, imageBytes);
+      expect(store.saved!.seaLevelAltitude, isNull);
+      expect(store.saved!.gpsAltitude, isNull);
+      expect(store.saved!.horizontalAccuracy, isNull);
+      expect(store.saved!.satellitesUsed, isNull);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'Cancelling GPS ignores a late fix and keeps the selected map point; GPS can then replace it',
+    (tester) async {
+      final store = _Store();
+      final pending = Completer<FieldFix>();
+      var calls = 0;
+      final fix = FieldFix(
+        latitude: 45.1,
+        longitude: 11.2,
+        accuracy: 4,
+        timestamp: DateTime.now(),
+        seaLevelAltitude: 350,
+        altitudeAccuracy: 5,
+        provider: 'gps',
+      );
+      await show(
+        tester,
+        _Picker()..next = image(),
+        store,
+        locationCapture: () =>
+            ++calls == 1 ? pending.future : Future.value(fix),
+        mapBuilder: (_, _) => Builder(
+          builder: (context) => Scaffold(
+            body: Center(
+              child: FilledButton(
+                onPressed: () => Navigator.pop(context, const LatLng(46, 12)),
+                child: const Text('Punto di prova'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(gallery);
+      await tester.pumpAndSettle();
+      final map = find.byKey(const ValueKey('capture-map'));
+      await tester.scrollUntilVisible(
+        map,
+        150,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.ensureVisible(map);
+      await tester.pump();
+      await tester.tap(map);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Punto di prova'));
+      await tester.pumpAndSettle();
+      final gps = find.byKey(const ValueKey('capture-gps'));
+      await tester.ensureVisible(gps);
+      await tester.ensureVisible(gps);
+      await tester.pump();
+      await tester.tap(gps);
+      await tester.pump();
+      await tester.ensureVisible(find.text('Annulla misura GPS'));
+      await tester.tap(find.text('Annulla misura GPS'));
+      await tester.pumpAndSettle();
+      pending.complete(fix);
+      await tester.pumpAndSettle();
+      expect(find.textContaining('46.000000, 12.000000'), findsOneWidget);
+      await tester.ensureVisible(gps);
+      await tester.ensureVisible(gps);
+      await tester.pump();
+      await tester.tap(gps);
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('Salva osservazione'),
+        150,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(find.text('Salva osservazione'));
+      await tester.pumpAndSettle();
+      expect(store.saved!.isMapPosition, false);
+      expect(store.saved!.positionProvider, 'gps');
+      expect(store.saved!.latitude, 45.1);
+      expect(store.saved!.seaLevelAltitude, 350);
+      expect(store.saved!.horizontalAccuracy, 4);
       expect(tester.takeException(), isNull);
     },
   );

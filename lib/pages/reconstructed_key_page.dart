@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import '../widgets/taxon_photo_card.dart';
 import 'package:flutter/foundation.dart' show mapEquals;
 import 'package:url_launcher/link.dart';
 import '../app_store.dart';
 import '../data/character_matrix_repository.dart';
+import '../data/key_character_matrix_repository.dart';
+import '../services/thallus_colour.dart';
 import '../data/italic_api_traits_repository.dart';
 import '../data/scientific_data.dart';
 import '../services/key_prefilter.dart';
@@ -90,7 +93,11 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
       if (filters.isNotEmpty) {
         final matrix =
             widget.matrix ??
-            await CharacterMatrixRepository().load(revision: requestedEdition);
+            await (filters.containsKey(ThallusColour.id)
+                ? KeyCharacterMatrixRepository().load(
+                    revision: requestedEdition,
+                  )
+                : CharacterMatrixRepository().load(revision: requestedEdition));
         final api = filters.keys.any((k) => k.startsWith('binary:'))
             ? (widget.apiMatrix ??
                   await ItalicApiTraitsRepository().load(
@@ -449,6 +456,8 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
                     key: const ValueKey('reconstructed-result'),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
+                  if (!key.extraTaxa.contains(node.taxonId))
+                    TaxonPhotoCard(taxon: key.taxa[node.taxonId]!),
                   if (!key.extraTaxa.contains(node.taxonId) &&
                       widget.observation != null)
                     CandidateSelectionButton(

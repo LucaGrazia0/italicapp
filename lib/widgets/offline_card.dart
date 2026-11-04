@@ -80,13 +80,13 @@ class _OfflineCardState extends State<OfflineCard> {
           const SizedBox(height: 8),
           Text(
             !offlinePackSupported
-                ? 'Le chiavi e la matrice sono incluse nell’app.'
+                ? 'Le chiavi, la matrice e le foto disponibili sono incluse nell’app.'
                 : ready
                 ? 'Copia offline pronta su questo browser.'
-                : 'Prepara una copia completa delle chiavi, della matrice e del dizionario prima di uscire sul campo.',
+                : 'Prepara una copia completa delle chiavi, della matrice, del dizionario e delle foto prima di uscire sul campo.',
           ),
           const Text(
-            'Le pagine e le immagini sul sito ITALIC, il download di nuove descrizioni e la creazione online di nuove chiavi richiedono internet. Le osservazioni e le revisioni restano su questo dispositivo: la copia offline non è un backup.',
+            'Le foto incluse nelle schede funzionano offline. Le pagine esterne ITALIC e DoLichens, le mappe, il download di nuove descrizioni e la creazione online di nuove chiavi richiedono internet. Le osservazioni e le revisioni restano su questo dispositivo: la copia offline non è un backup.',
           ),
           if (offlinePackSupported) ...[
             const Text(

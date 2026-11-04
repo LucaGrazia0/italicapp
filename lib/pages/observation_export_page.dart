@@ -180,9 +180,9 @@ class _ObservationExportPageState extends State<ObservationExportPage> {
                 SwitchListTile(
                   key: const ValueKey('export-gps'),
                   contentPadding: EdgeInsets.zero,
-                  title: const Text('Includi coordinate GPS'),
+                  title: const Text('Includi posizione e quota'),
                   subtitle: const Text(
-                    'Comprende anche accuratezza e quota. Le coordinate sono escluse inizialmente.',
+                    'Comprende posizione GPS o scelta sulla mappa e, se disponibili, accuratezza e quota. Le coordinate sono escluse inizialmente.',
                   ),
                   value: includeGps,
                   onChanged: working
@@ -191,7 +191,7 @@ class _ObservationExportPageState extends State<ObservationExportPage> {
                 ),
                 if (format == ObservationExportFormat.geojson && !includeGps)
                   const Text(
-                    'Per vedere i punti su una mappa, includi le coordinate GPS.',
+                    'Per vedere i punti su una mappa, includi la posizione.',
                   ),
                 if (hasSinglePhoto)
                   SwitchListTile(

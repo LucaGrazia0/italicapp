@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:latlong2/latlong.dart';
 import '../app_store.dart';
 import '../models/observation.dart';
 import '../services/field_location.dart';
 import 'package:flutter/services.dart';
+import 'map_location_page.dart';
 
 class CapturePage extends StatefulWidget {
   const CapturePage({
@@ -12,10 +14,14 @@ class CapturePage extends StatefulWidget {
     required this.store,
     required this.onSaved,
     this.picker,
+    this.mapBuilder,
+    this.locationCapture,
   });
   final AppStore store;
   final VoidCallback onSaved;
   final ImagePicker? picker;
+  final Widget Function(double?, double?)? mapBuilder;
+  final Future<FieldFix> Function()? locationCapture;
 
   @override
   State<CapturePage> createState() => _CapturePageState();
@@ -27,6 +33,9 @@ class _CapturePageState extends State<CapturePage> {
   Uint8List? photo;
   String? photoName;
   FieldFix? position;
+  LatLng? mapPoint;
+  DateTime? mapSelectedAt;
+  int locationRequest = 0;
   bool locating = false;
   String? substrate;
   bool busy = false;
@@ -116,16 +125,23 @@ class _CapturePageState extends State<CapturePage> {
 
   Future<void> locate() async {
     if (busy) return;
+    final request = ++locationRequest;
     setState(() {
       busy = true;
       locating = true;
       error = null;
     });
     try {
-      final fix = await FieldLocation.capture();
-      if (mounted) setState(() => position = fix);
+      final fix = await (widget.locationCapture ?? FieldLocation.capture)();
+      if (mounted && request == locationRequest) {
+        setState(() {
+          position = fix;
+          mapPoint = null;
+          mapSelectedAt = null;
+        });
+      }
     } catch (e) {
-      if (mounted) {
+      if (mounted && request == locationRequest) {
         setState(
           () => error = e is PlatformException
               ? (e.message ?? 'Misura GPS non disponibile.')
@@ -133,7 +149,7 @@ class _CapturePageState extends State<CapturePage> {
         );
       }
     } finally {
-      if (mounted) {
+      if (mounted && request == locationRequest) {
         setState(() {
           busy = false;
           locating = false;
@@ -142,37 +158,69 @@ class _CapturePageState extends State<CapturePage> {
     }
   }
 
+  Future<void> cancelLocate() async {
+    locationRequest++;
+    setState(() {
+      busy = false;
+      locating = false;
+    });
+    await FieldLocation.cancel();
+  }
+
+  Future<void> chooseMap() async {
+    if (busy) return;
+    final lat = mapPoint?.latitude ?? position?.latitude;
+    final lon = mapPoint?.longitude ?? position?.longitude;
+    setState(() {
+      busy = true;
+      error = null;
+    });
+    try {
+      final point = await Navigator.push<LatLng>(
+        context,
+        MaterialPageRoute(
+          builder: (_) =>
+              widget.mapBuilder?.call(lat, lon) ??
+              MapLocationPage(initialLatitude: lat, initialLongitude: lon),
+        ),
+      );
+      if (mounted && point != null) {
+        setState(() {
+          mapPoint = point;
+          mapSelectedAt = DateTime.now();
+          position = null;
+        });
+      }
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
+  }
+
   Future<void> save() async {
-    if (photo == null || position == null) {
-      setState(() => error = 'Servono almeno una foto e una posizione GPS.');
+    if (photo == null) {
+      setState(() => error = 'Aggiungi una foto per salvare l’osservazione.');
       return;
     }
     setState(() {
       busy = true;
       error = null;
     });
-    final p = position!;
     final now = DateTime.now();
-    final o = Observation(
+    final base = Observation(
       id: 'obs-${now.microsecondsSinceEpoch}',
       createdAt: now,
-      latitude: p.latitude,
-      longitude: p.longitude,
-      horizontalAccuracy: p.accuracy,
-      gpsAltitude: p.ellipsoidAltitude,
-      altitudeAccuracy: null,
-      seaLevelAltitude: p.seaLevelAltitude,
-      seaLevelAccuracy: p.altitudeAccuracy,
-      altitudeReference: p.altitudeSource,
-      positionMeasuredAt: p.timestamp,
-      positionProvider: p.provider,
-      satellitesUsed: p.satellitesUsed,
-      positionMocked: p.mocked,
       substrate: substrate,
       notes: notes.text.trim(),
       photoBytes: photo,
       photoName: photoName,
     );
+    final o = mapPoint != null
+        ? base.withMapPosition(
+            mapPoint!.latitude,
+            mapPoint!.longitude,
+            selectedAt: mapSelectedAt,
+          )
+        : position?.applyTo(base) ?? base;
     try {
       await widget.store.save(o);
       if (!mounted) return;
@@ -180,6 +228,8 @@ class _CapturePageState extends State<CapturePage> {
         photo = null;
         photoName = null;
         position = null;
+        mapPoint = null;
+        mapSelectedAt = null;
         substrate = null;
         notes.clear();
       });
@@ -190,7 +240,7 @@ class _CapturePageState extends State<CapturePage> {
       );
       widget.onSaved();
     } catch (e) {
-      setState(() => error = 'Errore durante il salvataggio: $e');
+      if (mounted) setState(() => error = 'Errore durante il salvataggio: $e');
     } finally {
       if (mounted) setState(() => busy = false);
     }
@@ -198,6 +248,7 @@ class _CapturePageState extends State<CapturePage> {
 
   @override
   void dispose() {
+    locationRequest++;
     if (locating) FieldLocation.cancel();
     notes.dispose();
     super.dispose();
@@ -215,7 +266,9 @@ class _CapturePageState extends State<CapturePage> {
           ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
         ),
         const SizedBox(height: 6),
-        const Text('La foto e la posizione sono il nucleo dell’osservazione.'),
+        const Text(
+          'Aggiungi la foto e scegli la posizione con il GPS o sulla mappa. Puoi farlo anche in seguito dal diario.',
+        ),
         const SizedBox(height: 20),
         AspectRatio(
           aspectRatio: 16 / 9,
@@ -264,13 +317,19 @@ class _CapturePageState extends State<CapturePage> {
             title: Text(
               locating
                   ? 'Ricerca satelliti… fino a 35 secondi'
+                  : mapPoint != null
+                  ? '${mapPoint!.latitude.toStringAsFixed(6)}, ${mapPoint!.longitude.toStringAsFixed(6)}'
                   : position == null
                   ? 'Posizione non acquisita'
                   : '${position!.latitude.toStringAsFixed(6)}, ${position!.longitude.toStringAsFixed(6)}',
             ),
-            subtitle: position == null
+            subtitle: mapPoint != null
                 ? const Text(
-                    'Misura all’aperto per una migliore precisione. La quota viene riferita al livello del mare.',
+                    'Punto scelto sulla mappa · quota e precisione GPS non misurate.',
+                  )
+                : position == null
+                ? const Text(
+                    'GPS facoltativo. Puoi salvare ora e scegliere il punto sulla mappa dal diario quando hai internet. La quota GPS, se disponibile, è riferita al livello del mare.',
                   )
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,19 +352,39 @@ class _CapturePageState extends State<CapturePage> {
                         const Text('Posizione simulata dal dispositivo.'),
                     ],
                   ),
-            trailing: IconButton(
-              tooltip: position == null
+          ),
+        ),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: [
+            Tooltip(
+              message: position == null
                   ? 'Acquisisci posizione'
                   : 'Aggiorna posizione',
-              onPressed: busy ? null : locate,
-              icon: const Icon(Icons.gps_fixed),
+              child: FilledButton.icon(
+                key: const ValueKey('capture-gps'),
+                onPressed: busy ? null : locate,
+                icon: const Icon(Icons.gps_fixed),
+                label: const Text('Usa GPS'),
+              ),
             ),
-          ),
+            OutlinedButton.icon(
+              key: const ValueKey('capture-map'),
+              onPressed: busy ? null : chooseMap,
+              icon: const Icon(Icons.map_outlined),
+              label: const Text('Scegli sulla mappa · online'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Il GPS registra dove ti trovi adesso. Sulla mappa scegli il luogo del ritrovamento.',
         ),
         if (locating) ...[
           const LinearProgressIndicator(),
           TextButton(
-            onPressed: FieldLocation.cancel,
+            onPressed: cancelLocate,
             child: const Text('Annulla misura GPS'),
           ),
         ],

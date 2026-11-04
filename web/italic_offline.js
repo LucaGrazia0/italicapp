@@ -13,9 +13,17 @@
     const target = await worker();
     return new Promise((resolve, reject) => {
       const channel = new MessageChannel();
-      const timeout = setTimeout(() => reject(new Error('Operazione non completata. Riprova.')), 180000);
+      let timeout;
+      const keepAlive = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          channel.port1.close();
+          reject(new Error('Operazione non completata. Riprova.'));
+        }, 180000);
+      };
+      keepAlive();
       channel.port1.onmessage = ({data}) => {
-        if (data.progress != null) { progress = data; return; }
+        if (data.progress != null) { progress = data; keepAlive(); return; }
         clearTimeout(timeout);
         channel.port1.close();
         if (data.error) reject(new Error(data.error));

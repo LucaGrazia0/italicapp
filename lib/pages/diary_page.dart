@@ -124,7 +124,7 @@ class _DiaryPageState extends State<DiaryPage> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              '±${o.horizontalAccuracy.toStringAsFixed(1)} m',
+                              o.positionLabel,
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ],

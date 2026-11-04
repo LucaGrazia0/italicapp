@@ -62,3 +62,9 @@ android/key.properties
 
 # Android compiler session cache
 android/.kotlin/
+
+# iOS distributions and private signing material
+*.ipa
+*.xcarchive/
+*.mobileprovision
+*.p12

@@ -16,11 +16,21 @@ def prepare(root: Path):
              'canvaskit/canvaskit.js', 'canvaskit/canvaskit.wasm',
              'assets/AssetManifest.bin', 'assets/AssetManifest.bin.json',
              'assets/FontManifest.json', 'assets/NOTICES'}
-    # pubspec declarations here are scalar asset paths. Generated package fonts
-    # and renderer shaders are included separately. Fail on missing resources.
+    # Photo directories use an explicit catalogue, not all build leftovers.
     pubspec = Path(__file__).resolve().parents[1] / 'pubspec.yaml'
     for match in re.finditer(r'^\s+- (?:asset: )?(assets/[^\s]+)$', pubspec.read_text(), re.M):
-        paths.add('assets/' + match[1])
+        declared = match[1]
+        if declared.endswith('/'):
+            if declared != 'assets/photos/':
+                raise ValueError('Asset directory has no explicit manifest: ' + declared)
+            photos = json.loads((root / 'assets/assets/italic/species_photos_v1.json').read_text())
+            for photo in photos['photos']:
+                asset = photo['asset']
+                if not re.fullmatch(r'assets/photos/[a-f0-9]{24}\.webp', asset):
+                    raise ValueError('Invalid photo asset: ' + asset)
+                paths.add('assets/' + asset)
+        else:
+            paths.add('assets/' + declared)
     for family in json.loads((root / 'assets/FontManifest.json').read_text()):
         for font in family['fonts']:
             paths.add('assets/' + font['asset'])

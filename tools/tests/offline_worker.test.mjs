@@ -5,7 +5,7 @@ import {webcrypto, createHash} from 'node:crypto';
 import vm from 'node:vm';
 
 function harness(base = 'http://127.0.0.1:8767/') {
-  const files = {'index.html':'app shell', 'main.dart.js':'application', 'assets/matrix.json':'matrix'};
+  const files = {'index.html':'app shell', 'main.dart.js':'application', 'assets/matrix.json':'matrix', 'assets/photos/example.webp':'bundled first species photo'};
   const pack = {version:'test', bytes:32, resources:Object.entries(files).map(([path, value]) => ({path, sha256:createHash('sha256').update(value).digest('hex')}))};
   const stores = new Map();
   const address = request => typeof request === 'string' ? request : request.url;
@@ -55,7 +55,15 @@ test('A complete pack serves a cold navigation and matrix while network is unava
   h.offline();
   assert.equal(await (await h.request('', 'navigate')).text(), 'app shell');
   assert.equal(await (await h.request('assets/matrix.json')).text(), 'matrix');
+  assert.equal(await (await h.request('assets/photos/example.webp')).text(), 'bundled first species photo');
   assert.equal((await h.message('status')).ready, true);
+});
+
+test('A missing or changed photo prevents offline readiness', async () => {
+  const h = harness();
+  h.files['assets/photos/example.webp'] = 'wrong species photo';
+  assert.match((await h.message('prepare')).error, /aggiornata/);
+  assert.equal((await h.message('status')).ready, false);
 });
 
 test('Failed downloads and partial eviction never claim offline readiness', async () => {

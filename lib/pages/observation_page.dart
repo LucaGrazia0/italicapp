@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:flutter/services.dart';
 import '../app_store.dart';
 import '../models/observation.dart';
 import '../widgets/photo_view.dart';
 import 'determination_page.dart';
 import 'observation_export_page.dart';
+import 'map_location_page.dart';
+import '../services/field_location.dart';
 
 class ObservationPage extends StatefulWidget {
   const ObservationPage({
     super.key,
     required this.observation,
     required this.store,
+    this.mapBuilder,
+    this.locationCapture,
   });
   final Observation observation;
   final AppStore store;
+  final Widget Function(Observation)? mapBuilder;
+  final Future<FieldFix> Function()? locationCapture;
 
   @override
   State<ObservationPage> createState() => _ObservationPageState();
@@ -22,6 +30,11 @@ class _ObservationPageState extends State<ObservationPage> {
   late final TextEditingController notes;
   String? substrate;
   bool editing = false;
+  bool savingPosition = false;
+  bool locating = false;
+  int locationRequest = 0;
+  String? positionError;
+  late Observation observation;
 
   static const substrates = [
     'Roccia silicea',
@@ -36,21 +49,120 @@ class _ObservationPageState extends State<ObservationPage> {
   @override
   void initState() {
     super.initState();
+    observation = widget.observation;
     notes = TextEditingController(text: widget.observation.notes);
     substrate = widget.observation.substrate;
   }
 
   @override
   void dispose() {
+    locationRequest++;
+    if (locating) FieldLocation.cancel();
     notes.dispose();
     super.dispose();
   }
 
   Future<void> saveEdit() async {
-    widget.observation.notes = notes.text.trim();
-    widget.observation.substrate = substrate;
-    await widget.store.save(widget.observation);
+    observation.notes = notes.text.trim();
+    observation.substrate = substrate;
+    await widget.store.save(observation);
     if (mounted) setState(() => editing = false);
+  }
+
+  Future<void> choosePosition() async {
+    if (savingPosition || editing) return;
+    final point = await Navigator.push<LatLng>(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            widget.mapBuilder?.call(observation) ??
+            MapLocationPage(
+              initialLatitude: observation.hasPosition
+                  ? observation.latitude
+                  : null,
+              initialLongitude: observation.hasPosition
+                  ? observation.longitude
+                  : null,
+            ),
+      ),
+    );
+    if (!mounted || point == null) return;
+    setState(() {
+      savingPosition = true;
+      positionError = null;
+    });
+    try {
+      final updated = observation.withMapPosition(
+        point.latitude,
+        point.longitude,
+      );
+      await widget.store.save(updated);
+      if (!mounted) return;
+      setState(() => observation = updated);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Posizione salvata nel diario. Disponibile anche offline.',
+          ),
+        ),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Impossibile salvare la posizione. Il punto precedente è stato conservato. Riprova.',
+          ),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => savingPosition = false);
+    }
+  }
+
+  Future<void> locate() async {
+    if (savingPosition || editing) return;
+    final request = ++locationRequest;
+    setState(() {
+      savingPosition = true;
+      locating = true;
+      positionError = null;
+    });
+    try {
+      final fix = await (widget.locationCapture ?? FieldLocation.capture)();
+      if (!mounted || request != locationRequest) return;
+      setState(() => locating = false);
+      final updated = fix.applyTo(observation);
+      await widget.store.save(updated);
+      if (!mounted || request != locationRequest) return;
+      setState(() => observation = updated);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Posizione GPS salvata nel diario.')),
+      );
+    } catch (e) {
+      if (!mounted || request != locationRequest) return;
+      setState(
+        () => positionError = e is PlatformException
+            ? '${e.message ?? "Misura GPS non disponibile."} Il punto precedente è stato conservato.'
+            : 'Posizione GPS non salvata. Il punto precedente è stato conservato. $e',
+      );
+    } finally {
+      if (mounted && request == locationRequest) {
+        setState(() {
+          savingPosition = false;
+          locating = false;
+        });
+      }
+    }
+  }
+
+  Future<void> cancelLocate() async {
+    locationRequest++;
+    setState(() {
+      savingPosition = false;
+      locating = false;
+    });
+    await FieldLocation.cancel();
   }
 
   Future<void> remove() async {
@@ -74,14 +186,14 @@ class _ObservationPageState extends State<ObservationPage> {
       ),
     );
     if (ok == true) {
-      await widget.store.delete(widget.observation);
+      await widget.store.delete(observation);
       if (mounted) Navigator.pop(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final o = widget.observation;
+    final o = observation;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Osservazione'),
@@ -90,7 +202,7 @@ class _ObservationPageState extends State<ObservationPage> {
             tooltip: editing
                 ? 'Salva le modifiche prima di condividere'
                 : 'Condividi risultati',
-            onPressed: editing
+            onPressed: editing || savingPosition
                 ? null
                 : () => Navigator.push(
                     context,
@@ -102,14 +214,16 @@ class _ObservationPageState extends State<ObservationPage> {
           ),
           IconButton(
             tooltip: editing ? 'Salva' : 'Modifica',
-            onPressed: editing
+            onPressed: savingPosition
+                ? null
+                : editing
                 ? saveEdit
                 : () => setState(() => editing = true),
             icon: Icon(editing ? Icons.save : Icons.edit_outlined),
           ),
           IconButton(
             tooltip: 'Elimina',
-            onPressed: remove,
+            onPressed: savingPosition ? null : remove,
             icon: const Icon(Icons.delete_outline),
           ),
         ],
@@ -137,12 +251,68 @@ class _ObservationPageState extends State<ObservationPage> {
               info(
                 Icons.location_on_outlined,
                 'Coordinate',
-                '${o.latitude.toStringAsFixed(6)}, ${o.longitude.toStringAsFixed(6)}',
+                o.hasPosition
+                    ? '${o.latitude!.toStringAsFixed(6)}, ${o.longitude!.toStringAsFixed(6)}'
+                    : 'Da aggiungere · puoi scegliere il punto sulla mappa online',
               ),
-              info(
-                Icons.gps_fixed,
-                'Accuratezza GPS',
-                '±${o.horizontalAccuracy.toStringAsFixed(1)} m',
+              if (o.hasPosition)
+                info(
+                  o.isMapPosition ? Icons.touch_app_outlined : Icons.gps_fixed,
+                  o.isMapPosition
+                      ? 'Origine della posizione'
+                      : 'Accuratezza GPS',
+                  o.positionLabel,
+                ),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  FilledButton.icon(
+                    key: const ValueKey('observation-gps'),
+                    onPressed: editing || savingPosition ? null : locate,
+                    icon: const Icon(Icons.gps_fixed),
+                    label: const Text('Usa GPS'),
+                  ),
+                  OutlinedButton.icon(
+                    key: const ValueKey('choose-map-position'),
+                    onPressed: editing || savingPosition
+                        ? null
+                        : choosePosition,
+                    icon: const Icon(Icons.add_location_alt_outlined),
+                    label: Text(
+                      savingPosition
+                          ? 'Salvataggio…'
+                          : o.hasPosition
+                          ? 'Correggi sulla mappa · online'
+                          : 'Scegli sulla mappa · online',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Il GPS registra dove ti trovi adesso. Sulla mappa scegli il luogo del ritrovamento.',
+              ),
+              if (locating) ...[
+                const LinearProgressIndicator(),
+                const Text('Ricerca satelliti… fino a 35 secondi'),
+                TextButton(
+                  onPressed: cancelLocate,
+                  child: const Text('Annulla misura GPS'),
+                ),
+              ],
+              if (positionError != null)
+                Text(
+                  positionError!,
+                  key: const ValueKey('observation-location-error'),
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              Text(
+                o.isMapPosition
+                    ? 'Punto scelto manualmente. La mappa non misura quota o precisione GPS.'
+                    : o.hasPosition
+                    ? 'La correzione manuale sostituisce le coordinate e rimuove quota e precisione della misura GPS precedente.'
+                    : 'Puoi aggiungere la posizione anche dopo il salvataggio della foto.',
               ),
               info(
                 Icons.landscape_outlined,
@@ -169,7 +339,9 @@ class _ObservationPageState extends State<ObservationPage> {
               if (o.positionMeasuredAt != null)
                 info(
                   Icons.access_time,
-                  'Misura della posizione',
+                  o.isMapPosition
+                      ? 'Punto scelto il'
+                      : 'Misura della posizione',
                   o.positionMeasuredAt!.toLocal().toString(),
                 ),
               if (o.satellitesUsed != null)
@@ -228,7 +400,9 @@ class _ObservationPageState extends State<ObservationPage> {
                         : 'Tocca per rivedere la determinazione',
                   ),
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: () => _openDetermination(context),
+                  onTap: savingPosition
+                      ? null
+                      : () => _openDetermination(context),
                 ),
               ),
             ],
@@ -242,7 +416,7 @@ class _ObservationPageState extends State<ObservationPage> {
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => DeterminationStartPage(
-          observation: widget.observation,
+          observation: observation,
           store: widget.store,
         ),
       ),

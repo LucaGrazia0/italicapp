@@ -2,7 +2,7 @@
 name: italicapp
 description: Field notebook and lichen identification app based on ITALIC.
 publish_to: "none"
-version: 0.8.7+20
+version: 0.8.10+23
 
 environment:
   sdk: ">=3.12.0 <4.0.0"
@@ -19,6 +19,8 @@ dependencies:
   http: ^1.6.0
   share_plus: ^13.3.1
   crypto: ^3.0.8
+  flutter_map: ^8.3.2
+  latlong2: ^0.9.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -28,6 +30,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/fonts/Roboto_LICENSE.txt
+    - assets/fonts/NotoSansArmenian_OFL.txt
     - assets/italic/italic_checklist.json
     - assets/italic/italic_genus_keys.json
     - assets/italic/flavoparmelia_key.json
@@ -36,7 +39,12 @@ flutter:
     - assets/italic/api_traits_matrix_v2.json
     - assets/italic/physcia_reconstructed_key_v1.json
     - assets/italic/general_reconstructed_key_v1.json
+    - assets/italic/species_photos_v1.json
+    - assets/photos/
   fonts:
+    - family: NotoSansArmenian
+      fonts:
+        - asset: assets/fonts/NotoSansArmenian.ttf
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Regular.ttf

@@ -65,7 +65,7 @@ class DataRelease {
 class DataUpdates {
   DataUpdates({http.Client? client}) : client = client ?? http.Client();
   final http.Client client;
-  static const appBuild = 20;
+  static const appBuild = 23;
   static final feed = Uri.parse(
     'https://api.github.com/repos/LucaGrazia0/italicapp/releases/latest',
   );

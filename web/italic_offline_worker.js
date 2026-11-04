@@ -17,18 +17,26 @@ async function prepare(port) {
   const cache = await caches.open(cacheName());
   if (!await ready(cache)) {
     await cache.delete(MARKER);
-    let completed = 0;
-    for (const item of PACK.resources) {
-      const url = absolute(item.path);
-      const response = await fetch(url, {cache: 'no-store'});
-      if (!response.ok || response.type === 'opaque') throw new Error('Risorsa non disponibile: ' + item.path);
-      const bytes = await response.clone().arrayBuffer();
-      const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)))
-        .map(x => x.toString(16).padStart(2, '0')).join('');
-      if (digest !== item.sha256) throw new Error('L’app è stata aggiornata durante il download. Ricarica e riprova.');
-      await cache.put(url, response);
-      port.postMessage({progress: ++completed / PACK.resources.length});
-    }
+    let completed = 0, next = 0, failure;
+    // A photo catalogue has thousands of small files. Bound parallel requests
+    // while keeping the completion marker exclusive to a fully verified pack.
+    await Promise.all(Array.from({length: Math.min(4, PACK.resources.length)}, async () => {
+      while (!failure && next < PACK.resources.length) {
+        const item = PACK.resources[next++];
+        try {
+          const url = absolute(item.path);
+          const response = await fetch(url, {cache: 'no-store'});
+          if (!response.ok || response.type === 'opaque') throw new Error('Risorsa non disponibile: ' + item.path);
+          const bytes = await response.clone().arrayBuffer();
+          const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)))
+            .map(x => x.toString(16).padStart(2, '0')).join('');
+          if (digest !== item.sha256) throw new Error('L’app è stata aggiornata durante il download. Ricarica e riprova.');
+          await cache.put(url, response);
+          port.postMessage({progress: ++completed / PACK.resources.length});
+        } catch (error) { failure ??= error; }
+      }
+    }));
+    if (failure) throw failure;
     await cache.put(MARKER, new Response(PACK.version));
   }
   // Previous complete packs remain usable until this one is fully ready.

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 import '../app_store.dart';
 import '../data/character_matrix_repository.dart';
+import '../data/key_character_matrix_repository.dart';
 import '../data/italic_api_traits_repository.dart';
 import '../services/key_prefilter.dart';
+import '../services/thallus_colour.dart';
 import '../widgets/offline_card.dart';
 import '../models/observation.dart';
 import '../services/reconstructed_key.dart';
@@ -55,7 +57,7 @@ class _GeneralKeysPageState extends State<GeneralKeysPage> {
     try {
       final value = widget.definition ?? await ReconstructedKey.loadGeneral();
       final loadedMatrix =
-          widget.matrix ?? await CharacterMatrixRepository().load();
+          widget.matrix ?? await KeyCharacterMatrixRepository().load();
       final loadedApi =
           widget.apiMatrix ?? await ItalicApiTraitsRepository().load();
       if (mounted) {
@@ -98,12 +100,16 @@ class _GeneralKeysPageState extends State<GeneralKeysPage> {
     }
   });
 
-  String _groupSummary(String group) => KeyPrefilter.binaryCharacters
-      .where((c) => c.group == group && filters.containsKey('binary:${c.id}'))
-      .map(
-        (c) => '${c.label}: ${filters['binary:${c.id}'] == '1' ? 'sì' : 'no'}',
-      )
-      .join(' · ');
+  String _groupSummary(String group) => [
+    if (group == 'Tallo' && filters.containsKey(ThallusColour.id))
+      '${ThallusColour.question.title}: ${ThallusColour.question.label(filters[ThallusColour.id]!)}',
+    ...KeyPrefilter.binaryCharacters
+        .where((c) => c.group == group && filters.containsKey('binary:${c.id}'))
+        .map(
+          (c) =>
+              '${c.label}: ${filters['binary:${c.id}'] == '1' ? 'sì' : 'no'}',
+        ),
+  ].join(' · ');
 
   IconData _groupIcon(String group) => switch (group) {
     'Tallo' => Icons.eco_outlined,
@@ -187,6 +193,15 @@ class _GeneralKeysPageState extends State<GeneralKeysPage> {
         'growth_form_crustose': 'Crostoso',
         'growth_form_lichenicolous': 'Lichenicolo',
       }, types: true),
+      _choiceRow(ThallusColour.id, 'Colore della superficie superiore', {
+        for (final choice in ThallusColour.question.choices)
+          choice.id: choice.label,
+      }),
+      Text(
+        '${matrix == null ? 0 : ThallusColour.coverage(matrix!)} schede con un colore confrontabile. ${ThallusColour.question.help}',
+        key: const ValueKey('thallus-colour-coverage'),
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
     ],
     'Fotobionte' => [
       _choiceRow('photobiont-type', 'Tipo di fotobionte', const {
