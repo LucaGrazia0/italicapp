@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ios-unsigned-${{ github.ref }}
+  group: ios-unsigned-intel-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
