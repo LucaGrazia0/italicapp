@@ -26,6 +26,9 @@ class Observation {
     this.photoBytes,
     this.photoName,
     this.identificationPath,
+    this.plotId,
+    this.plotPhotoKey,
+    this.taxonItalicId,
   });
 
   final String id;
@@ -47,6 +50,8 @@ class Observation {
   Uint8List? photoBytes;
   String? photoName;
   IdentificationPath? identificationPath;
+  String? plotId, plotPhotoKey;
+  int? taxonItalicId;
 
   bool get hasPosition =>
       latitude != null &&
@@ -60,6 +65,8 @@ class Observation {
 
   String get positionLabel => !hasPosition
       ? 'Posizione da aggiungere'
+      : positionProvider == 'plot'
+      ? 'Posizione del plot'
       : isMapPosition
       ? 'Punto scelto sulla mappa'
       : horizontalAccuracy != null && horizontalAccuracy! > 0
@@ -113,6 +120,9 @@ class Observation {
     'photoBytes': photoBytes,
     'photoName': photoName,
     'identificationPath': identificationPath?.toMap(),
+    if (plotId != null) 'plotId': plotId,
+    if (plotPhotoKey != null) 'plotPhotoKey': plotPhotoKey,
+    if (taxonItalicId != null) 'taxonItalicId': taxonItalicId,
   };
 
   factory Observation.fromMap(Map map) {
@@ -146,6 +156,9 @@ class Observation {
           : Uint8List.fromList((map['photoBytes'] as List).cast<int>()),
       photoName: map['photoName'] as String?,
       identificationPath: IdentificationPath.fromMap(map['identificationPath']),
+      plotId: map['plotId'] as String?,
+      plotPhotoKey: map['plotPhotoKey'] as String?,
+      taxonItalicId: (map['taxonItalicId'] as num?)?.toInt(),
     );
   }
 }

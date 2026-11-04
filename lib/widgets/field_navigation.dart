@@ -82,29 +82,31 @@ class FieldNavigation extends StatelessWidget {
                               children: [
                                 Icon(
                                   icons[i],
-                                  size: i == 2 ? 30 : 25,
+                                  size: i == 2 ? 30 : 28,
                                   color: i == 2
                                       ? Colors.white
                                       : AppTheme.forest,
                                 ),
-                                const SizedBox(height: 5),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 2,
-                                  ),
-                                  child: Text(
-                                    labels[i],
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: i == 2 ? 12 : 10.5,
-                                      fontWeight: FontWeight.w700,
-                                      color: i == 2
-                                          ? Colors.white
-                                          : AppTheme.charcoal,
+                                if (i == 2) ...[
+                                  const SizedBox(height: 5),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 2,
+                                    ),
+                                    child: Text(
+                                      labels[i],
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: i == 2 ? 12 : 10.5,
+                                        fontWeight: FontWeight.w700,
+                                        color: i == 2
+                                            ? Colors.white
+                                            : AppTheme.charcoal,
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ],
                             ),
                           ),

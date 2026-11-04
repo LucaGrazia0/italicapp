@@ -3,6 +3,27 @@
 Diario di campo per licheni in Flutter Web: foto, coordinate GPS e note salvate nel browser,
 checklist ITALIC locale e confronto spiegabile dei criteri ecologici.
 
+## Versione 0.8.12 · traguardi nel diario
+
+Il piccolo pulsante **Traguardi** nel diario apre i badge a 1, 5, 10, 25, 50 e 100 specie
+diverse determinate e l’avanzamento verso il prossimo. Il conteggio usa soltanto
+osservazioni salvate a livello di specie riconosciute nella checklist locale;
+sinonimi, foto ripetute, sottospecie e varietà della stessa specie contano una volta.
+I nomi ambigui o incerti non contano. I badge si ricostruiscono offline dal diario,
+compresi i ritrovamenti precedenti, e seguono le eventuali correzioni o eliminazioni.
+Non sono richiesti account, GPS o connessione e non si modifica lo schema del diario.
+
+Il diario distingue **Ritrovamenti** e **Plot**. Ogni plot conserva nome, data,
+superficie facoltativa, note, posizione GPS sul livello del mare o punto su mappa.
+La lista delle specie è compilabile dalla checklist, con copertura/abbondanza e note.
+Le foto multiple restano associate al plot; una determinazione confermata attraverso
+le chiavi aggiorna automaticamente la lista. Le immagini non vengono classificate
+automaticamente. I duplicati fotografici sono evitati e il recupero Android mantiene
+l’associazione al plot. Le coordinate del plot appaiono sulla mappa senza essere
+registrate come misure GPS delle singole foto. La lista è copiabile dagli appunti.
+Dopo la scelta del candidato, **Torna al diario** salta i bivi e riapre la scheda
+salvata. La barra inferiore mostra solo icone sui lati e la scritta ITALIC al centro.
+
 ## Versione 0.8.11
 
 Android, iPhone e web condividono il nome **Italic Go** e lo stesso logo.

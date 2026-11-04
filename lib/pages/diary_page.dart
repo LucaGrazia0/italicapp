@@ -4,6 +4,8 @@ import '../models/observation.dart';
 import '../widgets/photo_view.dart';
 import 'observation_page.dart';
 import '../theme/app_theme.dart';
+import '../widgets/diary_achievements.dart';
+import 'plot_page.dart';
 
 class DiaryPage extends StatefulWidget {
   const DiaryPage({super.key, required this.store});
@@ -14,6 +16,7 @@ class DiaryPage extends StatefulWidget {
 }
 
 class _DiaryPageState extends State<DiaryPage> {
+  bool plotsMode = false;
   @override
   void initState() {
     super.initState();
@@ -34,7 +37,9 @@ class _DiaryPageState extends State<DiaryPage> {
       return const Center(child: CircularProgressIndicator());
     }
     final groups = <DateTime, List<Observation>>{};
-    for (final o in widget.store.observations) {
+    for (final o in widget.store.observations.where(
+      (o) => o.plotId == null || widget.store.plotById(o.plotId!) == null,
+    )) {
       final d = DateTime(o.createdAt.year, o.createdAt.month, o.createdAt.day);
       groups.putIfAbsent(d, () => []).add(o);
     }
@@ -43,12 +48,19 @@ class _DiaryPageState extends State<DiaryPage> {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        Text(
-          'Italic Go',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: AppTheme.forest,
-            fontWeight: FontWeight.bold,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Italic Go',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: AppTheme.forest,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            DiaryAchievements(store: widget.store),
+          ],
         ),
         Text(
           'Diario di campo',
@@ -58,7 +70,34 @@ class _DiaryPageState extends State<DiaryPage> {
           ),
         ),
         const SizedBox(height: 18),
-        if (days.isEmpty)
+        SegmentedButton<bool>(
+          key: const ValueKey('diary-sections'),
+          segments: const [
+            ButtonSegment(
+              value: false,
+              label: Text('Ritrovamenti'),
+              icon: Icon(Icons.photo_library_outlined),
+            ),
+            ButtonSegment(
+              value: true,
+              label: Text('Plot'),
+              icon: Icon(Icons.grid_view_rounded),
+            ),
+          ],
+          selected: {plotsMode},
+          onSelectionChanged: (value) =>
+              setState(() => plotsMode = value.single),
+        ),
+        const SizedBox(height: 16),
+        if (widget.store.plotPhotoRecoveryNotice != null)
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Text(widget.store.plotPhotoRecoveryNotice!),
+            ),
+          ),
+        if (plotsMode) PlotListSection(store: widget.store),
+        if (!plotsMode && days.isEmpty)
           const Card(
             child: Padding(
               padding: EdgeInsets.all(28),
@@ -73,70 +112,76 @@ class _DiaryPageState extends State<DiaryPage> {
               ),
             ),
           ),
-        for (final day in days) ...[
-          Padding(
-            padding: const EdgeInsets.only(top: 12, bottom: 8),
-            child: Text(
-              dayLabel(day),
-              style: const TextStyle(fontWeight: FontWeight.w800),
+        if (!plotsMode)
+          for (final day in days) ...[
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 8),
+              child: Text(
+                dayLabel(day),
+                style: const TextStyle(fontWeight: FontWeight.w800),
+              ),
             ),
-          ),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 250,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: .9,
-            ),
-            itemCount: groups[day]!.length,
-            itemBuilder: (_, i) {
-              final o = groups[day]![i];
-              return Card(
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          ObservationPage(observation: o, store: widget.store),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(child: ObservationPhoto(o)),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${two(o.createdAt.hour)}:${two(o.createdAt.minute)}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              o.taxonName ?? 'Non determinato',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              o.positionLabel,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 250,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: .9,
+              ),
+              itemCount: groups[day]!.length,
+              itemBuilder: (_, i) {
+                final o = groups[day]![i];
+                return Card(
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        settings: RouteSettings(
+                          name: ObservationPage.routeName(o.id),
+                        ),
+                        builder: (_) => ObservationPage(
+                          observation: o,
+                          store: widget.store,
                         ),
                       ),
-                    ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(child: ObservationPhoto(o)),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${two(o.createdAt.hour)}:${two(o.createdAt.minute)}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                o.taxonName ?? 'Non determinato',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                o.positionLabel,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
       ],
     );
   }

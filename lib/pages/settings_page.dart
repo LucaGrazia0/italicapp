@@ -1,3 +1,4 @@
+import '../brand.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import '../theme/app_theme.dart';
@@ -91,7 +92,7 @@ class SettingsPage extends StatelessWidget {
       ]),
       const SizedBox(height: 24),
       Text(
-        'Italic Go · versione 0.8.11',
+        '${AppBrand.name} · versione ${AppBrand.version}',
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodySmall,
       ),

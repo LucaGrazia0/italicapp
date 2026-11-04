@@ -21,7 +21,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifact', required=True, type=int)
     parser.add_argument('--destination', required=True, type=Path)
-    parser.add_argument('--version', default='0.8.11')
+    parser.add_argument('--version', default='0.8.12')
     args = parser.parse_args()
     metadata = request(f'actions/artifacts/{args.artifact}')
     if metadata.get('expired'):

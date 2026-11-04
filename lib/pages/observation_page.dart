@@ -8,8 +8,10 @@ import 'determination_page.dart';
 import 'observation_export_page.dart';
 import 'map_location_page.dart';
 import '../services/field_location.dart';
+import '../services/diary_navigation.dart';
 
 class ObservationPage extends StatefulWidget {
+  static String routeName(String id) => DiaryNavigation.observationRoute(id);
   const ObservationPage({
     super.key,
     required this.observation,
@@ -235,6 +237,14 @@ class _ObservationPageState extends State<ObservationPage> {
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
+              if (o.plotId != null && widget.store.plotById(o.plotId!) != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Text(
+                    'Plot · ${widget.store.plotById(o.plotId!)!.name}${!o.hasPosition && widget.store.plotById(o.plotId!)!.hasPosition ? ' · posizione disponibile nel plot' : ''}',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
               AspectRatio(
                 aspectRatio: 16 / 10,
                 child: ClipRRect(

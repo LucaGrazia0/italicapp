@@ -10,11 +10,13 @@ import 'data/scientific_data.dart';
 import 'brand.dart';
 import 'widgets/field_navigation.dart';
 import 'pages/findings_map_page.dart';
+import 'services/plot_photos.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final store = AppStore(ObservationRepository());
   await Future.wait([store.init(), ScientificData.initialize()]);
+  await PlotPhotos(store).recover();
   runApp(ItalicApp(store: store));
 }
 

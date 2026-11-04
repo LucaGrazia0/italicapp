@@ -1,3 +1,4 @@
+import 'package:italicapp/widgets/field_navigation.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -47,6 +48,20 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(CapturePage, skipOffstage: false), findsNothing);
       expect(find.byType(ItalicPage, skipOffstage: false), findsNothing);
+      expect(
+        find.descendant(
+          of: find.byType(FieldNavigation),
+          matching: find.byType(Text),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: find.byType(FieldNavigation),
+          matching: find.text('ITALIC'),
+        ),
+        findsOneWidget,
+      );
       final positions = [
         for (var i = 0; i < 5; i++)
           tester.getCenter(find.byKey(ValueKey('nav-$i'))).dx,

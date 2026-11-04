@@ -4,6 +4,7 @@ import '../data/italic_reference_repository.dart';
 import '../models/identification_path.dart';
 import '../models/observation.dart';
 import '../pages/italic_taxon_page.dart';
+import '../services/diary_navigation.dart';
 
 /// An explicit user decision, independent of automatic candidate filtering.
 /// Commit a copy first: a failed write must not change the diary in memory.
@@ -41,11 +42,13 @@ class _CandidateSelectionButtonState extends State<CandidateSelectionButton> {
       final original = widget.observation;
       final updated = Observation.fromMap(original.toMap())
         ..rank = IdentificationRank.species
+        ..taxonItalicId = widget.taxon.italicId
         ..taxonName = widget.taxon.scientificName
         ..identificationPath = path;
       await widget.store.save(updated);
       original
         ..rank = updated.rank
+        ..taxonItalicId = updated.taxonItalicId
         ..taxonName = updated.taxonName
         ..identificationPath = path;
       if (mounted) {
@@ -90,6 +93,22 @@ class _CandidateSelectionButtonState extends State<CandidateSelectionButton> {
         icon: const Icon(Icons.check_circle_outline),
         label: Text(working ? 'Salvataggio…' : 'Scegli questo candidato'),
       ),
+      if (widget.observation.rank == IdentificationRank.species &&
+          widget.observation.taxonName == widget.taxon.scientificName)
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: OutlinedButton.icon(
+            key: ValueKey('return-to-diary-${widget.taxon.italicId}'),
+            onPressed: working
+                ? null
+                : () => DiaryNavigation.returnToObservation(
+                    context,
+                    widget.observation.id,
+                  ),
+            icon: const Icon(Icons.arrow_back_rounded),
+            label: const Text('Torna al diario'),
+          ),
+        ),
     ],
   );
 }

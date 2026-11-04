@@ -7,6 +7,7 @@ import '../models/observation.dart';
 import '../services/online_map.dart';
 import '../theme/app_theme.dart';
 import 'observation_page.dart';
+import 'plot_page.dart';
 
 class FindingsMapPage extends StatefulWidget {
   const FindingsMapPage({
@@ -27,11 +28,17 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
   bool ready = false, failed = false;
   int generation = 0;
   String query = '';
-  List<Observation> get records => widget.store.observations
+  List<Observation> get records => widget.store.mapObservations
       .where(
         (o) =>
             query.isEmpty ||
-            (o.taxonName ?? 'Non determinato').toLowerCase().contains(query),
+            (o.taxonName ?? 'Non determinato').toLowerCase().contains(query) ||
+            (widget.store
+                    .plotById(o.plotId ?? '')
+                    ?.name
+                    .toLowerCase()
+                    .contains(query) ??
+                false),
       )
       .toList();
   LatLng point(Observation o) =>
@@ -54,14 +61,34 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
   }
 
   void open(Observation o) {
+    Observation? original;
+    for (final observation in widget.store.observations) {
+      if (observation.id == o.id) {
+        original = observation;
+        break;
+      }
+    }
     if (widget.onOpen != null) {
-      widget.onOpen!(o);
+      widget.onOpen!(original ?? o);
+      return;
+    }
+    if (original == null && o.plotId != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PlotPage(store: widget.store, plotId: o.plotId!),
+        ),
+      );
       return;
     }
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ObservationPage(observation: o, store: widget.store),
+        settings: RouteSettings(
+          name: ObservationPage.routeName(original?.id ?? o.id),
+        ),
+        builder: (_) =>
+            ObservationPage(observation: original ?? o, store: widget.store),
       ),
     );
   }
