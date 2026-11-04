@@ -3,6 +3,7 @@ import 'data/observation_repository.dart';
 import 'models/observation.dart';
 import 'models/field_plot.dart';
 import 'data/plot_repository.dart';
+import 'services/diary_filter.dart';
 
 class AppStore extends ChangeNotifier {
   AppStore(this.repository, {PlotRepository? plotRepository})
@@ -11,6 +12,52 @@ class AppStore extends ChangeNotifier {
   final ObservationRepository repository;
   final PlotRepository plotRepository;
   List<FieldPlot> plots = [];
+  DiaryFilter diaryFilter = const DiaryFilter();
+  ItalianRegions? regions;
+  void setDiaryFilter(DiaryFilter value) {
+    diaryFilter = value;
+    notifyListeners();
+  }
+
+  Future<void> loadRegions() async {
+    regions = await ItalianRegions.load();
+    notifyListeners();
+  }
+
+  bool matchesPlot(FieldPlot p) =>
+      diaryFilter.matches(p.sampledAt, p.latitude, p.longitude, regions);
+  bool matchesObservation(Observation o) {
+    final plot = plotById(o.plotId ?? '');
+    return plot != null
+        ? matchesPlot(plot)
+        : diaryFilter.matches(o.eventDate, o.latitude, o.longitude, regions);
+  }
+
+  List<FieldPlot> get filteredPlots => plots.where(matchesPlot).toList();
+  List<Observation> get filteredObservations =>
+      observations.where(matchesObservation).toList();
+  Future<void> _recoverPlotDeletion() async {
+    final pending = await plotRepository.pendingDeletion();
+    if (pending == null) return;
+    final plot = FieldPlot.fromMap(pending['plot'] as Map);
+    await repository.resolveDeletedPlot(
+      plot,
+      deletePhotos: pending['deletePhotos'] == true,
+    );
+    await plotRepository.finishDeletion(plot.id);
+    observations = await repository.all();
+  }
+
+  Future<void> deletePlot(FieldPlot plot, {required bool deletePhotos}) async {
+    if (plotLoadError != null) throw StateError(plotLoadError!);
+    await plotRepository.beginDeletion(plot, deletePhotos);
+    try {
+      await _recoverPlotDeletion();
+    } finally {
+      await loadPlots();
+    }
+  }
+
   String? plotLoadError, plotPhotoRecoveryNotice;
   FieldPlot? plotById(String id) {
     for (final plot in plots) {
@@ -43,6 +90,7 @@ class AppStore extends ChangeNotifier {
       longitude: plot.longitude,
       seaLevelAltitude: plot.seaLevelAltitude,
       positionProvider: 'plot',
+      substrate: plot.substrate,
     );
     final result = <Observation>[];
     for (final observation in observations) {
@@ -51,9 +99,9 @@ class AppStore extends ChangeNotifier {
         !observation.hasPosition && plot?.hasPosition == true
             ? entry(
                 observation.id,
-                observation.createdAt,
+                plot!.sampledAt,
                 observation.taxonName,
-                plot!,
+                plot,
                 rank: observation.rank,
                 taxonId: observation.taxonItalicId,
               )
@@ -85,7 +133,7 @@ class AppStore extends ChangeNotifier {
         );
       }
     }
-    return result;
+    return result.where(matchesObservation).toList();
   }
 
   List<PlotSpecies> speciesForPlot(FieldPlot plot) {
@@ -115,6 +163,7 @@ class AppStore extends ChangeNotifier {
 
   Future<void> loadPlots() async {
     try {
+      await _recoverPlotDeletion();
       plots = await plotRepository.all();
       plotLoadError = null;
     } catch (_) {

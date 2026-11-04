@@ -29,10 +29,16 @@ class Observation {
     this.plotId,
     this.plotPhotoKey,
     this.taxonItalicId,
+    this.observedAt,
+    this.sourcePlotId,
+    this.sourcePlotName,
   });
 
   final String id;
   final DateTime createdAt;
+  DateTime? observedAt;
+  String? sourcePlotId, sourcePlotName;
+  DateTime get eventDate => observedAt ?? createdAt;
   double? latitude;
   double? longitude;
   double? horizontalAccuracy;
@@ -120,6 +126,9 @@ class Observation {
     'photoBytes': photoBytes,
     'photoName': photoName,
     'identificationPath': identificationPath?.toMap(),
+    if (observedAt != null) 'observedAt': observedAt!.toIso8601String(),
+    if (sourcePlotId != null) 'sourcePlotId': sourcePlotId,
+    if (sourcePlotName != null) 'sourcePlotName': sourcePlotName,
     if (plotId != null) 'plotId': plotId,
     if (plotPhotoKey != null) 'plotPhotoKey': plotPhotoKey,
     if (taxonItalicId != null) 'taxonItalicId': taxonItalicId,
@@ -156,6 +165,9 @@ class Observation {
           : Uint8List.fromList((map['photoBytes'] as List).cast<int>()),
       photoName: map['photoName'] as String?,
       identificationPath: IdentificationPath.fromMap(map['identificationPath']),
+      observedAt: DateTime.tryParse(map['observedAt']?.toString() ?? ''),
+      sourcePlotId: map['sourcePlotId'] as String?,
+      sourcePlotName: map['sourcePlotName'] as String?,
       plotId: map['plotId'] as String?,
       plotPhotoKey: map['plotPhotoKey'] as String?,
       taxonItalicId: (map['taxonItalicId'] as num?)?.toInt(),

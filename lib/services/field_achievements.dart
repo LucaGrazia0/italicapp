@@ -8,28 +8,28 @@ class FieldAchievement {
 }
 
 const fieldAchievements = [
-  FieldAchievement(1, 'Primo incontro', 'La prima specie del tuo diario.'),
-  FieldAchievement(
-    5,
-    'Occhio curioso',
-    'Cinque specie, cinque nuove scoperte.',
-  ),
-  FieldAchievement(10, 'Esploratore', 'Il tuo mondo di licheni si allarga.'),
-  FieldAchievement(
-    25,
-    'Passo da naturalista',
-    'Un diario sempre più ricco di diversità.',
-  ),
+  FieldAchievement(1, 'Medaglia Cesi', 'Legno · La tua prima specie.'),
+  FieldAchievement(10, 'Medaglia Anzi', 'Bronzo · Dieci specie diverse.'),
   FieldAchievement(
     50,
-    'Sguardo allenato',
-    'Cinquanta specie incontrate sul campo.',
+    'Medaglia Massalongo',
+    'Argento · Cinquanta specie diverse.',
   ),
+  FieldAchievement(100, 'Medaglia Cengia Sambo', 'Oro · Cento specie diverse.'),
   FieldAchievement(
-    100,
-    'Cento scoperte',
-    'Cento specie diverse nel tuo diario.',
+    500,
+    'Medaglia Acharius',
+    'Platino · Cinquecento specie diverse.',
   ),
+  FieldAchievement(1000, 'Medaglia Nimis', 'Diamante · Mille specie diverse.'),
+];
+const achievementMedals = [
+  'cesi',
+  'anzi',
+  'massalongo',
+  'cengia-sambo',
+  'acharius',
+  'nimis',
 ];
 
 /// Names resolve against the local checklist. Synonyms and infraspecific taxa

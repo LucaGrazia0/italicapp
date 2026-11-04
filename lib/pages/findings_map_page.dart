@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart' hide Path;
 import 'package:url_launcher/link.dart';
 import '../app_store.dart';
 import '../models/observation.dart';
@@ -8,6 +8,10 @@ import '../services/online_map.dart';
 import '../theme/app_theme.dart';
 import 'observation_page.dart';
 import 'plot_page.dart';
+import '../services/map_categories.dart';
+import '../data/italic_reference_repository.dart';
+import '../widgets/diary_filters.dart';
+import '../data/scientific_data.dart';
 
 class FindingsMapPage extends StatefulWidget {
   const FindingsMapPage({
@@ -28,6 +32,29 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
   bool ready = false, failed = false;
   int generation = 0;
   String query = '';
+  FindingColorMode colorMode = FindingColorMode.identification;
+  MapCategories categories = MapCategories([]);
+  String? categoryError;
+  Future<void> loadCategories() async {
+    try {
+      final repo = ItalicReferenceRepository();
+      await repo.load();
+      if (mounted) setState(() => categories = MapCategories(repo.taxa));
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => categoryError = 'Forme di crescita non disponibili. Riprova.',
+        );
+      }
+    }
+  }
+
+  FindingCategory category(Observation o) => categories.category(
+    o,
+    colorMode,
+    plotSubstrate: widget.store.plotById(o.plotId ?? '')?.substrate,
+  );
+
   List<Observation> get records => widget.store.mapObservations
       .where(
         (o) =>
@@ -51,11 +78,14 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
   void initState() {
     super.initState();
     widget.store.addListener(changed);
+    loadCategories();
+    ScientificData.changes.addListener(loadCategories);
   }
 
   @override
   void dispose() {
     widget.store.removeListener(changed);
+    ScientificData.changes.removeListener(loadCategories);
     controller.dispose();
     super.dispose();
   }
@@ -112,7 +142,7 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
                 o.hasPosition
                     ? Icons.location_on_outlined
                     : Icons.location_off_outlined,
-                color: AppTheme.forest,
+                color: category(o).color,
               ),
               title: Text(o.taxonName ?? 'Non determinato'),
               subtitle: Text(
@@ -184,6 +214,53 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
                 '${located.length} ritrovamenti sulla mappa${missing > 0 ? ' · $missing senza posizione' : ''}',
                 key: const ValueKey('findings-count'),
               ),
+              DiaryFilters(store: widget.store),
+              DropdownButtonFormField<FindingColorMode>(
+                key: const ValueKey('map-color-mode'),
+                initialValue: colorMode,
+                isExpanded: true,
+                decoration: const InputDecoration(
+                  labelText: 'Colora i segnalini per',
+                  isDense: true,
+                ),
+                items: [
+                  for (final mode in FindingColorMode.values)
+                    DropdownMenuItem(value: mode, child: Text(mode.label)),
+                ],
+                onChanged: (v) {
+                  if (v != null) setState(() => colorMode = v);
+                },
+              ),
+              const SizedBox(height: 6),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (final item in {
+                      for (final o in located) category(o).label: category(o),
+                    }.values)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.circle, size: 10, color: item.color),
+                            const SizedBox(width: 4),
+                            Text(
+                              item.label,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              if (colorMode == FindingColorMode.growth && categoryError != null)
+                TextButton(
+                  onPressed: loadCategories,
+                  child: Text(categoryError!),
+                ),
               const SizedBox(height: 10),
               TextField(
                 key: const ValueKey('findings-search'),
@@ -281,16 +358,15 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
                                     'findings-marker-${group.first.id}',
                                   ),
                                   onTap: () => showRecords(group),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.location_pin,
-                                        size: 50,
-                                        color: AppTheme.forest,
-                                      ),
-                                      Positioned(
-                                        top: 8,
+                                  child: CustomPaint(
+                                    painter: _GroupedPin([
+                                      for (final o in group) category(o).color,
+                                    ]),
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 8,
+                                        ),
                                         child: Text(
                                           '${group.length}',
                                           style: const TextStyle(
@@ -299,7 +375,7 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
                                           ),
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -366,4 +442,54 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
       ],
     );
   }
+}
+
+class _GroupedPin extends CustomPainter {
+  _GroupedPin(this.colors);
+  final List<Color> colors;
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height * .38),
+        radius = size.width * .37;
+    canvas.drawPath(
+      Path()
+        ..moveTo(center.dx - radius * .55, center.dy + radius * .55)
+        ..lineTo(center.dx, size.height * .96)
+        ..lineTo(center.dx + radius * .55, center.dy + radius * .55)
+        ..close(),
+      Paint()..color = colors.first,
+    );
+    final counts = <Color, int>{};
+    for (final color in colors) {
+      counts[color] = (counts[color] ?? 0) + 1;
+    }
+    var start = -1.57079632679;
+    for (final entry in counts.entries) {
+      final sweep = 6.28318530718 * entry.value / colors.length;
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: radius),
+        start,
+        sweep,
+        true,
+        Paint()..color = entry.key,
+      );
+      start += sweep;
+    }
+    canvas.drawCircle(
+      center,
+      radius,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..color = Colors.white,
+    );
+    canvas.drawCircle(
+      center,
+      radius * .43,
+      Paint()..color = Colors.black.withValues(alpha: .45),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _GroupedPin old) => true;
 }

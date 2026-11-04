@@ -29,6 +29,7 @@ class FieldPlot {
     required this.sampledAt,
     required this.createdAt,
     this.notes = '',
+    this.substrate,
     this.areaM2,
     this.latitude,
     this.longitude,
@@ -41,6 +42,7 @@ class FieldPlot {
     List<PlotSpecies> species = const [],
   }) : species = List.unmodifiable(species);
   final String id, name, notes;
+  final String? substrate;
   final DateTime sampledAt, createdAt;
   final double? areaM2,
       latitude,
@@ -64,6 +66,7 @@ class FieldPlot {
     'sampledAt': sampledAt.toIso8601String(),
     'createdAt': createdAt.toIso8601String(),
     'notes': notes,
+    'substrate': substrate,
     'areaM2': areaM2,
     'latitude': latitude,
     'longitude': longitude,
@@ -87,6 +90,7 @@ class FieldPlot {
       sampledAt: DateTime.parse(m['sampledAt'] as String),
       createdAt: DateTime.parse(m['createdAt'] as String),
       notes: m['notes'] as String? ?? '',
+      substrate: m['substrate'] as String?,
       areaM2: number('areaM2'),
       latitude: number('latitude'),
       longitude: number('longitude'),

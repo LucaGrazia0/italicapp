@@ -6,6 +6,8 @@ import 'observation_page.dart';
 import '../theme/app_theme.dart';
 import '../widgets/diary_achievements.dart';
 import 'plot_page.dart';
+import '../widgets/diary_filters.dart';
+import 'dataset_export_page.dart';
 
 class DiaryPage extends StatefulWidget {
   const DiaryPage({super.key, required this.store});
@@ -37,10 +39,10 @@ class _DiaryPageState extends State<DiaryPage> {
       return const Center(child: CircularProgressIndicator());
     }
     final groups = <DateTime, List<Observation>>{};
-    for (final o in widget.store.observations.where(
+    for (final o in widget.store.filteredObservations.where(
       (o) => o.plotId == null || widget.store.plotById(o.plotId!) == null,
     )) {
-      final d = DateTime(o.createdAt.year, o.createdAt.month, o.createdAt.day);
+      final d = DateTime(o.eventDate.year, o.eventDate.month, o.eventDate.day);
       groups.putIfAbsent(d, () => []).add(o);
     }
     final days = groups.keys.toList()..sort((a, b) => b.compareTo(a));
@@ -89,6 +91,18 @@ class _DiaryPageState extends State<DiaryPage> {
               setState(() => plotsMode = value.single),
         ),
         const SizedBox(height: 16),
+        DiaryFilters(store: widget.store),
+        OutlinedButton.icon(
+          key: const ValueKey('export-diary'),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => DatasetExportPage(store: widget.store),
+            ),
+          ),
+          icon: const Icon(Icons.ios_share),
+          label: const Text('Esporta / condividi'),
+        ),
         if (widget.store.plotPhotoRecoveryNotice != null)
           Card(
             child: Padding(

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/observation.dart';
 import '../services/observation_export.dart';
+import 'inaturalist_share_page.dart';
 
 typedef ObservationShareSender =
     Future<ShareResult> Function(ShareParams params);
@@ -224,6 +225,22 @@ class _ObservationExportPageState extends State<ObservationExportPage> {
                     icon: const Icon(Icons.ios_share),
                     label: Text(working ? 'Preparazione…' : 'Condividi'),
                   ),
+                ),
+                OutlinedButton.icon(
+                  key: const ValueKey('share-inaturalist'),
+                  onPressed: working || chosen.isEmpty
+                      ? null
+                      : () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => INaturalistSharePage(
+                              observations: chosen,
+                              sender: widget.sender,
+                            ),
+                          ),
+                        ),
+                  icon: const Icon(Icons.nature_people_outlined),
+                  label: const Text('Condividi con iNaturalist'),
                 ),
                 TextButton.icon(
                   key: const ValueKey('copy-observations-summary'),

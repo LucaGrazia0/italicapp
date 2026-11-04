@@ -42,7 +42,7 @@ def main():
     parser.add_argument('command', choices=['runs', 'jobs', 'artifacts', 'download'])
     parser.add_argument('--run', type=int)
     parser.add_argument('--branch', default='codex/simplify-navigation')
-    parser.add_argument('--version', default='0.8.12')
+    parser.add_argument('--version', default='0.8.13')
     parser.add_argument('--artifact', type=int)
     parser.add_argument('--destination', type=Path)
     args = parser.parse_args()

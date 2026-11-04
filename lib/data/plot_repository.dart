@@ -58,6 +58,41 @@ class PlotRepository {
     await tx.completed;
   }
 
+  Future<Map?> pendingDeletion() async {
+    final db = await _database();
+    final tx = db.transaction('metadata', idbModeReadOnly);
+    final value = await tx.objectStore('metadata').getObject('plotDeletion');
+    await tx.completed;
+    return value is Map ? value : null;
+  }
+
+  Future<void> beginDeletion(FieldPlot plot, bool deletePhotos) async {
+    if (await pendingDeletion() != null) {
+      throw StateError('Completa prima la precedente eliminazione.');
+    }
+    final db = await _database();
+    final tx = db.transaction('metadata', idbModeReadWrite);
+    await tx.objectStore('metadata').put({
+      'plot': plot.toMap(),
+      'deletePhotos': deletePhotos,
+    }, 'plotDeletion');
+    await tx.completed;
+  }
+
+  Future<void> finishDeletion(String id) async {
+    final db = await _database();
+    final tx = db.transactionList(['plots', 'metadata'], idbModeReadWrite);
+    await tx.objectStore('plots').delete(id);
+    await tx.objectStore('metadata').delete('plotDeletion');
+    final pending = await tx
+        .objectStore('metadata')
+        .getObject('pendingPhotoPlot');
+    if (pending == id) {
+      await tx.objectStore('metadata').delete('pendingPhotoPlot');
+    }
+    await tx.completed;
+  }
+
   Future<void> close() async {
     _db?.close();
     _db = null;

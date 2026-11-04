@@ -5,15 +5,6 @@ import '../data/scientific_data.dart';
 import '../services/field_achievements.dart';
 import '../theme/app_theme.dart';
 
-const _icons = [
-  Icons.eco_outlined,
-  Icons.search_rounded,
-  Icons.explore_outlined,
-  Icons.forest_outlined,
-  Icons.local_florist_outlined,
-  Icons.emoji_events_outlined,
-];
-
 class DiaryAchievements extends StatefulWidget {
   const DiaryAchievements({super.key, required this.store, this.loadIndex});
   final AppStore store;
@@ -145,7 +136,7 @@ class FieldAchievementsPage extends StatelessWidget {
               _AchievementBadge(
                 achievement: fieldAchievements[i],
                 progress: progress,
-                icon: _icons[i],
+                medal: achievementMedals[i],
               ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
@@ -164,11 +155,11 @@ class _AchievementBadge extends StatelessWidget {
   const _AchievementBadge({
     required this.achievement,
     required this.progress,
-    required this.icon,
+    required this.medal,
   });
   final FieldAchievement achievement;
   final FieldAchievementProgress progress;
-  final IconData icon;
+  final String medal;
   @override
   Widget build(BuildContext context) {
     final unlocked = progress.unlocked(achievement);
@@ -190,24 +181,15 @@ class _AchievementBadge extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 58,
-                height: 58,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: unlocked
-                        ? [const Color(0xFFE6F1D7), const Color(0xFFC5DDB8)]
-                        : [const Color(0xFFF1F3EF), const Color(0xFFE8ECE5)],
-                  ),
-                  border: Border.all(
-                    color: unlocked ? AppTheme.sage : const Color(0xFFDCE2D8),
-                    width: 2,
-                  ),
+              Opacity(
+                opacity: unlocked ? 1 : .35,
+                child: Image.asset(
+                  'assets/medals/$medal.png',
+                  width: 76,
+                  height: 76,
+                  cacheWidth: 240,
+                  semanticLabel: achievement.description,
                 ),
-                child: Icon(icon, size: 30, color: color),
               ),
               const SizedBox(width: 14),
               Expanded(

@@ -2,7 +2,7 @@
 name: italicapp
 description: Field notebook and lichen identification app based on ITALIC.
 publish_to: "none"
-version: 0.8.12+25
+version: 0.8.13+26
 
 environment:
   sdk: ">=3.12.0 <4.0.0"
@@ -18,6 +18,7 @@ dependencies:
   url_launcher: ^6.3.3
   http: ^1.6.0
   share_plus: ^13.3.1
+  archive: ^4.6.0
   crypto: ^3.0.8
   flutter_map: ^8.3.2
   latlong2: ^0.9.1
@@ -42,6 +43,13 @@ flutter:
     - assets/italic/general_reconstructed_key_v1.json
     - assets/italic/species_photos_v1.json
     - assets/photos/
+    - assets/geography/italian_regions_2026.json
+    - assets/medals/cesi.png
+    - assets/medals/anzi.png
+    - assets/medals/massalongo.png
+    - assets/medals/cengia-sambo.png
+    - assets/medals/acharius.png
+    - assets/medals/nimis.png
   fonts:
     - family: NotoSansArmenian
       fonts:

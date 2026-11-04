@@ -55,8 +55,8 @@ void main() {
         expect(progress.fraction(a), 1);
         expect(progress.remaining(a), 0);
       }
-      expect(const FieldAchievementProgress(100).next, isNull);
-      expect(const FieldAchievementProgress(101).unlockedCount, 6);
+      expect(const FieldAchievementProgress(1000).next, isNull);
+      expect(const FieldAchievementProgress(1001).unlockedCount, 6);
     },
   );
   test(
@@ -141,7 +141,7 @@ void main() {
       for (var i = 0; i < 5; i++) {
         await store.save(record('$i', taxa[i + 3].scientificName));
       }
-      expect(index.progress(store.observations).unlockedCount, 2);
+      expect(index.progress(store.observations).unlockedCount, 1);
       final reopened = AppStore(
         ObservationRepository(factory: repository.factory),
       );
@@ -201,7 +201,7 @@ void main() {
         '1 specie diversa',
       );
       expect(find.text('Sbloccato'), findsOneWidget);
-      expect(find.text('Mancano 4 specie'), findsOneWidget);
+      expect(find.text('Mancano 9 specie'), findsOneWidget);
       await tester.runAsync(() => store.delete(store.observations.first));
       await tester.pumpAndSettle();
       expect(find.text('Sbloccato'), findsOneWidget);

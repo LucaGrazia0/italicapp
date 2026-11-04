@@ -12,6 +12,7 @@ import '../theme/app_theme.dart';
 import '../widgets/photo_view.dart';
 import 'map_location_page.dart';
 import 'observation_page.dart';
+import 'dataset_export_page.dart';
 
 String _date(DateTime value) =>
     '${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year}';
@@ -57,7 +58,7 @@ class PlotListSection extends StatelessWidget {
           label: const Text('Nuovo plot'),
         ),
         const SizedBox(height: 14),
-        if (store.plots.isEmpty)
+        if (store.filteredPlots.isEmpty)
           const Card(
             child: Padding(
               padding: EdgeInsets.all(24),
@@ -82,7 +83,7 @@ class PlotListSection extends StatelessWidget {
               ),
             ),
           ),
-        for (final plot in store.plots)
+        for (final plot in store.filteredPlots)
           Card(
             child: ListTile(
               key: ValueKey('plot-${plot.id}'),
@@ -153,6 +154,7 @@ class _PlotFormPageState extends State<PlotFormPage> {
     ])
       key: widget.plot?.toMap()[key],
   };
+  late String? substrate = widget.plot?.substrate;
   bool busy = false, locating = false;
   String? error;
   int request = 0;
@@ -245,6 +247,7 @@ class _PlotFormPageState extends State<PlotFormPage> {
             widget.plot?.createdAt.toIso8601String() ?? now.toIso8601String(),
         'sampledAt': sampledAt.toIso8601String(),
         'notes': notes.text.trim(),
+        'substrate': substrate,
         'areaM2': area.text.trim().isEmpty
             ? null
             : double.parse(area.text.trim().replaceAll(',', '.')),
@@ -332,6 +335,33 @@ class _PlotFormPageState extends State<PlotFormPage> {
                   ? null
                   : 'Inserisci una superficie maggiore di zero.';
             },
+          ),
+          const SizedBox(height: 14),
+          DropdownButtonFormField<String>(
+            initialValue: substrate ?? '',
+            isExpanded: true,
+            decoration: const InputDecoration(
+              labelText: 'Substrato del plot (facoltativo)',
+            ),
+            items: [
+              for (final s in [
+                '',
+                'Roccia silicea',
+                'Roccia calcarea',
+                'Corteccia',
+                'Legno',
+                'Suolo',
+                'Muschio',
+                'Altro',
+              ])
+                DropdownMenuItem(
+                  value: s,
+                  child: Text(s.isEmpty ? 'Non specificato' : s),
+                ),
+            ],
+            onChanged: busy
+                ? null
+                : (v) => setState(() => substrate = v == '' ? null : v),
           ),
           const SizedBox(height: 14),
           TextField(
@@ -633,6 +663,71 @@ class _PlotPageState extends State<PlotPage> {
     );
   }
 
+  Future<void> removePlot(FieldPlot plot) async {
+    final choice = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Elimina plot'),
+        content: const Text(
+          'La lista e le note del plot saranno eliminate. Cosa vuoi fare con le foto associate?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Annulla'),
+          ),
+          TextButton(
+            key: const ValueKey('delete-plot-keep-photos'),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Conserva foto nel diario'),
+          ),
+          TextButton(
+            key: const ValueKey('delete-plot-with-photos'),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Elimina anche le foto'),
+          ),
+        ],
+      ),
+    );
+    if (choice == null || !mounted) return;
+    if (choice) {
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Eliminare anche tutte le foto?'),
+          content: Text(
+            '${widget.store.photosForPlot(plot.id).length} foto e relative determinazioni saranno eliminate dal diario.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Annulla'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Elimina definitivamente'),
+            ),
+          ],
+        ),
+      );
+      if (ok != true || !mounted) return;
+    }
+    setState(() => busy = true);
+    try {
+      await widget.store.deletePlot(plot, deletePhotos: choice);
+      if (mounted) Navigator.pop(context);
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => error =
+              'Eliminazione non completata. Riapri il diario per riprendere l’operazione.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
+  }
+
   Future<void> copyList(FieldPlot plot, List<PlotSpecies> rows) async {
     await Clipboard.setData(
       ClipboardData(
@@ -670,6 +765,28 @@ class _PlotPageState extends State<PlotPage> {
         appBar: AppBar(
           title: Text(plot.name),
           actions: [
+            IconButton(
+              key: const ValueKey('share-plot'),
+              tooltip: 'Condividi plot',
+              onPressed: busy
+                  ? null
+                  : () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DatasetExportPage(
+                          store: widget.store,
+                          plotId: plot.id,
+                        ),
+                      ),
+                    ),
+              icon: const Icon(Icons.ios_share),
+            ),
+            IconButton(
+              key: const ValueKey('delete-plot'),
+              tooltip: 'Elimina plot',
+              onPressed: busy ? null : () => removePlot(plot),
+              icon: const Icon(Icons.delete_outline),
+            ),
             IconButton(
               key: const ValueKey('edit-plot'),
               tooltip: 'Modifica plot',

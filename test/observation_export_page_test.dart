@@ -46,6 +46,8 @@ void main() {
         -200,
         scrollable: find.byType(Scrollable).first,
       );
+      await tester.ensureVisible(format);
+      await tester.pumpAndSettle();
       await tester.tap(format);
       await tester.pumpAndSettle();
       await tester.tap(find.text(ObservationExportFormat.geojson.label).last);
