@@ -165,6 +165,8 @@ class FieldDataset {
         jsonEncode({
           'application': 'Italic Go',
           'italicId': o.taxonItalicId,
+          if (o.identificationMethod != null)
+            'identificationMethod': o.identificationMethod,
           if (p != null) ...{'plotAreaM2': p.areaM2, 'plotNotes': p.notes},
           if (o.identificationPath != null)
             'identificationPath': o.identificationPath!.toMap(),

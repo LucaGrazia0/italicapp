@@ -283,7 +283,7 @@ class _SpeciesKeyPageState extends State<SpeciesKeyPage> {
                             ? 'Salvataggio…'
                             : selections.isEmpty
                             ? 'Rimuovi percorso salvato'
-                            : 'Salva percorso nell’osservazione',
+                            : 'Salva percorso',
                       ),
                     ),
                   ],
@@ -651,7 +651,7 @@ class _SpeciesKeyPageState extends State<SpeciesKeyPage> {
             onBusy: _candidateBusy,
             onSaved: _candidateSaved,
           ),
-        TextButton.icon(
+        OutlinedButton.icon(
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(

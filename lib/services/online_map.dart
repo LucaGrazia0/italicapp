@@ -4,6 +4,24 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+enum MapBaseLayer { street, satellite }
+
+extension MapBaseLayerSource on MapBaseLayer {
+  String get template => this == MapBaseLayer.street
+      ? OnlineMap.tileTemplate
+      : const String.fromEnvironment(
+          'ITALIC_SATELLITE_TILES',
+          defaultValue:
+              'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        );
+  String get credits => this == MapBaseLayer.street
+      ? '© OpenStreetMap contributors'
+      : 'Sources: Esri, Vantor, Earthstar Geographics and the GIS User Community';
+  String get creditUrl => this == MapBaseLayer.street
+      ? 'https://www.openstreetmap.org/copyright'
+      : 'https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9';
+}
+
 /// Checks the same tile service used by the map, without requesting location.
 class OnlineMap {
   OnlineMap({http.Client? client}) : _client = client ?? http.Client();
@@ -16,7 +34,12 @@ class OnlineMap {
   static const userAgent =
       'ItalicGo/${AppBrand.version} (it.italic.italicapp; https://github.com/LucaGrazia0/italicapp)';
 
-  static Uri tileAt(double latitude, double longitude, int zoom) {
+  static Uri tileAt(
+    double latitude,
+    double longitude,
+    int zoom, {
+    String? template,
+  }) {
     final lat = latitude.clamp(-85.05112878, 85.05112878) * math.pi / 180;
     final count = 1 << zoom;
     final x = ((longitude + 180) / 360 * count).floor().clamp(0, count - 1);
@@ -27,17 +50,25 @@ class OnlineMap {
             .floor()
             .clamp(0, count - 1);
     return Uri.parse(
-      tileTemplate
+      (template ?? tileTemplate)
           .replaceAll('{z}', '$zoom')
           .replaceAll('{x}', '$x')
           .replaceAll('{y}', '$y'),
     );
   }
 
-  Future<void> check(double latitude, double longitude, int zoom) async {
+  Future<void> check(double latitude, double longitude, int zoom) =>
+      checkSource(latitude, longitude, zoom, template: tileTemplate);
+
+  Future<void> checkSource(
+    double latitude,
+    double longitude,
+    int zoom, {
+    required String template,
+  }) async {
     final response = await _client
         .head(
-          tileAt(latitude, longitude, zoom),
+          tileAt(latitude, longitude, zoom, template: template),
           headers: kIsWeb ? null : {'User-Agent': userAgent},
         )
         .timeout(const Duration(seconds: 10));

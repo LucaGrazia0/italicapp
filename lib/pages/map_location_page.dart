@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../widgets/map_tools.dart';
 
 import '../services/online_map.dart';
 
@@ -36,7 +36,8 @@ class _MapLocationPageState extends State<MapLocationPage> {
         )
       : const LatLng(42.5, 12.5);
   late final zoom = hasInitial ? 15.0 : 5.0;
-  LatLng? selected;
+  LatLng? selected, searchCenter;
+  MapBaseLayer layer = MapBaseLayer.street;
   bool checking = true;
   bool available = false;
   bool mapReady = false;
@@ -57,18 +58,29 @@ class _MapLocationPageState extends State<MapLocationPage> {
       );
 
   Future<void> _check({bool confirm = false}) async {
-    final point = selected ?? (mapReady ? controller.camera.center : initial);
+    final point = confirm && selected != null
+        ? selected!
+        : (mapReady ? controller.camera.center : (searchCenter ?? initial));
     final currentZoom = mapReady ? controller.camera.zoom : zoom;
     setState(() {
       checking = true;
       error = null;
     });
     try {
-      await onlineMap.check(
-        point.latitude,
-        point.longitude,
-        currentZoom.floor(),
-      );
+      if (layer == MapBaseLayer.street) {
+        await onlineMap.check(
+          point.latitude,
+          point.longitude,
+          currentZoom.floor(),
+        );
+      } else {
+        await onlineMap.checkSource(
+          point.latitude,
+          point.longitude,
+          currentZoom.floor(),
+          template: layer.template,
+        );
+      }
       if (!mounted) return;
       if (confirm && selected != null) {
         Navigator.pop(context, selected);
@@ -125,6 +137,26 @@ class _MapLocationPageState extends State<MapLocationPage> {
     body: SafeArea(
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+            child: MapTools(
+              layer: layer,
+              enabled: !checking,
+              onLayer: (v) {
+                setState(() {
+                  layer = v;
+                  error = null;
+                });
+                _check();
+              },
+              onPlace: (p) {
+                setState(() => searchCenter = p.point);
+                if (mapReady) focusPlace(controller, p);
+                _check();
+              },
+            ),
+          ),
+
           const Padding(
             padding: EdgeInsets.fromLTRB(20, 12, 20, 12),
             child: Text(
@@ -154,8 +186,9 @@ class _MapLocationPageState extends State<MapLocationPage> {
                     key: const ValueKey('location-map'),
                     mapController: controller,
                     options: MapOptions(
-                      initialCenter: initial,
-                      initialZoom: zoom,
+                      interactionOptions: northUpInteractions,
+                      initialCenter: searchCenter ?? initial,
+                      initialZoom: searchCenter == null ? zoom : 13,
                       minZoom: 2,
                       maxZoom: 19,
                       onMapReady: () => setState(() => mapReady = true),
@@ -172,7 +205,7 @@ class _MapLocationPageState extends State<MapLocationPage> {
                     children: [
                       TileLayer(
                         key: ValueKey('map-tiles-$generation'),
-                        urlTemplate: OnlineMap.tileTemplate,
+                        urlTemplate: layer.template,
                         userAgentPackageName: 'it.italic.italicapp',
                         tileProvider: tileProvider,
                         panBuffer: 0,
@@ -239,24 +272,7 @@ class _MapLocationPageState extends State<MapLocationPage> {
                   Positioned(
                     bottom: 0,
                     right: 0,
-                    child: ColoredBox(
-                      color: Colors.white,
-                      child: InkWell(
-                        onTap: () => launchUrl(
-                          Uri.parse('https://www.openstreetmap.org/copyright'),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(6),
-                          child: Text(
-                            '© OpenStreetMap contributors',
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: MapCredits(layer: layer),
                   ),
               ],
             ),

@@ -185,6 +185,51 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<int> copyPlotSpecies(
+    String sourceId,
+    String targetId, {
+    bool includeDetails = false,
+  }) async {
+    final source = plotById(sourceId), target = plotById(targetId);
+    if (source == null || target == null || sourceId == targetId) {
+      throw StateError('Scegli un altro plot disponibile.');
+    }
+    final names = speciesForPlot(target).map((s) => s.key).toSet();
+    final ids = {
+      for (final s in speciesForPlot(target))
+        if (s.italicId != null) s.italicId!,
+    };
+    final added = <PlotSpecies>[];
+    for (final s in speciesForPlot(source)) {
+      if (names.contains(s.key) ||
+          (s.italicId != null && ids.contains(s.italicId))) {
+        continue;
+      }
+      added.add(
+        PlotSpecies(
+          name: s.name,
+          italicId: s.italicId,
+          abundance: includeDetails ? s.abundance : '',
+          notes: includeDetails ? s.notes : '',
+        ),
+      );
+      names.add(s.key);
+      if (s.italicId != null) ids.add(s.italicId!);
+    }
+    if (added.isNotEmpty) {
+      await savePlot(
+        FieldPlot.fromMap({
+          ...target.toMap(),
+          'species': [
+            ...target.species,
+            ...added,
+          ].map((s) => s.toMap()).toList(),
+        }),
+      );
+    }
+    return added.length;
+  }
+
   bool loading = true;
   List<Observation> observations = [];
 

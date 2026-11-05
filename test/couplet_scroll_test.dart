@@ -52,12 +52,14 @@ void main() {
       await tester.tap(button);
       await tester.pumpAndSettle();
       expectVisible('Bivio 2 del tuo percorso');
-      final back = find.byKey(const ValueKey('reconstructed-back'));
+      final back = find.byKey(const ValueKey('reconstructed-undo'));
       await tester.scrollUntilVisible(back, 180);
       await tester.tap(back);
       await tester.pumpAndSettle();
       expectVisible('Bivio 1 del tuo percorso');
-      await tester.tap(find.byKey(const ValueKey('reconstructed-undo')));
+      expect(find.byKey(const ValueKey('reconstructed-back')), findsNothing);
+      await tester.scrollUntilVisible(button, 180);
+      await tester.tap(button);
       await tester.pumpAndSettle();
       expectVisible('Bivio 2 del tuo percorso');
       expect(tester.takeException(), isNull);

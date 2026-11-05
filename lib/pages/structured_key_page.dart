@@ -430,7 +430,7 @@ class _StructuredKeyPageState extends State<StructuredKeyPage> {
                     : dirty && selections.isEmpty
                     ? 'Rimuovi percorso salvato'
                     : dirty
-                    ? 'Salva percorso nell’osservazione'
+                    ? 'Salva percorso'
                     : saved.isNotEmpty
                     ? 'Percorso salvato'
                     : 'Salva percorso',

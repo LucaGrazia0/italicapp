@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../services/diary_filter.dart';
 import '../services/online_map.dart';
+import '../widgets/map_tools.dart';
 
 class AreaFilterPage extends StatefulWidget {
   const AreaFilterPage({super.key, this.initial});
@@ -13,7 +14,15 @@ class AreaFilterPage extends StatefulWidget {
 }
 
 class _AreaFilterPageState extends State<AreaFilterPage> {
+  final controller = MapController();
+  MapBaseLayer layer = MapBaseLayer.street;
   LatLng? first, second;
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   bool checking = false;
   String? error;
   @override
@@ -43,7 +52,12 @@ class _AreaFilterPageState extends State<AreaFilterPage> {
     });
     final online = OnlineMap();
     try {
-      await online.check((r.north + r.south) / 2, (r.west + r.east) / 2, 5);
+      await online.checkSource(
+        (r.north + r.south) / 2,
+        (r.west + r.east) / 2,
+        5,
+        template: layer.template,
+      );
       if (mounted) Navigator.pop(context, r);
     } catch (_) {
       if (mounted) {
@@ -71,9 +85,20 @@ class _AreaFilterPageState extends State<AreaFilterPage> {
               'Tocca due angoli opposti del rettangolo. Un terzo tocco ricomincia la selezione. La mappa richiede internet; il filtro funziona poi anche offline.',
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            child: MapTools(
+              layer: layer,
+              enabled: !checking,
+              onLayer: (v) => setState(() => layer = v),
+              onPlace: (p) => focusPlace(controller, p),
+            ),
+          ),
           Expanded(
             child: FlutterMap(
+              mapController: controller,
               options: MapOptions(
+                interactionOptions: northUpInteractions,
                 initialCenter: first ?? const LatLng(42, 12),
                 initialZoom: 5,
                 onTap: checking
@@ -90,7 +115,7 @@ class _AreaFilterPageState extends State<AreaFilterPage> {
               ),
               children: [
                 TileLayer(
-                  urlTemplate: OnlineMap.tileTemplate,
+                  urlTemplate: layer.template,
                   userAgentPackageName: 'it.italic.italicapp',
                   panBuffer: 0,
                 ),
@@ -122,10 +147,9 @@ class _AreaFilterPageState extends State<AreaFilterPage> {
                       ),
                     ],
                   ),
-                RichAttributionWidget(
-                  attributions: [
-                    TextSourceAttribution('OpenStreetMap contributors'),
-                  ],
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: MapCredits(layer: layer),
                 ),
               ],
             ),

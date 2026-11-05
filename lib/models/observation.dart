@@ -26,6 +26,7 @@ class Observation {
     this.photoBytes,
     this.photoName,
     this.identificationPath,
+    this.identificationMethod,
     this.plotId,
     this.plotPhotoKey,
     this.taxonItalicId,
@@ -56,6 +57,7 @@ class Observation {
   Uint8List? photoBytes;
   String? photoName;
   IdentificationPath? identificationPath;
+  String? identificationMethod;
   String? plotId, plotPhotoKey;
   int? taxonItalicId;
 
@@ -126,6 +128,8 @@ class Observation {
     'photoBytes': photoBytes,
     'photoName': photoName,
     'identificationPath': identificationPath?.toMap(),
+    if (identificationMethod != null)
+      'identificationMethod': identificationMethod,
     if (observedAt != null) 'observedAt': observedAt!.toIso8601String(),
     if (sourcePlotId != null) 'sourcePlotId': sourcePlotId,
     if (sourcePlotName != null) 'sourcePlotName': sourcePlotName,
@@ -165,6 +169,7 @@ class Observation {
           : Uint8List.fromList((map['photoBytes'] as List).cast<int>()),
       photoName: map['photoName'] as String?,
       identificationPath: IdentificationPath.fromMap(map['identificationPath']),
+      identificationMethod: map['identificationMethod'] as String?,
       observedAt: DateTime.tryParse(map['observedAt']?.toString() ?? ''),
       sourcePlotId: map['sourcePlotId'] as String?,
       sourcePlotName: map['sourcePlotName'] as String?,

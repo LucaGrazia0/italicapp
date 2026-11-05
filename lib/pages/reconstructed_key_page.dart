@@ -15,7 +15,7 @@ import '../models/observation.dart';
 import '../services/physcia_review_engine.dart';
 import '../services/reconstructed_key.dart';
 import 'italic_taxon_page.dart';
-import 'character_dictionary_page.dart';
+import '../services/diary_navigation.dart';
 
 class ReconstructedKeyPage extends StatefulWidget {
   const ReconstructedKeyPage({
@@ -45,7 +45,6 @@ class ReconstructedKeyPage extends StatefulWidget {
 class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
   ReconstructedKey? definition;
   Map<String, String> selections = {}, saved = {};
-  final history = <Map<String, String>>[];
   final scroll = ScrollController();
   bool failed = false, saving = false;
   int revision = 0;
@@ -127,7 +126,6 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
   void _change(Map<String, String> next) {
     if (saving) return;
     setState(() {
-      history.add(Map.of(selections));
       selections = definition!.normalize(next);
       revision++;
     });
@@ -172,17 +170,13 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
     _change(next);
   }
 
-  void _back() {
-    if (saving) return;
-    final key = definition!;
-    final node = key.current(selections);
-    final steps = key.trail(selections);
+  void _previous() {
+    final node = definition!.current(selections),
+        steps = definition!.trail(selections);
     if (selections[node.id] == 'unknown') {
       _edit(node.id);
     } else if (steps.isNotEmpty) {
       _edit(steps.last.node.id);
-    } else {
-      Navigator.maybePop(context);
     }
   }
 
@@ -279,18 +273,10 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
         actions: [
           IconButton(
             key: const ValueKey('reconstructed-undo'),
-            tooltip: 'Annulla ultima modifica',
-            onPressed: saving || history.isEmpty
+            tooltip: 'Bivio precedente',
+            onPressed: saving || key == null || (steps.isEmpty && !uncertain)
                 ? null
-                : () {
-                    setState(() {
-                      selections = history.removeLast();
-                      revision++;
-                    });
-                    WidgetsBinding.instance.addPostFrameCallback(
-                      (_) => _focusCouplet(),
-                    );
-                  },
+                : _previous,
             icon: const Icon(Icons.undo),
           ),
         ],
@@ -322,7 +308,7 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
                 ),
               ),
       ),
-      bottomNavigationBar: key == null
+      bottomNavigationBar: key == null || widget.observation == null
           ? null
           : SafeArea(
               child: Padding(
@@ -330,37 +316,73 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    OutlinedButton.icon(
-                      key: const ValueKey('reconstructed-back'),
-                      onPressed: saving ? null : _back,
-                      icon: const Icon(Icons.arrow_back),
-                      label: Text(
-                        steps.isEmpty && !uncertain
-                            ? (key.general
-                                  ? 'Indietro · caratteri iniziali'
-                                  : 'Indietro · scelta del percorso')
-                            : 'Indietro · bivio precedente',
+                    Text(
+                      !dirty
+                          ? 'Nessuna modifica da salvare.'
+                          : 'Risposte non ancora salvate.',
+                    ),
+                    const SizedBox(height: 6),
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (node!.terminal &&
+                              node.taxonId != null &&
+                              !key.extraTaxa.contains(node.taxonId)) ...[
+                            Expanded(
+                              child: CandidateSelectionButton(
+                                compact: true,
+                                taxon: key.taxa[node.taxonId]!,
+                                observation: widget.observation!,
+                                store: widget.store!,
+                                path: _candidatePath,
+                                disabled: saving,
+                                onBusy: _candidateBusy,
+                                onSaved: _candidateSaved,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              key: const ValueKey('reconstructed-save'),
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: const Size(0, 64),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 12,
+                                ),
+                              ),
+                              onPressed: saving || !dirty ? null : _save,
+                              icon: const Icon(Icons.save_outlined, size: 20),
+                              label: Text(
+                                selections.isEmpty
+                                    ? 'Rimuovi percorso salvato'
+                                    : 'Salva percorso',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    if (widget.observation != null) ...[
-                      Text(
-                        !dirty
-                            ? 'Nessuna modifica da salvare.'
-                            : widget.observation!.identificationPath != null
-                            ? 'Al salvataggio sostituirai l’ultimo percorso dell’osservazione.'
-                            : 'Risposte non ancora salvate.',
+                    if (node.terminal &&
+                        node.taxonId != null &&
+                        widget.observation!.rank ==
+                            IdentificationRank.species &&
+                        widget.observation!.taxonName ==
+                            key.taxa[node.taxonId]?.scientificName)
+                      OutlinedButton.icon(
+                        key: ValueKey('return-to-diary-${node.taxonId}'),
+                        onPressed: saving
+                            ? null
+                            : () => DiaryNavigation.returnToObservation(
+                                context,
+                                widget.observation!.id,
+                              ),
+                        icon: const Icon(Icons.arrow_back_rounded),
+                        label: const Text('Torna al diario'),
                       ),
-                      FilledButton.icon(
-                        key: const ValueKey('reconstructed-save'),
-                        onPressed: saving || !dirty ? null : _save,
-                        icon: const Icon(Icons.save_outlined),
-                        label: Text(
-                          selections.isEmpty
-                              ? 'Rimuovi percorso salvato'
-                              : 'Salva percorso nell’osservazione',
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),
@@ -458,19 +480,8 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
                   ),
                   if (!key.extraTaxa.contains(node.taxonId))
                     TaxonPhotoCard(taxon: key.taxa[node.taxonId]!),
-                  if (!key.extraTaxa.contains(node.taxonId) &&
-                      widget.observation != null)
-                    CandidateSelectionButton(
-                      taxon: key.taxa[node.taxonId]!,
-                      observation: widget.observation!,
-                      store: widget.store!,
-                      path: _candidatePath,
-                      disabled: saving,
-                      onBusy: _candidateBusy,
-                      onSaved: _candidateSaved,
-                    ),
                   if (!key.extraTaxa.contains(node.taxonId))
-                    TextButton.icon(
+                    FilledButton.tonalIcon(
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -614,23 +625,15 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
                     node.terminal && steps.isNotEmpty ? steps.last.node : node,
                   ),
                   target: LinkTarget.blank,
-                  builder: (context, follow) => TextButton.icon(
+                  builder: (context, follow) => OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                    ),
                     onPressed: follow,
                     icon: const Icon(Icons.open_in_new),
                     label: const Text('Confronta questo bivio in ITALIC'),
                   ),
                 ),
-                if (key.general)
-                  TextButton.icon(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const CharacterDictionaryPage(),
-                      ),
-                    ),
-                    icon: const Icon(Icons.menu_book_outlined),
-                    label: const Text('Apri dizionario dei caratteri'),
-                  ),
                 if (steps.isNotEmpty)
                   ExpansionTile(
                     key: ValueKey('reconstructed-history-$revision'),

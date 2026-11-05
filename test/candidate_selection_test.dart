@@ -115,7 +115,7 @@ void main() {
         find.byKey(const ValueKey('remaining-candidate-1718')),
         findsNothing,
       );
-      await tester.tap(find.byKey(const ValueKey('reconstructed-back')));
+      await tester.tap(find.byKey(const ValueKey('reconstructed-undo')));
       await tester.pumpAndSettle();
       await showList(tester);
       expect(find.text('Specie rimaste (2)'), findsNothing);

@@ -18,12 +18,14 @@ class CandidateSelectionButton extends StatefulWidget {
     this.disabled = false,
     this.onBusy,
     this.onSaved,
+    this.compact = false,
   });
   final ItalicTaxon taxon;
   final Observation observation;
   final AppStore store;
   final IdentificationPath Function() path;
   final bool disabled;
+  final bool compact;
   final ValueChanged<bool>? onBusy;
   final ValueChanged<IdentificationPath>? onSaved;
   @override
@@ -44,13 +46,15 @@ class _CandidateSelectionButtonState extends State<CandidateSelectionButton> {
         ..rank = IdentificationRank.species
         ..taxonItalicId = widget.taxon.italicId
         ..taxonName = widget.taxon.scientificName
-        ..identificationPath = path;
+        ..identificationPath = path
+        ..identificationMethod = 'key';
       await widget.store.save(updated);
       original
         ..rank = updated.rank
         ..taxonItalicId = updated.taxonItalicId
         ..taxonName = updated.taxonName
-        ..identificationPath = path;
+        ..identificationPath = path
+        ..identificationMethod = 'key';
       if (mounted) {
         widget.onSaved?.call(path);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -78,39 +82,56 @@ class _CandidateSelectionButtonState extends State<CandidateSelectionButton> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      if (widget.observation.rank == IdentificationRank.species &&
-          widget.observation.taxonName == widget.taxon.scientificName)
-        const Padding(
-          padding: EdgeInsets.only(bottom: 6),
-          child: Text('Scelto nel diario'),
-        ),
-      FilledButton.icon(
+  Widget build(BuildContext context) {
+    if (widget.compact) {
+      return FilledButton.icon(
         key: ValueKey('choose-candidate-${widget.taxon.italicId}'),
-        onPressed: working || widget.disabled ? null : _choose,
-        icon: const Icon(Icons.check_circle_outline),
-        label: Text(working ? 'Salvataggio…' : 'Scegli questo candidato'),
-      ),
-      if (widget.observation.rank == IdentificationRank.species &&
-          widget.observation.taxonName == widget.taxon.scientificName)
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: OutlinedButton.icon(
-            key: ValueKey('return-to-diary-${widget.taxon.italicId}'),
-            onPressed: working
-                ? null
-                : () => DiaryNavigation.returnToObservation(
-                    context,
-                    widget.observation.id,
-                  ),
-            icon: const Icon(Icons.arrow_back_rounded),
-            label: const Text('Torna al diario'),
-          ),
+        style: FilledButton.styleFrom(
+          minimumSize: const Size(0, 64),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         ),
-    ],
-  );
+        onPressed: working || widget.disabled ? null : _choose,
+        icon: const Icon(Icons.check_circle_outline, size: 20),
+        label: Text(
+          working ? 'Salvataggio…' : 'Scegli questo candidato',
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.observation.rank == IdentificationRank.species &&
+            widget.observation.taxonName == widget.taxon.scientificName)
+          const Padding(
+            padding: EdgeInsets.only(bottom: 6),
+            child: Text('Scelto nel diario'),
+          ),
+        FilledButton.icon(
+          key: ValueKey('choose-candidate-${widget.taxon.italicId}'),
+          onPressed: working || widget.disabled ? null : _choose,
+          icon: const Icon(Icons.check_circle_outline),
+          label: Text(working ? 'Salvataggio…' : 'Scegli questo candidato'),
+        ),
+        if (widget.observation.rank == IdentificationRank.species &&
+            widget.observation.taxonName == widget.taxon.scientificName)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: OutlinedButton.icon(
+              key: ValueKey('return-to-diary-${widget.taxon.italicId}'),
+              onPressed: working
+                  ? null
+                  : () => DiaryNavigation.returnToObservation(
+                      context,
+                      widget.observation.id,
+                    ),
+              icon: const Icon(Icons.arrow_back_rounded),
+              label: const Text('Torna al diario'),
+            ),
+          ),
+      ],
+    );
+  }
 }
 
 /// The list is updated from the current branch, never from the initial scope.
@@ -226,7 +247,7 @@ class _RemainingCandidatesState extends State<RemainingCandidates> {
                   else ...[
                     if (widget.uncertainIds.contains(taxon.italicId))
                       const Text('Dati incompleti: candidato da verificare.'),
-                    TextButton.icon(
+                    OutlinedButton.icon(
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(

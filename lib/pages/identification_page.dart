@@ -699,7 +699,7 @@ class _DichotomousKeyPageState extends State<DichotomousKeyPage> {
                   : dirty && answers.isEmpty
                   ? 'Rimuovi percorso salvato'
                   : dirty
-                  ? 'Salva percorso nell’osservazione'
+                  ? 'Salva percorso'
                   : savedAnswers.isNotEmpty
                   ? 'Percorso salvato'
                   : 'Salva percorso',

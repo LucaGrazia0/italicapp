@@ -142,7 +142,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.text('Bivio 3 del tuo percorso'), findsOneWidget);
-      await tester.tap(find.byKey(const ValueKey('reconstructed-back')));
+      await tester.tap(find.byKey(const ValueKey('reconstructed-undo')));
       await tester.pumpAndSettle();
       expect(find.text('Bivio 2 del tuo percorso'), findsOneWidget);
       await tester.scrollUntilVisible(
@@ -156,10 +156,10 @@ void main() {
       await tester.tap(find.text('Gruppo e filtri iniziali'));
       await tester.pumpAndSettle();
       await tester.ensureVisible(
-        find.byKey(const ValueKey('reconstructed-back')),
+        find.byKey(const ValueKey('reconstructed-undo')),
       );
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const ValueKey('reconstructed-back')));
+      await tester.tap(find.byKey(const ValueKey('reconstructed-undo')));
       await tester.pumpAndSettle();
       expect(find.text('Bivio 1 del tuo percorso'), findsOneWidget);
       expect(observation.identificationPath!.selections, selections);

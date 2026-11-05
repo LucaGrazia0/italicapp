@@ -7,6 +7,7 @@ import '../widgets/photo_view.dart';
 import 'determination_page.dart';
 import 'observation_export_page.dart';
 import 'map_location_page.dart';
+import 'species_name_page.dart';
 import '../services/field_location.dart';
 import '../services/diary_navigation.dart';
 
@@ -252,6 +253,71 @@ class _ObservationPageState extends State<ObservationPage> {
                   child: ObservationPhoto(o),
                 ),
               ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: FilledButton.icon(
+                      key: const ValueKey('identify-observation'),
+                      onPressed: editing || savingPosition
+                          ? null
+                          : () => _openDetermination(context),
+                      icon: const Icon(Icons.account_tree_outlined),
+                      label: const Text(
+                        'Identifica specie',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      key: const ValueKey('write-observation-species'),
+                      onPressed: editing || savingPosition
+                          ? null
+                          : () async {
+                              final updated = await Navigator.push<Observation>(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => SpeciesNamePage(
+                                    store: widget.store,
+                                    observation: observation,
+                                  ),
+                                ),
+                              );
+                              if (updated != null && mounted) {
+                                setState(() => observation = updated);
+                              }
+                            },
+                      icon: const Icon(Icons.edit_note),
+                      label: const Text(
+                        'Scrivi nome',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 22),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.science_outlined),
+                  title: Text(o.taxonName ?? 'Non determinato'),
+                  subtitle: Text(
+                    o.identificationPath != null
+                        ? (o.identificationMethod == 'manual'
+                              ? 'Nome inserito manualmente · percorso precedente disponibile'
+                              : 'Riprendi il percorso salvato · ${o.identificationPath!.answerCount} risposte')
+                        : o.taxonName == null
+                        ? 'Tocca per iniziare la determinazione'
+                        : 'Tocca per rivedere la determinazione',
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: savingPosition
+                      ? null
+                      : () => _openDetermination(context),
+                ),
+              ),
               const SizedBox(height: 18),
               Text(
                 '${date(o.createdAt)} • ${two(o.createdAt.hour)}:${two(o.createdAt.minute)}',
@@ -400,24 +466,6 @@ class _ObservationPageState extends State<ObservationPage> {
                   'Note',
                   o.notes.isEmpty ? 'Nessuna nota' : o.notes,
                 ),
-              const SizedBox(height: 22),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.science_outlined),
-                  title: Text(o.taxonName ?? 'Non determinato'),
-                  subtitle: Text(
-                    o.identificationPath != null
-                        ? 'Riprendi il percorso salvato · ${o.identificationPath!.answerCount} risposte'
-                        : o.taxonName == null
-                        ? 'Tocca per iniziare la determinazione'
-                        : 'Tocca per rivedere la determinazione',
-                  ),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: savingPosition
-                      ? null
-                      : () => _openDetermination(context),
-                ),
-              ),
             ],
           ),
         ),

@@ -122,11 +122,13 @@ class PlotFormPage extends StatefulWidget {
     super.key,
     required this.store,
     this.plot,
+    this.template,
     this.locationCapture,
     this.mapBuilder,
   });
   final AppStore store;
   final FieldPlot? plot;
+  final FieldPlot? template;
   final Future<FieldFix> Function()? locationCapture;
   final Widget Function(double?, double?)? mapBuilder;
   @override
@@ -135,10 +137,16 @@ class PlotFormPage extends StatefulWidget {
 
 class _PlotFormPageState extends State<PlotFormPage> {
   final form = GlobalKey<FormState>();
-  late final name = TextEditingController(text: widget.plot?.name ?? '');
-  late final notes = TextEditingController(text: widget.plot?.notes ?? '');
+  late final name = TextEditingController(
+    text:
+        widget.plot?.name ??
+        (widget.template == null ? '' : '${widget.template!.name} · copia'),
+  );
+  late final notes = TextEditingController(
+    text: (widget.plot ?? widget.template)?.notes ?? '',
+  );
   late final area = TextEditingController(
-    text: widget.plot?.areaM2?.toString() ?? '',
+    text: (widget.plot ?? widget.template)?.areaM2?.toString() ?? '',
   );
   late DateTime sampledAt = widget.plot?.sampledAt ?? DateTime.now();
   late Map<String, Object?> location = {
@@ -154,7 +162,11 @@ class _PlotFormPageState extends State<PlotFormPage> {
     ])
       key: widget.plot?.toMap()[key],
   };
-  late String? substrate = widget.plot?.substrate;
+  late String? substrate = (widget.plot ?? widget.template)?.substrate;
+  bool includeSpeciesDetails = false;
+  late final templateSpecies = widget.template == null
+      ? <PlotSpecies>[]
+      : widget.store.speciesForPlot(widget.template!);
   bool busy = false, locating = false;
   String? error;
   int request = 0;
@@ -248,6 +260,16 @@ class _PlotFormPageState extends State<PlotFormPage> {
         'sampledAt': sampledAt.toIso8601String(),
         'notes': notes.text.trim(),
         'substrate': substrate,
+        if (widget.template != null)
+          'species': [
+            for (final s in templateSpecies)
+              PlotSpecies(
+                name: s.name,
+                italicId: s.italicId,
+                abundance: includeSpeciesDetails ? s.abundance : '',
+                notes: includeSpeciesDetails ? s.notes : '',
+              ).toMap(),
+          ],
         'areaM2': area.text.trim().isEmpty
             ? null
             : double.parse(area.text.trim().replaceAll(',', '.')),
@@ -289,6 +311,24 @@ class _PlotFormPageState extends State<PlotFormPage> {
             'Compila il plot, poi aggiungi la lista delle specie e le foto. Potrai completarlo anche in seguito.',
           ),
           const SizedBox(height: 20),
+          if (widget.template != null) ...[
+            Text(
+              'Nuovo plot da “${widget.template!.name}” · ${templateSpecies.length} specie',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const Text(
+              'Rivedi nome e data del nuovo rilievo. Foto, posizione e misure GPS non vengono duplicate.',
+            ),
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Copia anche abbondanze e note delle specie'),
+              value: includeSpeciesDetails,
+              onChanged: busy
+                  ? null
+                  : (v) => setState(() => includeSpeciesDetails = v == true),
+            ),
+            const SizedBox(height: 12),
+          ],
           TextFormField(
             key: const ValueKey('plot-name'),
             controller: name,
@@ -731,6 +771,85 @@ class _PlotPageState extends State<PlotPage> {
     }
   }
 
+  Future<void> duplicate(FieldPlot plot) async {
+    final result = await Navigator.push<FieldPlot>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PlotFormPage(store: widget.store, template: plot),
+      ),
+    );
+    if (result != null && mounted) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PlotPage(store: widget.store, plotId: result.id),
+        ),
+      );
+    }
+  }
+
+  Future<void> copyInto(FieldPlot source) async {
+    final targets = widget.store.plots.where((p) => p.id != source.id).toList();
+    if (targets.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Crea un altro plot oppure usa Duplica plot.'),
+        ),
+      );
+      return;
+    }
+    final target = await Navigator.push<FieldPlot>(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => Scaffold(
+          appBar: AppBar(title: const Text('Copia lista in un plot')),
+          body: ListView(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  'Aggiungiamo i nomi mancanti. La lista già presente, le abbondanze, le note e le foto del plot di destinazione restano conservate.',
+                ),
+              ),
+              for (final p in targets)
+                ListTile(
+                  key: ValueKey('copy-into-${p.id}'),
+                  leading: const Icon(Icons.grid_view_rounded),
+                  title: Text(p.name),
+                  subtitle: Text(_date(p.sampledAt)),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.pop(ctx, p),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (target == null || !mounted) return;
+    setState(() => busy = true);
+    try {
+      final n = await widget.store.copyPlotSpecies(source.id, target.id);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '$n specie aggiunte a ${target.name}. Le specie già presenti non sono duplicate.',
+            ),
+          ),
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => error =
+              'Lista non copiata. Il plot di destinazione resta conservato. Riprova.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
+  }
+
   Future<void> copyList(FieldPlot plot, List<PlotSpecies> rows) async {
     await Clipboard.setData(
       ClipboardData(
@@ -768,6 +887,26 @@ class _PlotPageState extends State<PlotPage> {
         appBar: AppBar(
           title: Text(plot.name),
           actions: [
+            PopupMenuButton<String>(
+              key: const ValueKey('plot-copy-menu'),
+              tooltip: 'Copia o duplica plot',
+              enabled: !busy,
+              icon: const Icon(Icons.copy_all_outlined),
+              itemBuilder: (_) => const [
+                PopupMenuItem(
+                  value: 'copy',
+                  child: Text('Copia lista in un altro plot'),
+                ),
+                PopupMenuItem(value: 'duplicate', child: Text('Duplica plot')),
+              ],
+              onSelected: (value) {
+                if (value == 'copy') {
+                  copyInto(plot);
+                } else {
+                  duplicate(plot);
+                }
+              },
+            ),
             IconButton(
               key: const ValueKey('share-plot'),
               tooltip: 'Condividi plot',

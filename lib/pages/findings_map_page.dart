@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' hide Path;
-import 'package:url_launcher/link.dart';
+import '../widgets/map_tools.dart';
 import '../app_store.dart';
 import '../models/observation.dart';
 import '../services/online_map.dart';
@@ -32,6 +32,7 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
   bool ready = false, failed = false;
   int generation = 0;
   String query = '';
+  MapBaseLayer layer = MapBaseLayer.street;
   FindingColorMode colorMode = FindingColorMode.identification;
   MapCategories categories = MapCategories([]);
   String? categoryError;
@@ -261,6 +262,18 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
                   onPressed: loadCategories,
                   child: Text(categoryError!),
                 ),
+              const SizedBox(height: 8),
+              MapTools(
+                layer: layer,
+                onLayer: (v) => setState(() {
+                  layer = v;
+                  generation++;
+                  failed = false;
+                }),
+                onPlace: (p) {
+                  if (ready) focusPlace(controller, p);
+                },
+              ),
               const SizedBox(height: 10),
               TextField(
                 key: const ValueKey('findings-search'),
@@ -275,21 +288,7 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
             ],
           ),
         ),
-        if (all.isEmpty)
-          Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text(
-                  query.isEmpty
-                      ? 'Nessun ritrovamento nel diario. Aggiungi una foto e la posizione per vederlo qui.'
-                      : 'Nessun ritrovamento corrisponde alla ricerca.',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          )
-        else ...[
+        ...[
           if (failed)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -314,65 +313,64 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
           Expanded(
             child: Stack(
               children: [
-                if (located.isNotEmpty)
-                  FlutterMap(
-                    mapController: controller,
-                    options: MapOptions(
-                      initialCenter: point(located.first),
-                      initialZoom: located.length == 1 ? 15 : 5,
-                      initialCameraFit: located.length > 1
-                          ? CameraFit.coordinates(
-                              coordinates: located.map(point).toList(),
-                              padding: const EdgeInsets.all(48),
-                              maxZoom: 16,
-                            )
-                          : null,
-                      onMapReady: () => ready = true,
-                      minZoom: 2,
-                      maxZoom: 19,
+                FlutterMap(
+                  mapController: controller,
+                  options: MapOptions(
+                    interactionOptions: northUpInteractions,
+                    initialCenter: located.isEmpty
+                        ? const LatLng(42.5, 12.5)
+                        : point(located.first),
+                    initialZoom: located.length == 1 ? 15 : 5,
+                    initialCameraFit: located.length > 1
+                        ? CameraFit.coordinates(
+                            coordinates: located.map(point).toList(),
+                            padding: const EdgeInsets.all(48),
+                            maxZoom: 16,
+                          )
+                        : null,
+                    onMapReady: () => ready = true,
+                    minZoom: 2,
+                    maxZoom: 19,
+                  ),
+                  children: [
+                    TileLayer(
+                      key: ValueKey('findings-tiles-$generation'),
+                      urlTemplate: layer.template,
+                      userAgentPackageName: 'it.italic.italicapp',
+                      tileProvider: widget.tileProvider,
+                      panBuffer: 0,
+                      maxNativeZoom: 19,
+                      errorTileCallback: (_, _, _) => tileFailed(),
                     ),
-                    children: [
-                      TileLayer(
-                        key: ValueKey('findings-tiles-$generation'),
-                        urlTemplate: OnlineMap.tileTemplate,
-                        userAgentPackageName: 'it.italic.italicapp',
-                        tileProvider: widget.tileProvider,
-                        panBuffer: 0,
-                        maxNativeZoom: 19,
-                        errorTileCallback: (_, _, _) => tileFailed(),
-                      ),
-                      MarkerLayer(
-                        markers: [
-                          for (final group in groups.values)
-                            Marker(
-                              point: point(group.first),
-                              width: 52,
-                              height: 52,
-                              alignment: Alignment.topCenter,
-                              child: Semantics(
-                                button: true,
-                                label:
-                                    '${group.length} ritrovamenti: ${group.map((o) => o.taxonName ?? 'Non determinato').join(', ')}',
-                                child: InkWell(
-                                  key: ValueKey(
-                                    'findings-marker-${group.first.id}',
-                                  ),
-                                  onTap: () => showRecords(group),
-                                  child: CustomPaint(
-                                    painter: _GroupedPin([
-                                      for (final o in group) category(o).color,
-                                    ]),
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 8,
-                                        ),
-                                        child: Text(
-                                          '${group.length}',
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                    MarkerLayer(
+                      markers: [
+                        for (final group in groups.values)
+                          Marker(
+                            point: point(group.first),
+                            width: 52,
+                            height: 52,
+                            alignment: Alignment.topCenter,
+                            child: Semantics(
+                              button: true,
+                              label:
+                                  '${group.length} ritrovamenti: ${group.map((o) => o.taxonName ?? 'Non determinato').join(', ')}',
+                              child: InkWell(
+                                key: ValueKey(
+                                  'findings-marker-${group.first.id}',
+                                ),
+                                onTap: () => showRecords(group),
+                                child: CustomPaint(
+                                  painter: _GroupedPin([
+                                    for (final o in group) category(o).color,
+                                  ]),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: Text(
+                                        '${group.length}',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
@@ -380,20 +378,11 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
                                 ),
                               ),
                             ),
-                        ],
-                      ),
-                    ],
-                  )
-                else
-                  const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(24),
-                      child: Text(
-                        'Aggiungi una posizione ai ritrovamenti dal diario per visualizzarli sulla mappa.',
-                        textAlign: TextAlign.center,
-                      ),
+                          ),
+                      ],
                     ),
-                  ),
+                  ],
+                ),
                 if (located.isNotEmpty)
                   Positioned(
                     right: 12,
@@ -405,23 +394,21 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
                       child: const Icon(Icons.center_focus_strong),
                     ),
                   ),
-                if (located.isNotEmpty)
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: ColoredBox(
-                      color: Colors.white,
-                      child: Link(
-                        uri: Uri.parse(
-                          'https://www.openstreetmap.org/copyright',
-                        ),
-                        target: LinkTarget.blank,
-                        builder: (_, follow) => TextButton(
-                          onPressed: follow,
-                          child: const Text(
-                            '© OpenStreetMap contributors',
-                            style: TextStyle(fontSize: 10),
-                          ),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: MapCredits(layer: layer),
+                ),
+                if (all.isEmpty)
+                  const Positioned(
+                    left: 12,
+                    top: 12,
+                    right: 12,
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child: Text(
+                          'Nessun ritrovamento corrisponde alla ricerca o ai filtri. Puoi comunque esplorare la mappa.',
                         ),
                       ),
                     ),
