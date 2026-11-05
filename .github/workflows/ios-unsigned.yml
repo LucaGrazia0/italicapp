@@ -38,7 +38,7 @@ jobs:
           python3 tools/package_unsigned_ipa.py
           build/ios/iphoneos/Runner.app
           dist/Italic-Go-0.8.14-iPhone-non-firmata.ipa
-          --version 0.8.14 --build 27
+          --version 0.8.14 --build 28
       - uses: actions/upload-artifact@v4
         with:
           name: Italic-Go-0.8.14-iPhone-non-firmata

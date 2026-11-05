@@ -216,6 +216,7 @@ class _FindingsMapPageState extends State<FindingsMapPage> {
                 key: const ValueKey('findings-count'),
               ),
               DiaryFilters(store: widget.store),
+              const SizedBox(height:16),
               DropdownButtonFormField<FindingColorMode>(
                 key: const ValueKey('map-color-mode'),
                 initialValue: colorMode,

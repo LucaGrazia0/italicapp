@@ -1,4 +1,4 @@
-# Italic Go 0.8.14 (27)
+# Italic Go 0.8.14 (28)
 
 ## Diario e plot
 
@@ -40,3 +40,5 @@ Ricerca di prova “Paneveggio”: risposta GeoJSON valida. Tessera satellitare:
 Le prove automatiche controllano riapertura dei dati salvati, tentativi falliti, fusione senza perdita dei dati di destinazione, duplicazione senza foto/GPS, assegnazione manuale, posizione dei pulsanti, ritorno al bivio dai percorsi salvati, assenza della rotazione, selettore satellitare e ricerca attivata solo dall’utente. Le compilazioni non includono dati dimostrativi del diario.
 
 L’IPA rimane non firmata e richiede firma e provisioning Apple per essere installata. L’inoltro alle applicazioni esterne e l’acquisizione GNSS restano da verificare su telefoni fisici.
+
+Verifica visiva finale: aggiunto spazio fra il filtro del diario e l’etichetta della selezione colori, per evitare sovrapposizioni sui telefoni. Build 28.
