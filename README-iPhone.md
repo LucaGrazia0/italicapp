@@ -1,11 +1,11 @@
-# Italic Go 0.8.12 · progetto iPhone e IPA non firmata
+# Italic Go 0.8.15 · progetto iPhone e IPA non firmata
 
 Il progetto include i sorgenti Flutter e il progetto iOS dell’ultima versione,
 con 3.406 foto offline. Sul Mac locale non sono installati Xcode e l’SDK iOS;
 la compilazione è predisposta su un runner macOS di GitHub Actions.
 
 Il workflow `.github/workflows/ios-unsigned.yml` produce
-`Italic-Go-0.8.12-iPhone-non-firmata.ipa`, un bundle arm64 per iPhone fisico con
+`Italic-Go-0.8.15-iPhone-non-firmata.ipa`, un bundle arm64 per iPhone fisico con
 versione e checksum delle foto verificati. **L’IPA non è firmata per
 l’installazione: va firmata e installata con un metodo compatibile, ad esempio
 AltStore Classic. Non si installa toccando il file nei Download e non è un
@@ -17,7 +17,10 @@ Sono predisposti il nome Italic Go, il logo, l'identificativo
 `it.italic.italicapp`, iOS 15 o successivo e le descrizioni dei permessi per
 fotocamera, galleria e posizione durante l'uso. Il codice comprende diario,
 chiavi e matrici offline, condivisione e scelta della posizione su mappa online
-della versione 0.8.12, i filtri iniziali, i plot con lista specie e foto multiple, i traguardi offline e le fotografie dimostrative.
+della versione 0.8.15, i filtri iniziali, i plot con lista specie e foto multiple, i traguardi offline e le fotografie dimostrative.
+La versione 0.8.15 (build 29) aggiunge l’incertezza manuale del punto sulla mappa,
+conservata anche nei plot e nelle esportazioni. Il filtro del colore mantiene le
+specie senza dati confrontabili. Le 3.406 immagini offline sono già WebP.
 La firma e il Team Apple non sono inclusi.
 
 ## Per compilare e provare su iPhone
@@ -57,7 +60,7 @@ Per creare manualmente l’IPA non firmata su un Mac con Xcode:
 flutter pub get
 flutter build ios --release --no-codesign --no-pub
 python3 tools/package_unsigned_ipa.py build/ios/iphoneos/Runner.app \
-  dist/Italic-Go-0.8.12-iPhone-non-firmata.ipa --version 0.8.12 --build 25
+  dist/Italic-Go-0.8.15-iPhone-non-firmata.ipa --version 0.8.15 --build 29
 ```
 
 Fonti ufficiali:

@@ -89,6 +89,8 @@ class AppStore extends ChangeNotifier {
       latitude: plot.latitude,
       longitude: plot.longitude,
       seaLevelAltitude: plot.seaLevelAltitude,
+      horizontalAccuracy: plot.horizontalAccuracy,
+      coordinateUncertaintyInMeters: plot.coordinateUncertaintyInMeters,
       positionProvider: 'plot',
       substrate: plot.substrate,
     );

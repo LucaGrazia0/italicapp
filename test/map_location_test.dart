@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:idb_shim/idb_client_memory.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:italicapp/models/map_position.dart';
 import 'package:italicapp/app_store.dart';
 import 'package:italicapp/data/observation_database_native.dart';
 import 'package:italicapp/data/observation_repository.dart';
@@ -61,7 +61,7 @@ void main() {
     'Online map requires an explicit tap, verifies connection again on confirm, and returns the chosen point',
     (tester) async {
       phone(tester);
-      LatLng? result;
+      MapPosition? result;
       var calls = 0;
       final service = OnlineMap(
         client: MockClient((_) async {
@@ -73,7 +73,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () async => result = await Navigator.push<LatLng>(
+              onPressed: () async => result = await Navigator.push<MapPosition>(
                 context,
                 MaterialPageRoute(
                   builder: (_) => MapLocationPage(
@@ -104,7 +104,92 @@ void main() {
       expect(result, isNotNull);
       expect(result!.latitude, isNot(45));
       expect(result!.longitude, isNot(11));
+      expect(result!.uncertaintyInMeters, isNull);
       expect(calls, 2);
+      expect(find.byType(MapLocationPage), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'Manual uncertainty is entered before the point, accepts decimal commas and is returned with the marker',
+    (tester) async {
+      phone(tester);
+      MapPosition? result;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) => TextButton(
+              onPressed: () async => result = await Navigator.push<MapPosition>(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MapLocationPage(
+                    onlineMap: OnlineMap(
+                      client: MockClient(
+                        (_) async => http.Response(
+                          '',
+                          200,
+                          headers: {'content-type': 'image/png'},
+                        ),
+                      ),
+                    ),
+                    tileProvider: _Tiles(image),
+                    initialUncertaintyInMeters: 100,
+                  ),
+                ),
+              ),
+              child: const Text('Mappa con incertezza'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Mappa con incertezza'));
+      await tester.pumpAndSettle();
+      final field = find.byKey(const ValueKey('map-position-uncertainty'));
+      final confirm = find.byKey(const ValueKey('confirm-map-location'));
+      expect(tester.widget<TextField>(field).controller!.text, '100.0');
+      expect(
+        tester.getTopLeft(field).dy,
+        lessThan(tester.getTopLeft(find.byType(FlutterMap)).dy),
+      );
+      for (final invalid in [
+        '0',
+        '-10',
+        'NaN',
+        'Infinity',
+        'abc',
+        '20000001',
+      ]) {
+        await tester.enterText(field, invalid);
+        await tester.pumpAndSettle();
+        expect(tester.widget<FilledButton>(confirm).onPressed, isNull);
+        expect(
+          tester.widget<TextField>(field).decoration!.errorText,
+          isNotNull,
+        );
+      }
+      await tester.enterText(field, '25,5');
+      await tester.pumpAndSettle();
+      await tester.tapAt(tester.getCenter(find.byType(FlutterMap)));
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<CircleLayer>(find.byType(CircleLayer))
+            .circles
+            .single
+            .radius,
+        25.5,
+      );
+      await tester.enterText(field, '-1');
+      await tester.pumpAndSettle();
+      expect(tester.widget<FilledButton>(confirm).onPressed, isNull);
+      await tester.enterText(field, '25,5');
+      FocusManager.instance.primaryFocus?.unfocus();
+      await tester.pumpAndSettle();
+      await tester.tap(confirm);
+      await tester.pumpAndSettle();
+      expect(result!.uncertaintyInMeters, 25.5);
       expect(find.byType(MapLocationPage), findsNothing);
       expect(tester.takeException(), isNull);
     },
@@ -171,8 +256,10 @@ void main() {
                 builder: (context) => Scaffold(
                   body: Center(
                     child: FilledButton(
-                      onPressed: () =>
-                          Navigator.pop(context, const LatLng(46, 12)),
+                      onPressed: () => Navigator.pop(
+                        context,
+                        const MapPosition(46, 12, uncertaintyInMeters: 25.5),
+                      ),
                       child: const Text('Conferma punto di prova'),
                     ),
                   ),
@@ -206,6 +293,7 @@ void main() {
           expect(saved.latitude, 46);
           expect(saved.longitude, 12);
           expect(saved.isMapPosition, true);
+          expect(saved.coordinateUncertaintyInMeters, 25.5);
           expect(saved.horizontalAccuracy, isNull);
           expect(saved.seaLevelAltitude, isNull);
           expect(saved.gpsAltitude, isNull);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:latlong2/latlong.dart';
+import '../models/map_position.dart';
 import '../app_store.dart';
 import '../models/field_plot.dart';
 import '../models/observation.dart';
@@ -155,6 +155,7 @@ class _PlotFormPageState extends State<PlotFormPage> {
       'longitude',
       'seaLevelAltitude',
       'horizontalAccuracy',
+      'coordinateUncertaintyInMeters',
       'seaLevelAccuracy',
       'positionSource',
       'positionMeasuredAt',
@@ -214,7 +215,7 @@ class _PlotFormPageState extends State<PlotFormPage> {
   }
 
   Future<void> map() async {
-    final point = await Navigator.push<LatLng>(
+    final point = await Navigator.push<MapPosition>(
       context,
       MaterialPageRoute(
         builder: (_) =>
@@ -225,6 +226,8 @@ class _PlotFormPageState extends State<PlotFormPage> {
             MapLocationPage(
               initialLatitude: location['latitude'] as double?,
               initialLongitude: location['longitude'] as double?,
+              initialUncertaintyInMeters:
+                  location['coordinateUncertaintyInMeters'] as double?,
             ),
       ),
     );
@@ -235,6 +238,7 @@ class _PlotFormPageState extends State<PlotFormPage> {
         'longitude': point.longitude,
         'seaLevelAltitude': null,
         'horizontalAccuracy': null,
+        'coordinateUncertaintyInMeters': point.uncertaintyInMeters,
         'seaLevelAccuracy': null,
         'positionSource': 'manual_map',
         'positionMeasuredAt': DateTime.now().toIso8601String(),
@@ -437,6 +441,10 @@ class _PlotFormPageState extends State<PlotFormPage> {
                   if (location['positionSource'] == 'manual_map')
                     const Text(
                       'Punto scelto sulla mappa · quota non misurata.',
+                    ),
+                  if (location['coordinateUncertaintyInMeters'] != null)
+                    Text(
+                      'Incertezza stimata: ${location['coordinateUncertaintyInMeters']} m di raggio',
                     ),
                   const SizedBox(height: 12),
                   Row(

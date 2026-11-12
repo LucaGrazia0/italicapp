@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
+import '../models/map_position.dart';
 import 'package:flutter/services.dart';
 import '../app_store.dart';
 import '../models/observation.dart';
@@ -74,7 +74,7 @@ class _ObservationPageState extends State<ObservationPage> {
 
   Future<void> choosePosition() async {
     if (savingPosition || editing) return;
-    final point = await Navigator.push<LatLng>(
+    final point = await Navigator.push<MapPosition>(
       context,
       MaterialPageRoute(
         builder: (_) =>
@@ -86,6 +86,8 @@ class _ObservationPageState extends State<ObservationPage> {
               initialLongitude: observation.hasPosition
                   ? observation.longitude
                   : null,
+              initialUncertaintyInMeters:
+                  observation.coordinateUncertaintyInMeters,
             ),
       ),
     );
@@ -98,6 +100,7 @@ class _ObservationPageState extends State<ObservationPage> {
       final updated = observation.withMapPosition(
         point.latitude,
         point.longitude,
+        uncertaintyInMeters: point.uncertaintyInMeters,
       );
       await widget.store.save(updated);
       if (!mounted) return;
@@ -338,6 +341,12 @@ class _ObservationPageState extends State<ObservationPage> {
                       ? 'Origine della posizione'
                       : 'Accuratezza GPS',
                   o.positionLabel,
+                ),
+              if (o.hasPosition && o.coordinateUncertaintyInMeters != null)
+                info(
+                  Icons.radio_button_unchecked,
+                  'Incertezza stimata manualmente',
+                  '${o.positionUncertaintyInMeters?.toStringAsFixed(1) ?? "—"} m di raggio',
                 ),
               Row(
                 children: [

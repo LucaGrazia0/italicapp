@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:italicapp/models/map_position.dart';
 import 'package:italicapp/models/identification_path.dart';
 import 'package:italicapp/models/observation.dart';
 import 'package:italicapp/pages/diary_page.dart';
@@ -110,8 +110,14 @@ void main() {
                       mapBuilder: (_, _) => Scaffold(
                         body: Builder(
                           builder: (m) => TextButton(
-                            onPressed: () =>
-                                Navigator.pop(m, const LatLng(44, 10)),
+                            onPressed: () => Navigator.pop(
+                              m,
+                              const MapPosition(
+                                44,
+                                10,
+                                uncertaintyInMeters: 50,
+                              ),
+                            ),
                             child: const Text('Punto manuale'),
                           ),
                         ),
@@ -142,6 +148,7 @@ void main() {
       expect(store.plots.single.seaLevelAltitude, isNull);
       expect(store.plots.single.horizontalAccuracy, isNull);
       expect(store.plots.single.positionSource, 'manual_map');
+      expect(store.plots.single.coordinateUncertaintyInMeters, 50);
       expect(tester.takeException(), isNull);
     },
   );

@@ -54,6 +54,7 @@ class FieldDataset {
         'latitude': p.latitude,
         'longitude': p.longitude,
         'horizontalAccuracy': p.horizontalAccuracy,
+        'coordinateUncertaintyInMeters': p.coordinateUncertaintyInMeters,
         'seaLevelAltitude': p.seaLevelAltitude,
         'seaLevelAccuracy': p.seaLevelAccuracy,
         'altitudeReference': p.altitudeReference,
@@ -153,7 +154,7 @@ class FieldDataset {
         position ? o.latitude : null,
         position ? o.longitude : null,
         position ? 'WGS84' : null,
-        position ? o.horizontalAccuracy : null,
+        position ? o.positionUncertaintyInMeters : null,
         position ? o.seaLevelAltitude : null,
         position ? o.seaLevelAltitude : null,
         [
@@ -175,6 +176,8 @@ class FieldDataset {
             'positionProvider': o.positionProvider,
             'altitudeReference': o.altitudeReference,
             'seaLevelAccuracy': o.seaLevelAccuracy,
+            if (o.coordinateUncertaintyInMeters != null)
+              'coordinateUncertaintySource': 'user_estimate',
           },
           if (o.sourcePlotId != null) 'sourcePlotId': o.sourcePlotId,
         }),
@@ -278,6 +281,7 @@ class FieldDataset {
         'eventRemarks',
         'decimalLatitude',
         'decimalLongitude',
+        'coordinateUncertaintyInMeters',
       ],
       for (final p in plots)
         [
@@ -289,6 +293,7 @@ class FieldDataset {
           p.notes,
           includeGps && p.hasPosition ? p.latitude : null,
           includeGps && p.hasPosition ? p.longitude : null,
+          includeGps && p.hasPosition ? p.positionUncertaintyInMeters : null,
         ],
     ],
     'Lista specie plot': [
@@ -318,6 +323,10 @@ class FieldDataset {
         'https://italic.units.it/dolichens/?c=60&procedure=base&t=59',
       ],
       ['Darwin Core', 'https://dwc.tdwg.org/terms/'],
+      [
+        'coordinateUncertaintyInMeters',
+        'Raggio d’incertezza in metri: stima manuale quando indicata sulla mappa; altrimenti accuratezza orizzontale fornita dal dispositivo. Vuoto se sconosciuto.',
+      ],
       [
         'substratum / specific_substratum / data_type',
         'Campi aggiuntivi DoLichens, non termini Darwin Core.',

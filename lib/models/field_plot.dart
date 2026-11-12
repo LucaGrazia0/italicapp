@@ -1,3 +1,5 @@
+import 'map_position.dart';
+
 class PlotSpecies {
   const PlotSpecies({
     required this.name,
@@ -35,6 +37,7 @@ class FieldPlot {
     this.longitude,
     this.seaLevelAltitude,
     this.horizontalAccuracy,
+    this.coordinateUncertaintyInMeters,
     this.seaLevelAccuracy,
     this.positionSource,
     this.positionMeasuredAt,
@@ -49,10 +52,18 @@ class FieldPlot {
       longitude,
       seaLevelAltitude,
       horizontalAccuracy,
+      coordinateUncertaintyInMeters,
       seaLevelAccuracy;
   final String? positionSource, altitudeReference;
   final DateTime? positionMeasuredAt;
   final List<PlotSpecies> species;
+  double? get positionUncertaintyInMeters {
+    final value =
+        coordinateUncertaintyInMeters ??
+        (positionSource == 'manual_map' ? null : horizontalAccuracy);
+    return MapPosition.validUncertainty(value) ? value : null;
+  }
+
   bool get hasPosition =>
       latitude != null &&
       longitude != null &&
@@ -72,6 +83,8 @@ class FieldPlot {
     'longitude': longitude,
     'seaLevelAltitude': seaLevelAltitude,
     'horizontalAccuracy': horizontalAccuracy,
+    if (coordinateUncertaintyInMeters != null)
+      'coordinateUncertaintyInMeters': coordinateUncertaintyInMeters,
     'seaLevelAccuracy': seaLevelAccuracy,
     'positionSource': positionSource,
     'positionMeasuredAt': positionMeasuredAt?.toIso8601String(),
@@ -96,6 +109,7 @@ class FieldPlot {
       longitude: number('longitude'),
       seaLevelAltitude: number('seaLevelAltitude'),
       horizontalAccuracy: number('horizontalAccuracy'),
+      coordinateUncertaintyInMeters: number('coordinateUncertaintyInMeters'),
       seaLevelAccuracy: number('seaLevelAccuracy'),
       positionSource: m['positionSource'] as String?,
       positionMeasuredAt: DateTime.tryParse(

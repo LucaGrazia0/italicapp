@@ -51,6 +51,8 @@ String observationSummary(
           'Origine della posizione: punto scelto manualmente sulla mappa',
         if (o.horizontalAccuracy != null && o.horizontalAccuracy! > 0)
           'Accuratezza GPS: ±${o.horizontalAccuracy} m',
+        if (o.coordinateUncertaintyInMeters != null)
+          'Incertezza stimata manualmente: ${o.positionUncertaintyInMeters} m di raggio',
         if (o.seaLevelAltitude != null) 'Quota s.l.m.: ${o.seaLevelAltitude} m',
         if (o.seaLevelAccuracy != null)
           'Accuratezza quota s.l.m.: ±${o.seaLevelAccuracy} m',
@@ -108,6 +110,7 @@ ObservationExport exportObservations(
             'altitudeReference',
             'positionProvider',
             'positionMeasuredAt',
+            'coordinateUncertaintyInMeters',
           ],
           'identificationPath',
         ],
@@ -130,6 +133,7 @@ ObservationExport exportObservations(
               o.altitudeReference,
               o.positionProvider,
               o.positionMeasuredAt?.toIso8601String(),
+              o.positionUncertaintyInMeters,
             ],
             o.identificationPath == null
                 ? null
@@ -159,6 +163,10 @@ ObservationExport exportObservations(
                 'notes': o.notes,
                 if (includeGps) ...{
                   'horizontalAccuracy': o.horizontalAccuracy,
+                  'coordinateUncertaintyInMeters':
+                      o.positionUncertaintyInMeters,
+                  if (o.coordinateUncertaintyInMeters != null)
+                    'coordinateUncertaintySource': 'user_estimate',
                   'gpsAltitude': o.gpsAltitude,
                   'altitudeAccuracy': o.altitudeAccuracy,
                   'seaLevelAltitude': o.seaLevelAltitude,
@@ -208,11 +216,7 @@ ObservationExport exportObservations(
             includeGps ? o.latitude : null,
             includeGps ? o.longitude : null,
             includeGps && o.hasPosition ? 'WGS84' : null,
-            includeGps &&
-                    o.horizontalAccuracy != null &&
-                    o.horizontalAccuracy! > 0
-                ? o.horizontalAccuracy
-                : null,
+            includeGps && o.hasPosition ? o.positionUncertaintyInMeters : null,
             includeGps && o.seaLevelAltitude != null
                 ? '${o.seaLevelAltitude} m s.l.m.'
                 : includeGps && o.gpsAltitude != null

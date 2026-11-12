@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../widgets/map_tools.dart';
+import '../models/map_position.dart';
 
 import '../services/online_map.dart';
 
@@ -11,11 +12,13 @@ class MapLocationPage extends StatefulWidget {
     super.key,
     this.initialLatitude,
     this.initialLongitude,
+    this.initialUncertaintyInMeters,
     this.onlineMap,
     this.tileProvider,
   });
 
   final double? initialLatitude, initialLongitude;
+  final double? initialUncertaintyInMeters;
   final OnlineMap? onlineMap;
   final TileProvider? tileProvider;
 
@@ -25,6 +28,22 @@ class MapLocationPage extends StatefulWidget {
 
 class _MapLocationPageState extends State<MapLocationPage> {
   final controller = MapController();
+  late final uncertainty = TextEditingController(
+    text: MapPosition.validUncertainty(widget.initialUncertaintyInMeters)
+        ? widget.initialUncertaintyInMeters?.toString() ?? ''
+        : '',
+  );
+  double? get uncertaintyValue =>
+      double.tryParse(uncertainty.text.trim().replaceAll(',', '.'));
+  String? get uncertaintyError {
+    if (uncertainty.text.trim().isEmpty) return null;
+    if (uncertaintyValue == null ||
+        !MapPosition.validUncertainty(uncertaintyValue)) {
+      return 'Inserisci un numero maggiore di 0, fino a 20.000.000 m.';
+    }
+    return null;
+  }
+
   late final onlineMap = widget.onlineMap ?? OnlineMap();
   late TileProvider tileProvider;
   late final hasInitial =
@@ -58,6 +77,7 @@ class _MapLocationPageState extends State<MapLocationPage> {
       );
 
   Future<void> _check({bool confirm = false}) async {
+    if (confirm && uncertaintyError != null) return;
     final point = confirm && selected != null
         ? selected!
         : (mapReady ? controller.camera.center : (searchCenter ?? initial));
@@ -83,7 +103,14 @@ class _MapLocationPageState extends State<MapLocationPage> {
       }
       if (!mounted) return;
       if (confirm && selected != null) {
-        Navigator.pop(context, selected);
+        Navigator.pop(
+          context,
+          MapPosition(
+            selected!.latitude,
+            selected!.longitude,
+            uncertaintyInMeters: uncertaintyValue,
+          ),
+        );
         return;
       }
       setState(() {
@@ -128,15 +155,40 @@ class _MapLocationPageState extends State<MapLocationPage> {
     onlineMap.close();
     if (!mapReady) tileProvider.dispose();
     controller.dispose();
+    uncertainty.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    resizeToAvoidBottomInset: false,
     appBar: AppBar(title: const Text('Scegli il punto sulla mappa')),
     body: SafeArea(
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+            child: TextField(
+              key: const ValueKey('map-position-uncertainty'),
+              controller: uncertainty,
+              readOnly: checking,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(
+                labelText: 'Incertezza del punto (m)',
+                hintText: 'Es. 25',
+                helperText:
+                    'Raggio stimato attorno al punto. Se non lo sai, lascia vuoto.',
+                helperMaxLines: 2,
+                errorText: uncertaintyError,
+                errorMaxLines: 2,
+              ),
+              onChanged: (_) => setState(() {}),
+              onSubmitted: (_) => FocusScope.of(context).unfocus(),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
             child: MapTools(
@@ -193,7 +245,10 @@ class _MapLocationPageState extends State<MapLocationPage> {
                       maxZoom: 19,
                       onMapReady: () => setState(() => mapReady = true),
                       onTap: (_, point) {
-                        if (!available || checking) return;
+                        FocusScope.of(context).unfocus();
+                        if (!available || checking || uncertaintyError != null) {
+                          return;
+                        }
                         setState(
                           () => selected = LatLng(
                             point.latitude.clamp(-85.05112878, 85.05112878),
@@ -212,6 +267,25 @@ class _MapLocationPageState extends State<MapLocationPage> {
                         maxNativeZoom: 19,
                         errorTileCallback: (_, _, _) => _tileFailed(),
                       ),
+                      if (selected != null &&
+                          uncertaintyError == null &&
+                          uncertaintyValue != null)
+                        CircleLayer(
+                          circles: [
+                            CircleMarker(
+                              point: selected!,
+                              radius: uncertaintyValue!,
+                              useRadiusInMeter: true,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: .12),
+                              borderColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
+                              borderStrokeWidth: 1.5,
+                            ),
+                          ],
+                        ),
                       MarkerLayer(
                         markers: [
                           if (selected != null || hasInitial)
@@ -290,14 +364,18 @@ class _MapLocationPageState extends State<MapLocationPage> {
                 ),
                 const SizedBox(height: 6),
                 const Text(
-                  'La scelta manuale non misura la quota né la precisione GPS.',
+                  'L’incertezza è una tua stima; la mappa non misura la quota o la precisione GPS.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 12),
                 ),
                 const SizedBox(height: 10),
                 FilledButton.icon(
                   key: const ValueKey('confirm-map-location'),
-                  onPressed: selected == null || !available || checking
+                  onPressed:
+                      selected == null ||
+                          !available ||
+                          checking ||
+                          uncertaintyError != null
                       ? null
                       : () => _check(confirm: true),
                   icon: const Icon(Icons.check),

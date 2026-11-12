@@ -163,6 +163,31 @@ void main() {
   );
 
   test(
+    'Every colour keeps all real taxa whose upper thallus colour is unknown in the filtered tree',
+    () {
+      final rows = {for (final row in full.taxa) row.taxon.italicId: row};
+      for (final choice in ThallusColour.question.choices) {
+        final unknown = key.taxa.keys
+            .where(
+              (id) =>
+                  rows[id] == null ||
+                  ThallusColour.matches(rows[id]!, choice.id) == null,
+            )
+            .toSet();
+        expect(unknown, isNotEmpty);
+        final comparison = KeyPrefilter(key, full, {
+          ThallusColour.id: choice.id,
+        });
+        expect(comparison.eligible, containsAll(unknown));
+        expect(comparison.excluded.intersection(unknown), isEmpty);
+        expect(comparison.uncertain, containsAll(unknown));
+        final filtered = key.filtered(comparison.eligible, comparison.filters);
+        expect(filtered.candidates(filtered.root), containsAll(unknown));
+      }
+    },
+  );
+
+  test(
     'Real data colour coverage is source-bound and does not alter base assets',
     () {
       final coverage = ThallusColour.coverage(full);

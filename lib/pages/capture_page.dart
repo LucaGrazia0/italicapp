@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:latlong2/latlong.dart';
+import '../models/map_position.dart';
 import '../app_store.dart';
 import '../models/observation.dart';
 import '../services/field_location.dart';
@@ -33,7 +33,7 @@ class _CapturePageState extends State<CapturePage> {
   Uint8List? photo;
   String? photoName;
   FieldFix? position;
-  LatLng? mapPoint;
+  MapPosition? mapPoint;
   DateTime? mapSelectedAt;
   int locationRequest = 0;
   bool locating = false;
@@ -176,12 +176,16 @@ class _CapturePageState extends State<CapturePage> {
       error = null;
     });
     try {
-      final point = await Navigator.push<LatLng>(
+      final point = await Navigator.push<MapPosition>(
         context,
         MaterialPageRoute(
           builder: (_) =>
               widget.mapBuilder?.call(lat, lon) ??
-              MapLocationPage(initialLatitude: lat, initialLongitude: lon),
+              MapLocationPage(
+                initialLatitude: lat,
+                initialLongitude: lon,
+                initialUncertaintyInMeters: mapPoint?.uncertaintyInMeters,
+              ),
         ),
       );
       if (mounted && point != null) {
@@ -219,6 +223,7 @@ class _CapturePageState extends State<CapturePage> {
             mapPoint!.latitude,
             mapPoint!.longitude,
             selectedAt: mapSelectedAt,
+            uncertaintyInMeters: mapPoint!.uncertaintyInMeters,
           )
         : position?.applyTo(base) ?? base;
     try {
@@ -324,8 +329,8 @@ class _CapturePageState extends State<CapturePage> {
                   : '${position!.latitude.toStringAsFixed(6)}, ${position!.longitude.toStringAsFixed(6)}',
             ),
             subtitle: mapPoint != null
-                ? const Text(
-                    'Punto scelto sulla mappa · quota e precisione GPS non misurate.',
+                ? Text(
+                    'Punto scelto sulla mappa${mapPoint!.uncertaintyInMeters == null ? " · incertezza non indicata" : " · incertezza stimata: ${mapPoint!.uncertaintyInMeters} m di raggio"}. Quota non misurata.',
                   )
                 : position == null
                 ? const Text(

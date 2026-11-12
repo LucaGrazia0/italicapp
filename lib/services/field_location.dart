@@ -32,6 +32,7 @@ class FieldFix {
     'latitude': latitude,
     'longitude': longitude,
     'horizontalAccuracy': accuracy,
+    'coordinateUncertaintyInMeters': null,
     'gpsAltitude': ellipsoidAltitude,
     'altitudeAccuracy': null,
     'seaLevelAltitude': seaLevelAltitude,

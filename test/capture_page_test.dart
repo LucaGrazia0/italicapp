@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:italicapp/models/map_position.dart';
 import 'package:idb_shim/idb_client_memory.dart';
 import 'package:italicapp/app_store.dart';
 import 'package:italicapp/data/observation_repository.dart';
@@ -228,7 +228,10 @@ void main() {
             builder: (context) => Scaffold(
               body: Center(
                 child: FilledButton(
-                  onPressed: () => Navigator.pop(context, const LatLng(46, 12)),
+                  onPressed: () => Navigator.pop(
+                    context,
+                    const MapPosition(46, 12, uncertaintyInMeters: 25.5),
+                  ),
                   child: const Text('Punto di prova'),
                 ),
               ),
@@ -266,6 +269,7 @@ void main() {
       expect(store.saved!.latitude, 46);
       expect(store.saved!.longitude, 12);
       expect(store.saved!.isMapPosition, true);
+      expect(store.saved!.coordinateUncertaintyInMeters, 25.5);
       expect(store.saved!.photoBytes, imageBytes);
       expect(store.saved!.seaLevelAltitude, isNull);
       expect(store.saved!.gpsAltitude, isNull);
@@ -300,7 +304,10 @@ void main() {
           builder: (context) => Scaffold(
             body: Center(
               child: FilledButton(
-                onPressed: () => Navigator.pop(context, const LatLng(46, 12)),
+                onPressed: () => Navigator.pop(
+                  context,
+                  const MapPosition(46, 12, uncertaintyInMeters: 25.5),
+                ),
                 child: const Text('Punto di prova'),
               ),
             ),

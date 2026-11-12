@@ -90,6 +90,7 @@ class ObservationRepository {
             'positionMeasuredAt': plot.positionMeasuredAt?.toIso8601String(),
             'seaLevelAltitude': plot.seaLevelAltitude,
             'horizontalAccuracy': plot.horizontalAccuracy,
+            'coordinateUncertaintyInMeters': plot.coordinateUncertaintyInMeters,
             'seaLevelAccuracy': plot.seaLevelAccuracy,
             'altitudeReference': plot.altitudeReference,
           });

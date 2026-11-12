@@ -198,7 +198,7 @@ class _GeneralKeysPageState extends State<GeneralKeysPage> {
           choice.id: choice.label,
       }),
       Text(
-        '${matrix == null ? 0 : ThallusColour.coverage(matrix!)} schede con un colore confrontabile. ${ThallusColour.question.help}',
+        '${matrix == null ? 0 : ThallusColour.coverage(matrix!)} schede con un colore confrontabile. Le specie senza un colore documentato restano tra i candidati, qualunque colore scegli. ${ThallusColour.question.help}',
         key: const ValueKey('thallus-colour-coverage'),
         style: Theme.of(context).textTheme.bodySmall,
       ),
