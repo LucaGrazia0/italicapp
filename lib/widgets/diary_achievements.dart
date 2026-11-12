@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_store.dart';
-import '../data/italic_reference_repository.dart';
+import '../pages/achievement_detail_page.dart';
 import '../data/scientific_data.dart';
 import '../services/field_achievements.dart';
 import '../theme/app_theme.dart';
@@ -15,19 +15,14 @@ class DiaryAchievements extends StatefulWidget {
 
 class _DiaryAchievementsState extends State<DiaryAchievements> {
   late Future<FieldAchievementIndex> loading;
-  static Future<FieldAchievementIndex> _load() async {
-    final reference = ItalicReferenceRepository();
-    await reference.load();
-    return FieldAchievementIndex(reference.taxa);
-  }
 
   void reload() => setState(() {
-    loading = (widget.loadIndex ?? _load)();
+    loading = (widget.loadIndex ?? FieldAchievementIndex.load)();
   });
   @override
   void initState() {
     super.initState();
-    loading = (widget.loadIndex ?? _load)();
+    loading = (widget.loadIndex ?? FieldAchievementIndex.load)();
     ScientificData.changes.addListener(reload);
   }
 
@@ -176,78 +171,108 @@ class _AchievementBadge extends StatelessWidget {
           ),
         ),
         margin: const EdgeInsets.only(bottom: 12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Opacity(
-                opacity: unlocked ? 1 : .35,
-                child: Image.asset(
-                  'assets/medals/$medal.png',
-                  width: 76,
-                  height: 76,
-                  cacheWidth: 240,
-                  semanticLabel: achievement.description,
-                ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => AchievementDetailPage(
+                achievements: [achievement],
+                unlocked: unlocked,
               ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      achievement.title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: color,
-                      ),
-                    ),
-                    Text(
-                      '${achievement.target} ${achievement.target == 1 ? 'specie diversa' : 'specie diverse'}',
-                      style: const TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(achievement.description),
-                    const SizedBox(height: 10),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          unlocked ? Icons.check_circle : Icons.lock_outline,
-                          size: 17,
-                          color: color,
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            unlocked
-                                ? 'Sbloccato'
-                                : '${progress.remaining(achievement) == 1 ? 'Manca' : 'Mancano'} ${progress.remaining(achievement)} specie',
-                            key: ValueKey(
-                              'achievement-state-${achievement.target}',
-                            ),
-                            style: TextStyle(
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Opacity(
+                  opacity: unlocked ? 1 : .35,
+                  child: Image.asset(
+                    'assets/medals/$medal.png',
+                    width: 76,
+                    height: 76,
+                    cacheWidth: 240,
+                    semanticLabel: achievement.description,
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        achievement.title,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.w800,
                               color: color,
-                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
+                      Text(
+                        '${achievement.target} ${achievement.target == 1 ? 'specie diversa' : 'specie diverse'}',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(achievement.description),
+                      const SizedBox(height: 10),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            unlocked ? Icons.check_circle : Icons.lock_outline,
+                            size: 17,
+                            color: color,
+                          ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Text(
+                              unlocked
+                                  ? 'Sbloccato'
+                                  : '${progress.remaining(achievement) == 1 ? 'Manca' : 'Mancano'} ${progress.remaining(achievement)} specie',
+                              key: ValueKey(
+                                'achievement-state-${achievement.target}',
+                              ),
+                              style: TextStyle(
+                                color: color,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              unlocked
+                                  ? 'Rivedi la medaglia e la storia'
+                                  : 'Scopri il lichenologo',
+                              style: TextStyle(
+                                color: color,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Icon(Icons.chevron_right, color: color),
+                        ],
+                      ),
+                      if (!unlocked) ...[
+                        const SizedBox(height: 8),
+                        LinearProgressIndicator(
+                          value: progress.fraction(achievement),
+                          minHeight: 5,
+                          borderRadius: BorderRadius.circular(6),
+                          semanticsLabel: achievement.title,
                         ),
                       ],
-                    ),
-                    if (!unlocked) ...[
-                      const SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        value: progress.fraction(achievement),
-                        minHeight: 5,
-                        borderRadius: BorderRadius.circular(6),
-                        semanticsLabel: achievement.title,
-                      ),
                     ],
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

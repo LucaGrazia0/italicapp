@@ -5,7 +5,7 @@ import 'italic_taxon_page.dart';
 import '../services/ecological_compatibility_engine.dart';
 import '../theme/app_theme.dart';
 import '../widgets/ecological_filters.dart';
-import 'determination_page.dart';
+import 'general_keys_page.dart';
 
 class ItalicPage extends StatefulWidget {
   const ItalicPage({super.key});
@@ -246,7 +246,7 @@ class _ItalicPageState extends State<ItalicPage> {
             style: FilledButton.styleFrom(padding: const EdgeInsets.all(20)),
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const DeterminationStartPage()),
+              MaterialPageRoute(builder: (_) => const GeneralKeysPage()),
             ),
             child: Row(
               children: [

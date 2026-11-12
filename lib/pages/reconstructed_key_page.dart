@@ -1,3 +1,4 @@
+import '../widgets/key_step_transition.dart';
 import 'package:flutter/material.dart';
 import '../widgets/taxon_photo_card.dart';
 import 'package:flutter/foundation.dart' show mapEquals;
@@ -454,172 +455,187 @@ class _ReconstructedKeyPageState extends State<ReconstructedKeyPage> {
                     label: const Text('Vedi le specie rimaste'),
                   ),
                 SizedBox(key: coupletAnchor, height: 1),
-                if (node.terminal && node.taxonId == null) ...[
-                  const Text('Esito da approfondire nella fonte'),
-                  Text(
-                    node.unresolvedLabel!,
-                    key: const ValueKey('reconstructed-unresolved'),
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const Text(
-                    'Questo ramo non fornisce un nome di specie utilizzabile: consulta la chiave originale.',
-                  ),
-                ] else if (node.terminal) ...[
-                  const SizedBox(height: 12),
-                  const Text(
-                    'Esito del percorso · verifica la specie sul campione',
-                  ),
-                  if (key.extraTaxa.contains(node.taxonId))
-                    const Text(
-                      'Taxon della fonte esterno alla checklist locale.',
-                    ),
-                  Text(
-                    key.taxa[node.taxonId]!.scientificName,
-                    key: const ValueKey('reconstructed-result'),
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  if (!key.extraTaxa.contains(node.taxonId))
-                    TaxonPhotoCard(taxon: key.taxa[node.taxonId]!),
-                  if (!key.extraTaxa.contains(node.taxonId))
-                    FilledButton.tonalIcon(
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              ItalicTaxonPage(taxon: key.taxa[node.taxonId]!),
+                KeyStepTransition(
+                  step: '${node.id}:${selections[node.id]}:${steps.length}',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (node.terminal && node.taxonId == null) ...[
+                        const Text('Esito da approfondire nella fonte'),
+                        Text(
+                          node.unresolvedLabel!,
+                          key: const ValueKey('reconstructed-unresolved'),
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
-                      ),
-                      icon: const Icon(Icons.menu_book_outlined),
-                      label: const Text('Apri scheda della specie'),
-                    ),
-                ] else if (uncertain) ...[
-                  const Text(
-                    'Bivio non verificato: entrambe le alternative restano possibili. Consulta le specie rimaste oppure torna al bivio.',
-                  ),
-                  TextButton(
-                    key: const ValueKey('reconstructed-reconsider'),
-                    onPressed: saving ? null : () => _edit(node.id),
-                    child: const Text('Torna al bivio'),
-                  ),
-                ] else ...[
-                  Text(
-                    'Bivio ${steps.length + 1} del tuo percorso',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 10),
-                  for (final (choiceIndex, choice) in node.choices.indexed)
-                    Card(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22),
-                        side: BorderSide(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.primary.withValues(alpha: .18),
+                        const Text(
+                          'Questo ramo non fornisce un nome di specie utilizzabile: consulta la chiave originale.',
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 18,
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.primary,
-                                  child: Text(
-                                    String.fromCharCode(65 + choiceIndex),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                      ] else if (node.terminal) ...[
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Esito del percorso · verifica la specie sul campione',
+                        ),
+                        if (key.extraTaxa.contains(node.taxonId))
+                          const Text(
+                            'Taxon della fonte esterno alla checklist locale.',
+                          ),
+                        Text(
+                          key.taxa[node.taxonId]!.scientificName,
+                          key: const ValueKey('reconstructed-result'),
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        if (!key.extraTaxa.contains(node.taxonId))
+                          TaxonPhotoCard(taxon: key.taxa[node.taxonId]!),
+                        if (!key.extraTaxa.contains(node.taxonId))
+                          FilledButton.tonalIcon(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ItalicTaxonPage(
+                                  taxon: key.taxa[node.taxonId]!,
+                                ),
+                              ),
+                            ),
+                            icon: const Icon(Icons.menu_book_outlined),
+                            label: const Text('Apri scheda della specie'),
+                          ),
+                      ] else if (uncertain) ...[
+                        const Text(
+                          'Bivio non verificato: entrambe le alternative restano possibili. Consulta le specie rimaste oppure torna al bivio.',
+                        ),
+                        TextButton(
+                          key: const ValueKey('reconstructed-reconsider'),
+                          onPressed: saving ? null : () => _edit(node.id),
+                          child: const Text('Torna al bivio'),
+                        ),
+                      ] else ...[
+                        Text(
+                          'Bivio ${steps.length + 1} del tuo percorso',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 10),
+                        for (final (choiceIndex, choice)
+                            in node.choices.indexed)
+                          Card(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(22),
+                              side: BorderSide(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primary.withValues(alpha: .18),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 18,
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                        child: Text(
+                                          String.fromCharCode(65 + choiceIndex),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          'Alternativa ${String.fromCharCode(65 + choiceIndex)}',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.labelLarge,
+                                        ),
+                                      ),
+                                      Chip(
+                                        visualDensity: VisualDensity.compact,
+                                        label: Text(
+                                          '${key.candidates(choice.target).length} taxa',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    choice.label,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          height: 1.4,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                  if (choice.note.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text(choice.note),
+                                    ),
+                                  if (choice.bindings.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text(
+                                        'Caratteri collegati: ${_bindings(choice)}',
+                                      ),
+                                    ),
+                                  if (key.general && choice.terms.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text(
+                                        'Termini del bivio: ${choice.terms.join(" · ")}',
+                                      ),
+                                    ),
+                                  const SizedBox(height: 10),
+                                  OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      foregroundColor: Colors.white,
+                                      side: BorderSide.none,
+                                      minimumSize: const Size.fromHeight(48),
+                                    ),
+                                    key: ValueKey(
+                                      'reconstructed-choice-${choice.target}',
+                                    ),
+                                    onPressed: saving
+                                        ? null
+                                        : () => _change({
+                                            ...selections,
+                                            node.id: choice.target,
+                                          }),
+                                    child: Text(
+                                      'Segui questa alternativa · ${key.candidates(choice.target).length} ${key.candidates(choice.target).length == 1 ? "taxon" : "taxa"}${key.unresolved(choice.target).isEmpty ? "" : " + rami da approfondire"}',
                                     ),
                                   ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    'Alternativa ${String.fromCharCode(65 + choiceIndex)}',
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.labelLarge,
-                                  ),
-                                ),
-                                Chip(
-                                  visualDensity: VisualDensity.compact,
-                                  label: Text(
-                                    '${key.candidates(choice.target).length} taxa',
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              choice.label,
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    height: 1.4,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                            ),
-                            if (choice.note.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Text(choice.note),
-                              ),
-                            if (choice.bindings.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Text(
-                                  'Caratteri collegati: ${_bindings(choice)}',
-                                ),
-                              ),
-                            if (key.general && choice.terms.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Text(
-                                  'Termini del bivio: ${choice.terms.join(" · ")}',
-                                ),
-                              ),
-                            const SizedBox(height: 10),
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-                                foregroundColor: Colors.white,
-                                side: BorderSide.none,
-                                minimumSize: const Size.fromHeight(48),
-                              ),
-                              key: ValueKey(
-                                'reconstructed-choice-${choice.target}',
-                              ),
-                              onPressed: saving
-                                  ? null
-                                  : () => _change({
-                                      ...selections,
-                                      node.id: choice.target,
-                                    }),
-                              child: Text(
-                                'Segui questa alternativa · ${key.candidates(choice.target).length} ${key.candidates(choice.target).length == 1 ? "taxon" : "taxa"}${key.unresolved(choice.target).isEmpty ? "" : " + rami da approfondire"}',
+                                ],
                               ),
                             ),
-                          ],
+                          ),
+                        TextButton(
+                          key: const ValueKey('reconstructed-unknown'),
+                          onPressed: saving
+                              ? null
+                              : () => _change({
+                                  ...selections,
+                                  node.id: 'unknown',
+                                }),
+                          child: const Text(
+                            'Non so · mantieni entrambe le alternative',
+                          ),
                         ),
-                      ),
-                    ),
-                  TextButton(
-                    key: const ValueKey('reconstructed-unknown'),
-                    onPressed: saving
-                        ? null
-                        : () => _change({...selections, node.id: 'unknown'}),
-                    child: const Text(
-                      'Non so · mantieni entrambe le alternative',
-                    ),
+                      ],
+                    ],
                   ),
-                ],
+                ),
                 Link(
                   uri: key.sourceFor(
                     node.terminal && steps.isNotEmpty ? steps.last.node : node,

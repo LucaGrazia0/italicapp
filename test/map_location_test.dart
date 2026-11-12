@@ -99,12 +99,28 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       await tester.pumpAndSettle();
       expect(tester.widget<FilledButton>(confirm).onPressed, isNotNull);
+      final camera = MapCamera.of(tester.element(find.byType(TileLayer)));
+      expect(camera.rotation, 0);
+      final expectedPoint = camera.center;
+      final radiusBeforeZoom = tester
+          .widget<Text>(find.byKey(const ValueKey('map-uncertainty-radius')))
+          .data;
+      await tester.tap(find.byTooltip('Ingrandisci'));
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<Text>(find.byKey(const ValueKey('map-uncertainty-radius')))
+            .data,
+        isNot(radiusBeforeZoom),
+      );
       await tester.tap(confirm);
       await tester.pumpAndSettle();
       expect(result, isNotNull);
       expect(result!.latitude, isNot(45));
       expect(result!.longitude, isNot(11));
-      expect(result!.uncertaintyInMeters, isNull);
+      expect(result!.uncertaintyInMeters, greaterThan(0));
+      expect(result!.latitude, closeTo(expectedPoint.latitude, 1e-8));
+      expect(result!.longitude, closeTo(expectedPoint.longitude, 1e-8));
       expect(calls, 2);
       expect(find.byType(MapLocationPage), findsNothing);
       expect(tester.takeException(), isNull);
@@ -181,6 +197,16 @@ void main() {
             .radius,
         25.5,
       );
+      await tester.tap(find.byTooltip('Ingrandisci'));
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<CircleLayer>(find.byType(CircleLayer))
+            .circles
+            .single
+            .radius,
+        25.5,
+      );
       await tester.enterText(field, '-1');
       await tester.pumpAndSettle();
       expect(tester.widget<FilledButton>(confirm).onPressed, isNull);
@@ -191,6 +217,61 @@ void main() {
       await tester.pumpAndSettle();
       expect(result!.uncertaintyInMeters, 25.5);
       expect(find.byType(MapLocationPage), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'Dragging chooses the crosshair centre and unknown uncertainty stays empty',
+    (tester) async {
+      phone(tester);
+      MapPosition? result;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) => TextButton(
+              onPressed: () async => result = await Navigator.push<MapPosition>(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MapLocationPage(
+                    initialLatitude: 45,
+                    initialLongitude: 11,
+                    onlineMap: OnlineMap(
+                      client: MockClient(
+                        (_) async => http.Response(
+                          '',
+                          200,
+                          headers: {'content-type': 'image/png'},
+                        ),
+                      ),
+                    ),
+                    tileProvider: _Tiles(image),
+                  ),
+                ),
+              ),
+              child: const Text('Apri'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Apri'));
+      await tester.pumpAndSettle();
+      final map = find.byType(FlutterMap);
+      final centre = tester.getCenter(map);
+      await tester.dragFrom(centre, const Offset(65, -30));
+      await tester.pumpAndSettle();
+      final camera = MapCamera.of(tester.element(find.byType(TileLayer)));
+      expect(camera.center.latitude, isNot(45));
+      expect(camera.center.longitude, isNot(11));
+      final point = camera.center;
+      await tester.tap(find.text('Non nota'));
+      await tester.pumpAndSettle();
+      expect(find.text('Raggio: Non indicata'), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('confirm-map-location')));
+      await tester.pumpAndSettle();
+      expect(result!.latitude, closeTo(point.latitude, 1e-8));
+      expect(result!.longitude, closeTo(point.longitude, 1e-8));
+      expect(result!.uncertaintyInMeters, isNull);
       expect(tester.takeException(), isNull);
     },
   );

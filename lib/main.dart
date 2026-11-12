@@ -9,27 +9,42 @@ import 'theme/app_theme.dart';
 import 'data/scientific_data.dart';
 import 'brand.dart';
 import 'widgets/field_navigation.dart';
+import 'widgets/achievement_celebration_host.dart';
+import 'widgets/app_startup.dart';
 import 'pages/findings_map_page.dart';
 import 'services/plot_photos.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final store = AppStore(ObservationRepository());
-  await Future.wait([store.init(), ScientificData.initialize()]);
-  await PlotPhotos(store).recover();
-  runApp(ItalicApp(store: store));
+  runApp(
+    ItalicApp(
+      store: store,
+      initialize: () async {
+        await Future.wait([store.init(), ScientificData.initialize()]);
+        await PlotPhotos(store).recover();
+      },
+    ),
+  );
 }
 
 class ItalicApp extends StatelessWidget {
-  const ItalicApp({super.key, required this.store});
+  const ItalicApp({super.key, required this.store, this.initialize});
   final AppStore store;
+  final Future<void> Function()? initialize;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
     title: AppBrand.name,
     debugShowCheckedModeBanner: false,
     theme: AppTheme.light,
-    home: Shell(store: store),
+    home: AppStartup(
+      initialize: initialize,
+      child: AchievementCelebrationHost(
+        store: store,
+        child: Shell(store: store),
+      ),
+    ),
   );
 }
 

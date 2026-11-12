@@ -1,3 +1,4 @@
+import '../widgets/key_step_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show mapEquals;
 import '../app_store.dart';
@@ -236,63 +237,71 @@ class _StructuredKeyPageState extends State<StructuredKeyPage> {
                     'Le risposte «Non so» non restringono i candidati.',
                   ),
                 const SizedBox(height: 16),
-                if (question != null) ...[
-                  Text(
-                    question.prompt,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(question.help),
-                  if (question.id == 'substrata' &&
-                      widget.observation?.substrate != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        'Substrato annotato nel diario: ${widget.observation!.substrate}',
-                      ),
-                    ),
-                  const SizedBox(height: 18),
-                  for (final choice in question.choices)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: OutlinedButton(
-                        key: ValueKey('structured-choice-${choice.id}'),
-                        onPressed: saving
-                            ? null
-                            : () => _change({
-                                ...selections,
-                                question.id: choice.id,
-                              }),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(choice.label),
+                KeyStepTransition(
+                  step: '${question?.id ?? 'complete'}:${selections.length}',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (question != null) ...[
+                        Text(
+                          question.prompt,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
-                      ),
-                    ),
-                  TextButton(
-                    key: const ValueKey('structured-unknown'),
-                    onPressed: saving
-                        ? null
-                        : () => _change({
-                            ...selections,
-                            question.id: StructuredKey.unknown,
-                          }),
-                    child: const Text('Non so / Non verificato'),
+                        const SizedBox(height: 10),
+                        Text(question.help),
+                        if (question.id == 'substrata' &&
+                            widget.observation?.substrate != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              'Substrato annotato nel diario: ${widget.observation!.substrate}',
+                            ),
+                          ),
+                        const SizedBox(height: 18),
+                        for (final choice in question.choices)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: OutlinedButton(
+                              key: ValueKey('structured-choice-${choice.id}'),
+                              onPressed: saving
+                                  ? null
+                                  : () => _change({
+                                      ...selections,
+                                      question.id: choice.id,
+                                    }),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(choice.label),
+                              ),
+                            ),
+                          ),
+                        TextButton(
+                          key: const ValueKey('structured-unknown'),
+                          onPressed: saving
+                              ? null
+                              : () => _change({
+                                  ...selections,
+                                  question.id: StructuredKey.unknown,
+                                }),
+                          child: const Text('Non so / Non verificato'),
+                        ),
+                      ] else ...[
+                        Text(
+                          result.activeCriteria == 0
+                              ? 'Nessun carattere verificato'
+                              : result.matching.isEmpty
+                              ? 'Profilo da rivedere o dati insufficienti'
+                              : 'Taxa da verificare',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Le differenze indicano un profilo documentato diverso o un substrato non documentato. Non dimostrano l’assenza assoluta del taxon o di strutture riproduttive.',
+                        ),
+                      ],
+                    ],
                   ),
-                ] else ...[
-                  Text(
-                    result.activeCriteria == 0
-                        ? 'Nessun carattere verificato'
-                        : result.matching.isEmpty
-                        ? 'Profilo da rivedere o dati insufficienti'
-                        : 'Taxa da verificare',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Le differenze indicano un profilo documentato diverso o un substrato non documentato. Non dimostrano l’assenza assoluta del taxon o di strutture riproduttive.',
-                  ),
-                ],
+                ),
                 if (selections.isNotEmpty) ...[
                   const Divider(height: 28),
                   ExpansionTile(

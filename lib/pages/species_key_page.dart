@@ -1,3 +1,4 @@
+import '../widgets/key_step_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show mapEquals;
 import 'package:url_launcher/link.dart';
@@ -382,91 +383,105 @@ class _SpeciesKeyPageState extends State<SpeciesKeyPage> {
                   ),
                 ),
                 const SizedBox(height: 14),
-                if (question != null) ...[
-                  Text(
-                    'Prossimo carattere · ${question.title}',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    question.prompt,
-                    key: const ValueKey('species-question'),
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(question.help),
-                  const SizedBox(height: 16),
-                  for (final choice in question.choices.entries)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: OutlinedButton(
-                        key: ValueKey('species-choice-${choice.key}'),
-                        onPressed: busy
-                            ? null
-                            : () => _change({
-                                ...selections,
-                                question.id: choice.key,
-                              }),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.all(16),
-                          alignment: Alignment.centerLeft,
-                        ),
-                        child: Text(choice.value),
-                      ),
-                    ),
-                  TextButton(
-                    key: const ValueKey('species-skip'),
-                    onPressed: busy
-                        ? null
-                        : () =>
-                              _change({...selections, question.id: 'unknown'}),
-                    child: const Text('Non so / salta'),
-                  ),
-                ] else ...[
-                  Text(
-                    result.oneProfile
-                        ? 'Un solo profilo compatibile nei dati'
-                        : result.possible.isEmpty
-                        ? 'Le risposte non trovano un profilo compatibile'
-                        : 'Prosegui con i bivi ITALIC',
-                    key: const ValueKey('species-outcome'),
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    result.possible.isEmpty
-                        ? 'Rivedi le risposte o annulla l’ultima scelta: possono esserci dati incompleti o caratteri da ricontrollare.'
-                        : 'I caratteri disponibili non permettono altre separazioni affidabili in questo gruppo. Verifica i candidati nella chiave originale e nelle schede.',
-                  ),
-                ],
-                const Divider(height: 30),
-                _officialSection(result),
-                if (answerEntries.isNotEmpty)
-                  ExpansionTile(
-                    key: ValueKey('species-history-$revision'),
-                    tilePadding: EdgeInsets.zero,
-                    title: Text('Le tue risposte (${answerEntries.length})'),
+                KeyStepTransition(
+                  step: '${question?.id ?? 'complete'}:${selections.length}',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      for (final entry in answerEntries)
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
+                      if (question != null) ...[
+                        Text(
+                          'Prossimo carattere · ${question.title}',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          question.prompt,
+                          key: const ValueKey('species-question'),
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(question.help),
+                        const SizedBox(height: 16),
+                        for (final choice in question.choices.entries)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: OutlinedButton(
+                              key: ValueKey('species-choice-${choice.key}'),
+                              onPressed: busy
+                                  ? null
+                                  : () => _change({
+                                      ...selections,
+                                      question.id: choice.key,
+                                    }),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.all(16),
+                                alignment: Alignment.centerLeft,
+                              ),
+                              child: Text(choice.value),
+                            ),
+                          ),
+                        TextButton(
+                          key: const ValueKey('species-skip'),
+                          onPressed: busy
+                              ? null
+                              : () => _change({
+                                  ...selections,
+                                  question.id: 'unknown',
+                                }),
+                          child: const Text('Non so / salta'),
+                        ),
+                      ] else ...[
+                        Text(
+                          result.oneProfile
+                              ? 'Un solo profilo compatibile nei dati'
+                              : result.possible.isEmpty
+                              ? 'Le risposte non trovano un profilo compatibile'
+                              : 'Prosegui con i bivi ITALIC',
+                          key: const ValueKey('species-outcome'),
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          result.possible.isEmpty
+                              ? 'Rivedi le risposte o annulla l’ultima scelta: possono esserci dati incompleti o caratteri da ricontrollare.'
+                              : 'I caratteri disponibili non permettono altre separazioni affidabili in questo gruppo. Verifica i candidati nella chiave originale e nelle schede.',
+                        ),
+                      ],
+                      const Divider(height: 30),
+                      _officialSection(result),
+                      if (answerEntries.isNotEmpty)
+                        ExpansionTile(
+                          key: ValueKey('species-history-$revision'),
+                          tilePadding: EdgeInsets.zero,
                           title: Text(
-                            SpeciesKeyEngine.allQuestions
-                                .firstWhere((q) => q.id == entry.key)
-                                .title,
+                            'Le tue risposte (${answerEntries.length})',
                           ),
-                          subtitle: Text(
-                            SpeciesKeyEngine.allQuestions
-                                .firstWhere((q) => q.id == entry.key)
-                                .label(entry.value),
-                          ),
-                          trailing: TextButton(
-                            onPressed: busy ? null : () => _edit(entry.key),
-                            child: const Text('Modifica'),
-                          ),
+                          children: [
+                            for (final entry in answerEntries)
+                              ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                title: Text(
+                                  SpeciesKeyEngine.allQuestions
+                                      .firstWhere((q) => q.id == entry.key)
+                                      .title,
+                                ),
+                                subtitle: Text(
+                                  SpeciesKeyEngine.allQuestions
+                                      .firstWhere((q) => q.id == entry.key)
+                                      .label(entry.value),
+                                ),
+                                trailing: TextButton(
+                                  onPressed: busy
+                                      ? null
+                                      : () => _edit(entry.key),
+                                  child: const Text('Modifica'),
+                                ),
+                              ),
+                          ],
                         ),
                     ],
                   ),
+                ),
                 if (selections.isNotEmpty)
                   TextButton.icon(
                     key: const ValueKey('species-restart'),

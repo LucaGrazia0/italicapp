@@ -7,6 +7,7 @@ import '../widgets/data_updates_card.dart';
 import '../widgets/iphone_install_card.dart';
 import '../app_store.dart';
 import 'observation_export_page.dart';
+import 'identification_page.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -52,6 +53,19 @@ class SettingsPage extends StatelessWidget {
       ],
       const SizedBox(height: 14),
       _section(context, 'Dati e archiviazione', [
+        ListTile(
+          key: const ValueKey('settings-identification-tools'),
+          leading: const Icon(Icons.tune),
+          title: const Text('Strumenti e dati'),
+          subtitle: const Text('Matrici, revisioni e percorsi alternativi'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const DeterminationStartPage(toolsOnly: true),
+            ),
+          ),
+        ),
         ListTile(
           leading: const Icon(Icons.storage_outlined),
           title: const Text('Archivio osservazioni'),

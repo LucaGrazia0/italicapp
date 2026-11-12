@@ -202,6 +202,12 @@ void main() {
       );
       expect(find.text('Sbloccato'), findsOneWidget);
       expect(find.text('Mancano 9 specie'), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('achievement-1')));
+      await tester.pumpAndSettle();
+      expect(find.text('Federico Cesi'), findsOneWidget);
+      expect(find.text('Fonti e letture'), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('close-achievement')));
+      await tester.pumpAndSettle();
       await tester.runAsync(() => store.delete(store.observations.first));
       await tester.pumpAndSettle();
       expect(find.text('Sbloccato'), findsOneWidget);

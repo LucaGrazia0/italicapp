@@ -2,7 +2,7 @@
 name: italicapp
 description: Field notebook and lichen identification app based on ITALIC.
 publish_to: "none"
-version: 0.8.15+29
+version: 0.8.16+30
 
 environment:
   sdk: ">=3.12.0 <4.0.0"
@@ -33,6 +33,7 @@ flutter:
     - assets/fonts/Roboto_LICENSE.txt
     - assets/fonts/NotoSansArmenian_OFL.txt
     - assets/branding/italic-go.png
+    - assets/branding/lichen-intro-v2.webp
     - assets/italic/italic_checklist.json
     - assets/italic/italic_genus_keys.json
     - assets/italic/flavoparmelia_key.json

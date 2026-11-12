@@ -1,3 +1,4 @@
+import '../widgets/key_step_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show mapEquals;
 
@@ -29,10 +30,12 @@ class DeterminationStartPage extends StatefulWidget {
     this.observation,
     this.store,
     this.repository,
+    this.toolsOnly = false,
   }) : assert((observation == null) == (store == null));
   final Observation? observation;
   final AppStore? store;
   final IdentificationRepository? repository;
+  final bool toolsOnly;
   @override
   State<DeterminationStartPage> createState() => _DeterminationStartPageState();
 }
@@ -104,6 +107,7 @@ class _DeterminationStartPageState extends State<DeterminationStartPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.toolsOnly) return _scaffold('Strumenti e dati', _tools());
     final path = widget.observation?.identificationPath;
     return _scaffold('Chiavi di determinazione', [
       Text(
@@ -178,94 +182,85 @@ class _DeterminationStartPageState extends State<DeterminationStartPage> {
         key: const ValueKey('open-general-keys'),
         primary: true,
       ),
-      const SizedBox(height: 20),
-      ExpansionTile(
-        key: const ValueKey('identification-tools'),
-        leading: const Icon(Icons.tune),
-        title: const Text('Strumenti e dati'),
-        subtitle: const Text('Matrici, revisioni e percorsi alternativi'),
-        tilePadding: const EdgeInsets.symmetric(horizontal: 12),
-        children: [
-          if (loading)
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: LinearProgressIndicator(),
-            )
-          else if (failed) ...[
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Strumenti aggiuntivi non disponibili. Puoi comunque aprire la chiave generale.',
-              ),
-            ),
-            TextButton(onPressed: _load, child: const Text('Riprova')),
-          ] else ...[
-            _routeCard(
-              'Identifica una specie',
-              'Scegli i caratteri, confronta i candidati e continua nei bivi originali ITALIC fino alla specie.',
-              Icons.route_outlined,
-              _openSpecies,
-              key: const ValueKey('open-species-key'),
-            ),
-            _routeCard(
-              'Physcia · revisione e prova',
-              'Revisiona i caratteri dei 22 taxa: tallo, colori, lobi, presenza, forme e tipi, e prova la chiave con i dati confermati manualmente.',
-              Icons.fact_check_outlined,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const PhysciaReviewPage()),
-              ),
-              key: const ValueKey('open-physcia-review'),
-            ),
-            _routeCard(
-              'Matrice specie × caratteri',
-              'Confronta i taxa e consulta valori, dati mancanti e citazioni dei caratteri.',
-              Icons.table_chart_outlined,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CharacterMatrixPage()),
-              ),
-              key: const ValueKey('open-character-matrix'),
-            ),
-            _routeCard(
-              'Matrice dei traits · ITALIC API',
-              'Consulta 29 stati API e le indicazioni riproduttive di soredi o simili e isidi o simili, con fonte e discrepanze.',
-              Icons.dataset_outlined,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const ItalicApiTraitsPage()),
-              ),
-              key: const ValueKey('open-api-traits-matrix'),
-            ),
-            _routeCard(
-              'Dizionario dei caratteri',
-              'Cerca presenza, forme e tipi nelle descrizioni: sorali, soredi, isidi, ciglia, rizine e apoteci.',
-              Icons.manage_search,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const CharacterDictionaryPage(),
-                ),
-              ),
-              key: const ValueKey('open-character-dictionary'),
-            ),
-            _routeCard(
-              'Chiavi originali ITALIC',
-              '${repo.genusKeys.length} collegamenti per genere. Le chiavi si aprono online.',
-              Icons.menu_book_outlined,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => OfficialKeysPage(entries: repo.genusKeys),
-                ),
-              ),
-              key: const ValueKey('open-official-keys'),
-            ),
-          ],
-        ],
-      ),
     ]);
   }
+
+  List<Widget> _tools() => [
+    if (loading)
+      const Padding(
+        padding: EdgeInsets.all(16),
+        child: LinearProgressIndicator(),
+      )
+    else if (failed) ...[
+      const Padding(
+        padding: EdgeInsets.all(16),
+        child: Text(
+          'Strumenti aggiuntivi non disponibili. Riprova a caricare i dati.',
+        ),
+      ),
+      TextButton(onPressed: _load, child: const Text('Riprova')),
+    ] else ...[
+      _routeCard(
+        'Identifica una specie',
+        'Scegli i caratteri, confronta i candidati e continua nei bivi originali ITALIC fino alla specie.',
+        Icons.route_outlined,
+        _openSpecies,
+        key: const ValueKey('open-species-key'),
+      ),
+      _routeCard(
+        'Physcia · revisione e prova',
+        'Revisiona i caratteri dei 22 taxa: tallo, colori, lobi, presenza, forme e tipi, e prova la chiave con i dati confermati manualmente.',
+        Icons.fact_check_outlined,
+        () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const PhysciaReviewPage()),
+        ),
+        key: const ValueKey('open-physcia-review'),
+      ),
+      _routeCard(
+        'Matrice specie × caratteri',
+        'Confronta i taxa e consulta valori, dati mancanti e citazioni dei caratteri.',
+        Icons.table_chart_outlined,
+        () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CharacterMatrixPage()),
+        ),
+        key: const ValueKey('open-character-matrix'),
+      ),
+      _routeCard(
+        'Matrice dei traits · ITALIC API',
+        'Consulta 29 stati API e le indicazioni riproduttive di soredi o simili e isidi o simili, con fonte e discrepanze.',
+        Icons.dataset_outlined,
+        () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const ItalicApiTraitsPage()),
+        ),
+        key: const ValueKey('open-api-traits-matrix'),
+      ),
+      _routeCard(
+        'Dizionario dei caratteri',
+        'Cerca presenza, forme e tipi nelle descrizioni: sorali, soredi, isidi, ciglia, rizine e apoteci.',
+        Icons.manage_search,
+        () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CharacterDictionaryPage()),
+        ),
+        key: const ValueKey('open-character-dictionary'),
+      ),
+      _routeCard(
+        'Chiavi originali ITALIC',
+        '${repo.genusKeys.length} collegamenti per genere. Le chiavi si aprono online.',
+        Icons.menu_book_outlined,
+        () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => OfficialKeysPage(entries: repo.genusKeys),
+          ),
+        ),
+        key: const ValueKey('open-official-keys'),
+      ),
+    ],
+  ];
 }
 
 class DichotomousKeyPage extends StatefulWidget {
@@ -503,66 +498,80 @@ class _DichotomousKeyPageState extends State<DichotomousKeyPage> {
               ),
             ),
           ),
-          if (question != null) ...[
-            Text(
-              'Bivio ${definition.questions.indexOf(question) + 1} · ${question.title}',
-              style: Theme.of(context).textTheme.labelLarge,
+          KeyStepTransition(
+            step: '${question?.id ?? 'complete'}:${answers.length}',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (question != null) ...[
+                  Text(
+                    'Bivio ${definition.questions.indexOf(question) + 1} · ${question.title}',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    question.prompt,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(question.help),
+                  const SizedBox(height: 20),
+                  FilledButton(
+                    key: const ValueKey('answer-a'),
+                    onPressed: saving
+                        ? null
+                        : () => _choose(question, KeyAnswer.a),
+                    child: Text('A · ${question.a}'),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton(
+                    key: const ValueKey('answer-b'),
+                    onPressed: saving
+                        ? null
+                        : () => _choose(question, KeyAnswer.b),
+                    child: Text('B · ${question.b}'),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    key: const ValueKey('answer-unknown'),
+                    onPressed: saving
+                        ? null
+                        : () => _choose(question, KeyAnswer.unknown),
+                    child: const Text('Non so / Non verificato'),
+                  ),
+                  if (answers.isNotEmpty)
+                    TextButton.icon(
+                      onPressed: saving
+                          ? null
+                          : () => _rewind(answers.keys.last),
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text('Torna al bivio precedente'),
+                    ),
+                ] else ...[
+                  Text(
+                    result.activeCriteria == 0
+                        ? 'Nessun carattere verificato'
+                        : result.supported.isEmpty
+                        ? 'Risposte da rivedere o dati insufficienti'
+                        : 'Candidati da verificare',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Un candidato coerente con questo percorso non è un’identificazione definitiva. '
+                    'Apri la scheda e confronta i caratteri con la chiave originale.',
+                  ),
+                  if (result.supported.isEmpty && result.unresolved.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Text(
+                        'Nessun taxon soddisfa insieme le risposte. Rivedi i bivi, la struttura osservata e l’attribuzione del genere.',
+                      ),
+                    ),
+                ],
+              ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              question.prompt,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 10),
-            Text(question.help),
-            const SizedBox(height: 20),
-            FilledButton(
-              key: const ValueKey('answer-a'),
-              onPressed: saving ? null : () => _choose(question, KeyAnswer.a),
-              child: Text('A · ${question.a}'),
-            ),
-            const SizedBox(height: 12),
-            OutlinedButton(
-              key: const ValueKey('answer-b'),
-              onPressed: saving ? null : () => _choose(question, KeyAnswer.b),
-              child: Text('B · ${question.b}'),
-            ),
-            const SizedBox(height: 8),
-            TextButton(
-              key: const ValueKey('answer-unknown'),
-              onPressed: saving
-                  ? null
-                  : () => _choose(question, KeyAnswer.unknown),
-              child: const Text('Non so / Non verificato'),
-            ),
-            if (answers.isNotEmpty)
-              TextButton.icon(
-                onPressed: saving ? null : () => _rewind(answers.keys.last),
-                icon: const Icon(Icons.arrow_back),
-                label: const Text('Torna al bivio precedente'),
-              ),
-          ] else ...[
-            Text(
-              result.activeCriteria == 0
-                  ? 'Nessun carattere verificato'
-                  : result.supported.isEmpty
-                  ? 'Risposte da rivedere o dati insufficienti'
-                  : 'Candidati da verificare',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Un candidato coerente con questo percorso non è un’identificazione definitiva. '
-              'Apri la scheda e confronta i caratteri con la chiave originale.',
-            ),
-            if (result.supported.isEmpty && result.unresolved.isEmpty)
-              const Padding(
-                padding: EdgeInsets.only(top: 12),
-                child: Text(
-                  'Nessun taxon soddisfa insieme le risposte. Rivedi i bivi, la struttura osservata e l’attribuzione del genere.',
-                ),
-              ),
-          ],
+          ),
           if (question != null)
             RemainingCandidates(
               key: ValueKey(

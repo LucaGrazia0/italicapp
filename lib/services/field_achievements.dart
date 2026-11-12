@@ -36,6 +36,12 @@ const achievementMedals = [
 /// share the accepted species' binomial, so another photo or variety is not a
 /// second species. Ambiguous aliases and unfinished identifications do not count.
 class FieldAchievementIndex {
+  static Future<FieldAchievementIndex> load() async {
+    final reference = ItalicReferenceRepository();
+    await reference.load();
+    return FieldAchievementIndex(reference.taxa);
+  }
+
   FieldAchievementIndex(Iterable<ItalicTaxon> taxa) {
     final valid = taxa.where((t) => _binomial(t.scientificName) != null);
     for (final taxon in valid) {
