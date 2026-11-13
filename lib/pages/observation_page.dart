@@ -10,6 +10,7 @@ import 'map_location_page.dart';
 import 'species_name_page.dart';
 import '../services/field_location.dart';
 import '../services/diary_navigation.dart';
+import 'species_picker_page.dart';
 
 class ObservationPage extends StatefulWidget {
   static String routeName(String id) => DiaryNavigation.observationRoute(id);
@@ -34,6 +35,7 @@ class _ObservationPageState extends State<ObservationPage> {
   String? substrate;
   bool editing = false;
   bool savingPosition = false;
+  bool choosingSpecies = false;
   bool locating = false;
   int locationRequest = 0;
   String? positionError;
@@ -70,6 +72,21 @@ class _ObservationPageState extends State<ObservationPage> {
     observation.substrate = substrate;
     await widget.store.save(observation);
     if (mounted) setState(() => editing = false);
+  }
+
+  Future<void> chooseSpecies() async {
+    if (editing || savingPosition || choosingSpecies) return;
+    setState(() => choosingSpecies = true);
+    try {
+      final updated = await chooseObservationSpecies(
+        context,
+        store: widget.store,
+        observation: observation,
+      );
+      if (updated != null && mounted) setState(() => observation = updated);
+    } finally {
+      if (mounted) setState(() => choosingSpecies = false);
+    }
   }
 
   Future<void> choosePosition() async {
@@ -257,6 +274,25 @@ class _ObservationPageState extends State<ObservationPage> {
                 ),
               ),
               const SizedBox(height: 12),
+              Card(
+                child: ListTile(
+                  key: const ValueKey('choose-observation-species'),
+                  leading: const Icon(Icons.eco_outlined),
+                  title: Text(o.taxonName ?? 'Scegli specie'),
+                  subtitle: o.identificationPath == null
+                      ? null
+                      : Text(
+                          o.identificationMethod == 'manual'
+                              ? 'Nome scelto · percorso salvato'
+                              : '${o.identificationPath!.answerCount} risposte salvate',
+                        ),
+                  trailing: const Icon(Icons.arrow_drop_down),
+                  onTap: editing || savingPosition || choosingSpecies
+                      ? null
+                      : chooseSpecies,
+                ),
+              ),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Expanded(
@@ -267,7 +303,7 @@ class _ObservationPageState extends State<ObservationPage> {
                           : () => _openDetermination(context),
                       icon: const Icon(Icons.account_tree_outlined),
                       label: const Text(
-                        'Identifica specie',
+                        'Usa chiave',
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -302,25 +338,6 @@ class _ObservationPageState extends State<ObservationPage> {
                 ],
               ),
               const SizedBox(height: 22),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.science_outlined),
-                  title: Text(o.taxonName ?? 'Non determinato'),
-                  subtitle: Text(
-                    o.identificationPath != null
-                        ? (o.identificationMethod == 'manual'
-                              ? 'Nome inserito manualmente · percorso precedente disponibile'
-                              : 'Riprendi il percorso salvato · ${o.identificationPath!.answerCount} risposte')
-                        : o.taxonName == null
-                        ? 'Tocca per iniziare la determinazione'
-                        : 'Tocca per rivedere la determinazione',
-                  ),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: savingPosition
-                      ? null
-                      : () => _openDetermination(context),
-                ),
-              ),
               const SizedBox(height: 18),
               Text(
                 '${date(o.createdAt)} • ${two(o.createdAt.hour)}:${two(o.createdAt.minute)}',

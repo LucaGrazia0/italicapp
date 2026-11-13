@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:italicapp/models/map_position.dart';
 import 'package:idb_shim/idb_client_memory.dart';
 import 'package:italicapp/app_store.dart';
+import 'package:italicapp/data/italic_reference_repository.dart';
 import 'package:italicapp/data/observation_repository.dart';
 import 'package:italicapp/models/observation.dart';
 import 'package:italicapp/pages/capture_page.dart';
@@ -55,6 +56,7 @@ void main() {
     VoidCallback? onSaved,
     Widget Function(double?, double?)? mapBuilder,
     Future<FieldFix> Function()? locationCapture,
+    Future<List<ItalicTaxon>> Function()? loadTaxa,
   }) async {
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
@@ -69,6 +71,7 @@ void main() {
             onSaved: onSaved ?? () {},
             mapBuilder: mapBuilder,
             locationCapture: locationCapture,
+            loadTaxa: loadTaxa,
           ),
         ),
       ),
@@ -160,6 +163,8 @@ void main() {
         180,
         scrollable: find.byType(Scrollable).first,
       );
+      await tester.ensureVisible(save);
+      await tester.pumpAndSettle();
       await tester.tap(save);
       await tester.pumpAndSettle();
       expect(saved, true);
@@ -189,6 +194,8 @@ void main() {
         180,
         scrollable: find.byType(Scrollable).first,
       );
+      await tester.ensureVisible(save);
+      await tester.pumpAndSettle();
       await tester.tap(save);
       await tester.pumpAndSettle();
       expect(store.saved!.photoBytes, imageBytes);
@@ -362,6 +369,77 @@ void main() {
   );
 
   testWidgets(
+    'Photo, map position and checklist species save together; a failed save keeps the draft for retry',
+    (tester) async {
+      const taxon = ItalicTaxon(
+        scientificName: 'Physcia adscendens H. Olivier',
+        italicId: 1717,
+      );
+      final store = _Store()..fail = true;
+      var saved = false;
+      await show(
+        tester,
+        _Picker()..next = image(),
+        store,
+        onSaved: () => saved = true,
+        loadTaxa: () async => [taxon],
+        mapBuilder: (_, _) => Builder(
+          builder: (context) => Scaffold(
+            body: Center(
+              child: FilledButton(
+                onPressed: () => Navigator.pop(
+                  context,
+                  const MapPosition(46, 12, uncertaintyInMeters: 25.5),
+                ),
+                child: const Text('Punto di prova'),
+              ),
+            ),
+          ),
+        ),
+      );
+      Future<void> tapVisible(Finder target) async {
+        await tester.scrollUntilVisible(
+          target,
+          150,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.ensureVisible(target);
+        await tester.pumpAndSettle();
+        await tester.tap(target);
+        await tester.pumpAndSettle();
+      }
+
+      await tester.tap(gallery);
+      await tester.pumpAndSettle();
+      await tapVisible(find.byKey(const ValueKey('capture-map')));
+      await tester.tap(find.text('Punto di prova'));
+      await tester.pumpAndSettle();
+      await tapVisible(find.byKey(const ValueKey('capture-species')));
+      await tester.tap(find.byKey(const ValueKey('pick-species-1717')));
+      await tester.pumpAndSettle();
+      expect(store.saved, isNull);
+      expect(find.text(taxon.scientificName), findsOneWidget);
+      await tapVisible(find.text('Salva osservazione'));
+      expect(store.saved, isNull);
+      expect(saved, false);
+      expect(find.byType(Image), findsOneWidget);
+      store.fail = false;
+      await tapVisible(find.text('Salva osservazione'));
+      expect(saved, true);
+      expect(store.saved!.photoBytes, imageBytes);
+      expect(store.saved!.taxonName, taxon.scientificName);
+      expect(store.saved!.taxonItalicId, 1717);
+      expect(store.saved!.rank, IdentificationRank.species);
+      expect(store.saved!.identificationMethod, 'manual');
+      expect(store.saved!.latitude, 46);
+      expect(store.saved!.longitude, 12);
+      expect(store.saved!.coordinateUncertaintyInMeters, 25.5);
+      expect(find.byKey(const ValueKey('capture-species')), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
     'Closing the form while the gallery is open does not update a disposed page',
     (tester) async {
       final picker = _Picker()..pending = Completer<XFile?>();
@@ -409,8 +487,10 @@ class _Picker extends ImagePicker {
 class _Store extends AppStore {
   _Store() : super(ObservationRepository(factory: newIdbFactoryMemory()));
   Observation? saved;
+  bool fail = false;
   @override
   Future<void> save(Observation o) async {
+    if (fail) throw StateError('write unavailable');
     saved = Observation.fromMap(o.toMap());
   }
 }

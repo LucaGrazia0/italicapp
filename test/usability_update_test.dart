@@ -327,7 +327,10 @@ void main() {
       await t.pumpAndSettle();
       final identify = find.byKey(const ValueKey('identify-observation')),
           write = find.byKey(const ValueKey('write-observation-species'));
-      expect(t.getRect(identify).bottom, lessThan(450));
+      final choose = find.byKey(const ValueKey('choose-observation-species'));
+      expect(t.getRect(choose).bottom, lessThan(450));
+      expect(t.getRect(choose).bottom, lessThan(t.getRect(identify).top));
+      expect(t.getRect(identify).bottom, lessThan(764));
       expect(t.getCenter(identify).dy, t.getCenter(write).dy);
       expect(
         t.getTopLeft(identify).dy,

@@ -8,7 +8,7 @@ import '../services/achievement_notices.dart';
 import '../services/field_achievements.dart';
 
 /// Lives under the navigator and outside the diary's tab, so a saved plot or
-/// determination can celebrate on the page where the user is actually working.
+/// determination waits until the user returns to the diary's root screen.
 class AchievementCelebrationHost extends StatefulWidget {
   const AchievementCelebrationHost({
     super.key,
@@ -17,8 +17,10 @@ class AchievementCelebrationHost extends StatefulWidget {
     this.repository,
     this.loadIndex,
     this.controller,
+    this.enabled = true,
   });
   final AppStore store;
+  final bool enabled;
   final AchievementNotices? controller;
   final Widget child;
   final AchievementNoticeRepository? repository;
@@ -43,6 +45,7 @@ class _AchievementCelebrationHostState extends State<AchievementCelebrationHost>
       );
   Timer? timer;
   bool showing = false;
+  bool routeVisible = false;
   AppLifecycleState lifecycle = AppLifecycleState.resumed;
   @override
   void initState() {
@@ -53,6 +56,19 @@ class _AchievementCelebrationHostState extends State<AchievementCelebrationHost>
     ScientificData.changes.addListener(_refresh);
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeVisible = ModalRoute.of(context)?.isCurrent ?? false;
+    _schedule();
+  }
+
+  @override
+  void didUpdateWidget(AchievementCelebrationHost oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.enabled != widget.enabled) _schedule();
+  }
+
   void _refresh() {
     notices.refreshIndex();
   }
@@ -60,6 +76,8 @@ class _AchievementCelebrationHostState extends State<AchievementCelebrationHost>
   void _schedule() {
     timer?.cancel();
     if (!mounted ||
+        !widget.enabled ||
+        !routeVisible ||
         showing ||
         lifecycle != AppLifecycleState.resumed ||
         notices.pending.isEmpty) {
@@ -71,6 +89,8 @@ class _AchievementCelebrationHostState extends State<AchievementCelebrationHost>
 
   Future<void> _present() async {
     if (!mounted ||
+        !widget.enabled ||
+        !routeVisible ||
         showing ||
         lifecycle != AppLifecycleState.resumed ||
         notices.pending.isEmpty) {

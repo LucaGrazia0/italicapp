@@ -40,10 +40,7 @@ class ItalicApp extends StatelessWidget {
     theme: AppTheme.light,
     home: AppStartup(
       initialize: initialize,
-      child: AchievementCelebrationHost(
-        store: store,
-        child: Shell(store: store),
-      ),
+      child: Shell(store: store),
     ),
   );
 }
@@ -96,28 +93,32 @@ class _ShellState extends State<Shell> {
         onOpenItalic: () => select(2),
       ),
     ];
-    return Scaffold(
-      body: SafeArea(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 980),
-            child: IndexedStack(
-              index: index,
-              children: [
-                for (var i = 0; i < pages.length; i++)
-                  TickerMode(
-                    enabled: index == i,
-                    child: visited.contains(i)
-                        ? pages[i]
-                        : const SizedBox.shrink(),
-                  ),
-              ],
+    return AchievementCelebrationHost(
+      store: widget.store,
+      enabled: index == 0,
+      child: Scaffold(
+        body: SafeArea(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 980),
+              child: IndexedStack(
+                index: index,
+                children: [
+                  for (var i = 0; i < pages.length; i++)
+                    TickerMode(
+                      enabled: index == i,
+                      child: visited.contains(i)
+                          ? pages[i]
+                          : const SizedBox.shrink(),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
+        bottomNavigationBar: FieldNavigation(index: index, onSelected: select),
       ),
-      bottomNavigationBar: FieldNavigation(index: index, onSelected: select),
     );
   }
 }

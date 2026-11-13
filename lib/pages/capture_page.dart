@@ -7,6 +7,9 @@ import '../models/observation.dart';
 import '../services/field_location.dart';
 import 'package:flutter/services.dart';
 import 'map_location_page.dart';
+import 'species_picker_page.dart';
+import '../data/italic_reference_repository.dart';
+import '../services/manual_species.dart';
 
 class CapturePage extends StatefulWidget {
   const CapturePage({
@@ -16,12 +19,14 @@ class CapturePage extends StatefulWidget {
     this.picker,
     this.mapBuilder,
     this.locationCapture,
+    this.loadTaxa,
   });
   final AppStore store;
   final VoidCallback onSaved;
   final ImagePicker? picker;
   final Widget Function(double?, double?)? mapBuilder;
   final Future<FieldFix> Function()? locationCapture;
+  final Future<List<ItalicTaxon>> Function()? loadTaxa;
 
   @override
   State<CapturePage> createState() => _CapturePageState();
@@ -32,6 +37,7 @@ class _CapturePageState extends State<CapturePage> {
   final notes = TextEditingController();
   Uint8List? photo;
   String? photoName;
+  ItalicTaxon? species;
   FieldFix? position;
   MapPosition? mapPoint;
   DateTime? mapSelectedAt;
@@ -66,6 +72,7 @@ class _CapturePageState extends State<CapturePage> {
     setState(() {
       photo = bytes;
       photoName = file.name;
+      species = null;
     });
   }
 
@@ -217,6 +224,12 @@ class _CapturePageState extends State<CapturePage> {
       notes: notes.text.trim(),
       photoBytes: photo,
       photoName: photoName,
+      taxonName: species?.scientificName,
+      taxonItalicId: species?.italicId,
+      rank: species == null
+          ? IdentificationRank.undetermined
+          : manualNameRank(species!.scientificName),
+      identificationMethod: species == null ? null : 'manual',
     );
     final o = mapPoint != null
         ? base.withMapPosition(
@@ -232,20 +245,19 @@ class _CapturePageState extends State<CapturePage> {
       setState(() {
         photo = null;
         photoName = null;
+        species = null;
         position = null;
         mapPoint = null;
         mapSelectedAt = null;
         substrate = null;
         notes.clear();
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Osservazione salvata nel database locale.'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Salvata nel diario.')));
       widget.onSaved();
-    } catch (e) {
-      if (mounted) setState(() => error = 'Errore durante il salvataggio: $e');
+    } catch (_) {
+      if (mounted) setState(() => error = 'Salvataggio non riuscito. Riprova.');
     } finally {
       if (mounted) setState(() => busy = false);
     }
@@ -272,7 +284,7 @@ class _CapturePageState extends State<CapturePage> {
         ),
         const SizedBox(height: 6),
         const Text(
-          'Aggiungi la foto e scegli la posizione con il GPS o sulla mappa. Puoi farlo anche in seguito dal diario.',
+          'Aggiungi una foto. Posizione e specie si possono completare anche in seguito.',
         ),
         const SizedBox(height: 20),
         AspectRatio(
@@ -304,7 +316,7 @@ class _CapturePageState extends State<CapturePage> {
               key: const ValueKey('capture-gallery'),
               onPressed: busy ? null : () => pickPhoto(ImageSource.gallery),
               icon: const Icon(Icons.photo_library_outlined),
-              label: const Text('Scegli dalla galleria'),
+              label: const Text('Galleria'),
             ),
           ],
         ),
@@ -333,9 +345,7 @@ class _CapturePageState extends State<CapturePage> {
                     'Punto scelto sulla mappa${mapPoint!.uncertaintyInMeters == null ? " · incertezza non indicata" : " · incertezza stimata: ${mapPoint!.uncertaintyInMeters} m di raggio"}. Quota non misurata.',
                   )
                 : position == null
-                ? const Text(
-                    'GPS facoltativo. Puoi salvare ora e scegliere il punto sulla mappa dal diario quando hai internet. La quota GPS, se disponibile, è riferita al livello del mare.',
-                  )
+                ? const Text('Facoltativa. Puoi aggiungerla in seguito.')
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -385,10 +395,6 @@ class _CapturePageState extends State<CapturePage> {
             ),
           ],
         ),
-        const SizedBox(height: 8),
-        const Text(
-          'Il GPS registra dove ti trovi adesso. Sulla mappa online scegli il luogo del ritrovamento.',
-        ),
         if (locating) ...[
           const LinearProgressIndicator(),
           TextButton(
@@ -397,6 +403,46 @@ class _CapturePageState extends State<CapturePage> {
           ),
         ],
         const SizedBox(height: 16),
+        if (photo != null) ...[
+          Card(
+            child: ListTile(
+              key: const ValueKey('capture-species'),
+              leading: const Icon(Icons.eco_outlined),
+              title: Text(species?.scientificName ?? 'Scegli specie'),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (species != null)
+                    IconButton(
+                      tooltip: 'Rimuovi scelta',
+                      onPressed: busy
+                          ? null
+                          : () => setState(() => species = null),
+                      icon: const Icon(Icons.close),
+                    ),
+                  const Icon(Icons.arrow_drop_down),
+                ],
+              ),
+              onTap: busy
+                  ? null
+                  : () async {
+                      final chosen = await Navigator.push<ItalicTaxon>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SpeciesPickerPage(
+                            selectedId: species?.italicId,
+                            loadTaxa: widget.loadTaxa,
+                          ),
+                        ),
+                      );
+                      if (chosen != null && mounted) {
+                        setState(() => species = chosen);
+                      }
+                    },
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
         DropdownButtonFormField<String>(
           initialValue: substrate,
           decoration: const InputDecoration(

@@ -206,6 +206,80 @@ void main() {
     },
   );
 
+  for (final blockedByRoute in [false, true]) {
+    testWidgets(
+      'A celebration waits for the diary ${blockedByRoute ? 'route to return' : 'tab to become active'}',
+      (tester) async {
+        await tester.runAsync(store.init);
+        final repository = _MemoryNotices();
+        final controller = (await tester.runAsync(() async {
+          final value = notices(repository: repository);
+          await value.ready;
+          return value;
+        }))!;
+        var enabled = blockedByRoute;
+        late StateSetter update;
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: AppTheme.light,
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                update = setState;
+                return AchievementCelebrationHost(
+                  store: store,
+                  controller: controller,
+                  enabled: enabled,
+                  child: Scaffold(
+                    body: TextButton(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => Scaffold(
+                            appBar: AppBar(title: const Text('Dettaglio')),
+                            body: const Text('Scegliendo una specie'),
+                          ),
+                        ),
+                      ),
+                      child: const Text('Apri dettaglio'),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        if (blockedByRoute) {
+          await tester.tap(find.text('Apri dettaglio'));
+          await tester.pumpAndSettle();
+        }
+        await tester.runAsync(() async {
+          await store.save(record('first', 0));
+          await controller.settled;
+          await Future<void>.delayed(const Duration(milliseconds: 550));
+        });
+        await tester.pump(const Duration(seconds: 1));
+        await tester.pumpAndSettle();
+        expect(find.byType(AchievementDetailPage), findsNothing);
+        expect(controller.pending.map((a) => a.target), [1]);
+        expect(repository.state!.seen, isEmpty);
+        if (blockedByRoute) {
+          await tester.pageBack();
+        } else {
+          update(() => enabled = true);
+        }
+        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 600));
+        await tester.pumpAndSettle();
+        expect(find.byType(AchievementDetailPage), findsOneWidget);
+        expect(find.text('Federico Cesi'), findsOneWidget);
+        await tester.pumpWidget(const SizedBox());
+        controller.dispose();
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+
   testWidgets(
     'All six offline profiles fit a narrow phone with large text and reduced motion; one batch stays on one route',
     (tester) async {

@@ -67,7 +67,11 @@ void main() {
           tester.getCenter(find.byKey(ValueKey('nav-$i'))).dx,
       ];
       expect(positions, [...positions]..sort());
-      await tester.tap(find.byKey(const ValueKey('nav-1')));
+      await tester.runAsync(() async {
+        await tester.tap(find.byKey(const ValueKey('nav-1')));
+        await tester.pump();
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+      });
       await tester.pumpAndSettle();
       final notes = find.widgetWithText(TextField, 'Note di campo');
       await tester.scrollUntilVisible(notes, 300);

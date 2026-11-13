@@ -2,26 +2,9 @@ import 'package:flutter/material.dart';
 import '../app_store.dart';
 import '../data/italic_reference_repository.dart';
 import '../models/observation.dart';
+import '../services/manual_species.dart';
 
-IdentificationRank manualNameRank(String value) {
-  if (RegExp(
-    r'\b(?:cf|cfr|aff|sp|spp|agg|indet)\b|\?',
-    caseSensitive: false,
-  ).hasMatch(value)) {
-    return IdentificationRank.undetermined;
-  }
-  if (RegExp(
-    r'^[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ-]+\s+[a-zà-öø-ÿ-]+(?:\s|$)',
-  ).hasMatch(value)) {
-    return IdentificationRank.species;
-  }
-  if (RegExp(r'^[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ-]+$').hasMatch(value)) {
-    return value.endsWith('aceae')
-        ? IdentificationRank.family
-        : IdentificationRank.genus;
-  }
-  return IdentificationRank.undetermined;
-}
+export '../services/manual_species.dart' show manualNameRank;
 
 class SpeciesNamePage extends StatefulWidget {
   const SpeciesNamePage({
@@ -159,7 +142,7 @@ class _SpeciesNamePageState extends State<SpeciesNamePage> {
         padding: const EdgeInsets.all(20),
         children: [
           const Text(
-            'Puoi assegnare il nome direttamente, senza seguire la chiave. Scegli un suggerimento della checklist oppure conserva il testo libero. Le determinazioni personali restano da verificare.',
+            'Scrivi un nome o scegli un suggerimento. Verrà salvato come attribuzione manuale.',
           ),
           const SizedBox(height: 16),
           TextField(

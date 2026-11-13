@@ -9,10 +9,13 @@ import 'plot_page.dart';
 import '../widgets/diary_filters.dart';
 import 'dataset_export_page.dart';
 import '../services/diary_filter.dart';
+import '../data/italic_reference_repository.dart';
+import 'species_picker_page.dart';
 
 class DiaryPage extends StatefulWidget {
-  const DiaryPage({super.key, required this.store});
+  const DiaryPage({super.key, required this.store, this.loadTaxa});
   final AppStore store;
+  final Future<List<ItalicTaxon>> Function()? loadTaxa;
 
   @override
   State<DiaryPage> createState() => _DiaryPageState();
@@ -20,6 +23,23 @@ class DiaryPage extends StatefulWidget {
 
 class _DiaryPageState extends State<DiaryPage> {
   bool plotsMode = false;
+  final choosingSpecies = <String>{};
+
+  Future<void> chooseSpecies(Observation observation) async {
+    if (choosingSpecies.contains(observation.id)) return;
+    setState(() => choosingSpecies.add(observation.id));
+    try {
+      await chooseObservationSpecies(
+        context,
+        store: widget.store,
+        observation: observation,
+        loadTaxa: widget.loadTaxa,
+      );
+    } finally {
+      if (mounted) setState(() => choosingSpecies.remove(observation.id));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -55,22 +75,15 @@ class _DiaryPageState extends State<DiaryPage> {
           children: [
             Expanded(
               child: Text(
-                'Italic Go',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                'Diario',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: AppTheme.forest,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
             DiaryAchievements(store: widget.store),
           ],
-        ),
-        Text(
-          'Diario di campo',
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: AppTheme.charcoal,
-          ),
         ),
         const SizedBox(height: 18),
         SegmentedButton<bool>(
@@ -158,7 +171,7 @@ class _DiaryPageState extends State<DiaryPage> {
                 maxCrossAxisExtent: 250,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: .9,
+                childAspectRatio: .8,
               ),
               itemCount: groups[day]!.length,
               itemBuilder: (_, i) {
@@ -193,10 +206,28 @@ class _DiaryPageState extends State<DiaryPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                o.taxonName ?? 'Non determinato',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                              TextButton(
+                                key: ValueKey('diary-choose-species-${o.id}'),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: const Size(0, 44),
+                                  alignment: Alignment.centerLeft,
+                                ),
+                                onPressed: choosingSpecies.contains(o.id)
+                                    ? null
+                                    : () => chooseSpecies(o),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        o.taxonName ?? 'Scegli specie',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const Icon(Icons.arrow_drop_down, size: 20),
+                                  ],
+                                ),
                               ),
                               Text(
                                 o.positionLabel,
