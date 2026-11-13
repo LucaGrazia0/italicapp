@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import '../brand.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:crypto/crypto.dart';
@@ -65,7 +66,7 @@ class DataRelease {
 class DataUpdates {
   DataUpdates({http.Client? client}) : client = client ?? http.Client();
   final http.Client client;
-  static const appBuild = 25;
+  static const appBuild = AppBrand.build;
   static final feed = Uri.parse(
     'https://api.github.com/repos/LucaGrazia0/italicapp/releases/latest',
   );

@@ -158,6 +158,24 @@ class _DatasetExportPageState extends State<DatasetExportPage> {
         ),
         const Divider(height: 32),
         OutlinedButton.icon(
+          key: const ValueKey('dataset-other-formats'),
+          onPressed: busy
+              ? null
+              : () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ObservationExportPage(
+                      observations: data.observations
+                          .map(data.effective)
+                          .toList(),
+                      sender: widget.sender,
+                    ),
+                  ),
+                ),
+          icon: const Icon(Icons.description_outlined),
+          label: const Text('Riepilogo e GeoJSON'),
+        ),
+        OutlinedButton.icon(
           key: const ValueKey('dataset-inaturalist'),
           onPressed: busy
               ? null

@@ -6,9 +6,8 @@ import '../widgets/offline_card.dart';
 import '../widgets/data_updates_card.dart';
 import '../widgets/iphone_install_card.dart';
 import '../app_store.dart';
-import 'observation_export_page.dart';
+import 'share_results_page.dart';
 import 'identification_page.dart';
-import '../widgets/inaturalist_connection.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -40,21 +39,27 @@ class SettingsPage extends StatelessWidget {
           color: AppTheme.charcoal,
         ),
       ),
-      const SizedBox(height: 8),
-      const Text(
-        'Informazioni sul progetto e sui dati disponibili sul dispositivo.',
+      const SizedBox(height: 24),
+      FilledButton.icon(
+        key: const ValueKey('settings-sharing'),
+        style: FilledButton.styleFrom(
+          minimumSize: const Size.fromHeight(100),
+          padding: const EdgeInsets.all(24),
+          textStyle: const TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+        ),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => ShareResultsPage(store: store)),
+        ),
+        icon: const Icon(Icons.ios_share, size: 30),
+        label: const Text('Condividi risultati'),
       ),
+      const SizedBox(height: 16),
+      const DataUpdatesCard(compact: true),
       const SizedBox(height: 20),
-      const INaturalistConnection(),
-      const SizedBox(height: 14),
-      const OfflineCard(),
-      const SizedBox(height: 14),
-      const DataUpdatesCard(),
-      if (kIsWeb) ...[
-        const SizedBox(height: 14),
-        IphoneInstallCard(address: Uri.base),
-      ],
-      const SizedBox(height: 14),
       _section(context, 'Dati e archiviazione', [
         ListTile(
           key: const ValueKey('settings-identification-tools'),
@@ -85,27 +90,12 @@ class SettingsPage extends StatelessWidget {
           trailing: const Icon(Icons.chevron_right),
           onTap: onOpenItalic,
         ),
-      ]),
-      const SizedBox(height: 14),
-      _section(context, 'Rilievi sul campo', [
-        const ListTile(
-          leading: Icon(Icons.gps_fixed),
-          title: Text('GPS'),
-          subtitle: Text('Coordinate e accuratezza originali preservate'),
-        ),
-        ListTile(
-          leading: const Icon(Icons.ios_share),
-          title: const Text('Condividi ed esporta risultati'),
-          subtitle: const Text('Riepilogo, foto, CSV, GeoJSON e Darwin Core'),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) =>
-                  ObservationExportPage(observations: store.observations),
-            ),
+        const Padding(padding: EdgeInsets.all(8), child: OfflineCard()),
+        if (kIsWeb)
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: IphoneInstallCard(address: Uri.base),
           ),
-        ),
       ]),
       const SizedBox(height: 24),
       Text(
@@ -119,24 +109,11 @@ class SettingsPage extends StatelessWidget {
   Widget _section(BuildContext context, String title, List<Widget> tiles) =>
       Card(
         clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
-                child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: AppTheme.forest,
-                  ),
-                ),
-              ),
-              ...tiles,
-            ],
-          ),
+        child: ExpansionTile(
+          key: const PageStorageKey('settings-data-storage'),
+          leading: const Icon(Icons.storage_outlined),
+          title: Text(title),
+          children: tiles,
         ),
       );
 }

@@ -142,6 +142,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Dati e archiviazione'));
+    await tester.pumpAndSettle();
     final entry = find.byKey(const ValueKey('settings-identification-tools'));
     await tester.scrollUntilVisible(entry, 250);
     await tester.ensureVisible(entry);

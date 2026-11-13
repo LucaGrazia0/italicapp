@@ -31,7 +31,7 @@ class IphoneInstallCard extends StatelessWidget {
               '2. Tocca Condividi → Aggiungi alla schermata Home. Se compare, attiva Apri come app web, poi tocca Aggiungi.',
             ),
             const Text(
-              '3. Apri l’icona Italic Go dalla Home. In Impostazioni tocca Prepara uso offline e attendi «Copia offline pronta».',
+              '3. Apri l’icona Italic Go dalla Home. In Impostazioni apri Dati e archiviazione, poi tocca Prepara uso offline e attendi «Copia offline pronta».',
             ),
             const SizedBox(height: 8),
             const Text(

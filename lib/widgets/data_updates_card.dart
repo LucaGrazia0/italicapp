@@ -4,8 +4,9 @@ import '../data/scientific_data.dart';
 import '../services/data_updates.dart';
 
 class DataUpdatesCard extends StatefulWidget {
-  const DataUpdatesCard({super.key, this.updates});
+  const DataUpdatesCard({super.key, this.updates, this.compact = false});
   final DataUpdates? updates;
+  final bool compact;
   @override
   State<DataUpdatesCard> createState() => _DataUpdatesCardState();
 }
@@ -74,64 +75,71 @@ class _DataUpdatesCardState extends State<DataUpdatesCard> {
   }
 
   @override
-  Widget build(BuildContext context) => Card(
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Aggiornamenti ITALIC',
-            style: Theme.of(context).textTheme.titleMedium,
+  Widget build(BuildContext context) {
+    final actions = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FilledButton.tonalIcon(
+          key: const ValueKey('check-data-updates'),
+          style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+          onPressed: busy ? null : () => run(false),
+          icon: const Icon(Icons.system_update_alt),
+          label: Text(busy ? 'Attendi…' : 'Controlla aggiornamenti'),
+        ),
+        if (busy) LinearProgressIndicator(value: progress),
+        if (message != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              message!,
+              key: const ValueKey('data-update-result'),
+              semanticsLabel: message,
+            ),
           ),
-          const SizedBox(height: 8),
-          Text(ScientificData.currentVersion),
+        if (release != null &&
+            release!.revision > ScientificData.currentRevision &&
+            release!.minimumAppBuild <= DataUpdates.appBuild)
+          FilledButton(
+            onPressed: busy ? null : () => run(true),
+            child: const Text('Scarica dati offline'),
+          ),
+        if (release?.apkUrl != null && release!.appBuild > DataUpdates.appBuild)
+          OutlinedButton(
+            onPressed: busy
+                ? null
+                : () => launchUrl(
+                    release!.apkUrl!,
+                    mode: LaunchMode.externalApplication,
+                  ),
+            child: const Text('Scarica nuovo APK'),
+          ),
+        if (release != null && release!.minimumAppBuild > DataUpdates.appBuild)
           const Text(
-            'Controlla i pacchetti verificati per checklist, matrice, dizionario e chiavi. Il controllo usa internet; i dati installati funzionano anche offline. Le modifiche sul sito ITALIC diventano disponibili nell’app dopo la preparazione di un nuovo pacchetto.',
+            'Prima di installare questi dati occorre aggiornare l’app.',
           ),
-          if (message != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text(message!),
+      ],
+    );
+    if (widget.compact) return actions;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Aggiornamenti ITALIC',
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-          if (busy) LinearProgressIndicator(value: progress),
-          Wrap(
-            spacing: 10,
-            runSpacing: 8,
-            children: [
-              OutlinedButton.icon(
-                key: const ValueKey('check-data-updates'),
-                onPressed: busy ? null : () => run(false),
-                icon: const Icon(Icons.system_update_alt),
-                label: const Text('Controlla aggiornamenti'),
-              ),
-              if (release != null &&
-                  release!.revision > ScientificData.currentRevision &&
-                  release!.minimumAppBuild <= DataUpdates.appBuild)
-                FilledButton(
-                  onPressed: busy ? null : () => run(true),
-                  child: const Text('Scarica dati offline'),
-                ),
-              if (release?.apkUrl != null &&
-                  release!.appBuild > DataUpdates.appBuild)
-                TextButton(
-                  onPressed: busy
-                      ? null
-                      : () => launchUrl(
-                          release!.apkUrl!,
-                          mode: LaunchMode.externalApplication,
-                        ),
-                  child: const Text('Scarica nuovo APK'),
-                ),
-            ],
-          ),
-          if (release != null &&
-              release!.minimumAppBuild > DataUpdates.appBuild)
+            const SizedBox(height: 8),
+            Text(ScientificData.currentVersion),
             const Text(
-              'Prima di installare questi dati occorre aggiornare l’app.',
+              'Controlla i pacchetti verificati per checklist, matrice, dizionario e chiavi. Il controllo usa internet; i dati installati funzionano anche offline. Le modifiche sul sito ITALIC diventano disponibili nell’app dopo la preparazione di un nuovo pacchetto.',
             ),
-        ],
+            const SizedBox(height: 12),
+            actions,
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
