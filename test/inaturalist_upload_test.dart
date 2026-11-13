@@ -14,6 +14,8 @@ import 'package:italicapp/data/observation_repository.dart';
 import 'package:italicapp/models/observation.dart';
 import 'package:italicapp/models/field_plot.dart';
 import 'package:italicapp/pages/diary_page.dart';
+import 'package:italicapp/pages/inaturalist_share_page.dart';
+import 'package:italicapp/services/dataset_export_jobs.dart';
 import 'package:italicapp/services/field_dataset.dart';
 import 'package:italicapp/services/inaturalist_auth.dart';
 import 'package:italicapp/services/inaturalist_photo.dart';
@@ -143,8 +145,90 @@ class Fixture {
   );
 }
 
+class PreviewUploader extends INaturalistUploader {
+  PreviewUploader(INaturalistAuth auth) : super(auth: auth);
+  int calls = 0;
+  Map<String, Object?>? payload;
+  @override
+  Future<INaturalistUploadResult> send(
+    Observation observation,
+    Map<String, Object?> payload,
+  ) async {
+    calls++;
+    this.payload = payload;
+    return const INaturalistUploadResult(123);
+  }
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  test(
+    'An export job can cross the worker-isolate boundary with real photos and plot data',
+    () async {
+      final data = FieldDataset(
+        observations: [samplePhoto('job')],
+        plots: [samplePlot()],
+      );
+      final file = await buildDatasetExport(
+        DatasetExportJob(data, forINaturalist: true, includeGps: true),
+      );
+      expect(file.name, 'Italic-Go-iNaturalist-DoLichens.zip');
+      expect(file.bytes.take(2), [80, 75]);
+    },
+  );
+  testWidgets(
+    'Direct upload waits for explicit confirmation and cancellation sends nothing',
+    (tester) async {
+      final credentials = Credentials()
+        ..value = const INaturalistSession(
+          accessToken: 'oauth',
+          userId: 42,
+          login: 'test',
+        );
+      final auth = NativeAuth(clientId: 'public-id', credentials: credentials);
+      await auth.load();
+      final uploader = PreviewUploader(auth);
+      final observation = samplePhoto('confirm', located: true);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: INaturalistSharePage(
+            observations: [observation],
+            auth: auth,
+            uploader: uploader,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final button = find.byKey(const ValueKey('inat-publish-confirm'));
+      await tester.scrollUntilVisible(
+        button,
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.ensureVisible(button);
+      await tester.pumpAndSettle();
+      await tester.tap(button);
+      await tester.pumpAndSettle();
+      expect(find.text('Conferma invio'), findsOneWidget);
+      expect(uploader.calls, 0);
+      await tester.tap(find.text('Annulla'));
+      await tester.pumpAndSettle();
+      expect(uploader.calls, 0);
+      await tester.ensureVisible(button);
+      await tester.pumpAndSettle();
+      await tester.tap(button);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Conferma invio'));
+      await tester.pumpAndSettle();
+      expect(uploader.calls, 1);
+      expect(uploader.payload!['species_guess'], observation.taxonName);
+      expect(uploader.payload!.keys, isNot(contains('latitude')));
+      expect(
+        find.text('Osservazione e foto inviate a iNaturalist.'),
+        findsOneWidget,
+      );
+    },
+  );
   test(
     'API payload uses the corrected position, uncertainty, date and name; no invented taxon ID',
     () {
