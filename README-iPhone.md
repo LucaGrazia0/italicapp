@@ -18,7 +18,7 @@ Sono predisposti il nome Italic Go, il logo, l'identificativo
 fotocamera, galleria e posizione durante l'uso. Il codice comprende diario,
 chiavi e matrici offline, condivisione e scelta della posizione su mappa online
 della versione 0.8.19, i filtri iniziali, i plot con lista specie e foto multiple, i traguardi offline e le fotografie dimostrative.
-La versione 0.8.19 (build 33) usa la nuova icona con licheni e ITALIC GO.
+La versione 0.8.19 (build 34) usa la nuova icona con licheni e ITALIC GO.
 Permette di scegliere la specie dalla lista dopo foto e posizione, oppure
 sulle schede del diario. Le celebrazioni delle medaglie aspettano il ritorno
 al diario. I testi ripetuti sono stati snelliti. Conserva l’apertura animata,
@@ -67,7 +67,7 @@ Per creare manualmente l’IPA non firmata su un Mac con Xcode:
 flutter pub get
 flutter build ios --release --no-codesign --no-pub
 python3 tools/package_unsigned_ipa.py build/ios/iphoneos/Runner.app \
-  dist/Italic-Go-0.8.19-iPhone-non-firmata.ipa --version 0.8.19 --build 33
+  dist/Italic-Go-0.8.19-iPhone-non-firmata.ipa --version 0.8.19 --build 34
 ```
 
 Fonti ufficiali:

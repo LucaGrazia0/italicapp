@@ -54,6 +54,8 @@ class ShareResultsPage extends StatelessWidget {
   }) => FilledButton.tonal(
     key: key,
     style: FilledButton.styleFrom(
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
       padding: const EdgeInsets.all(24),
       minimumSize: const Size.fromHeight(132),
       alignment: Alignment.centerLeft,
@@ -72,9 +74,10 @@ class ShareResultsPage extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
               ),
               const SizedBox(height: 6),
               Text(detail),

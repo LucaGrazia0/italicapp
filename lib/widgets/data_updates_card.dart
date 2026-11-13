@@ -81,7 +81,11 @@ class _DataUpdatesCardState extends State<DataUpdatesCard> {
       children: [
         FilledButton.tonalIcon(
           key: const ValueKey('check-data-updates'),
-          style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+          style: FilledButton.styleFrom(
+            minimumSize: const Size.fromHeight(56),
+            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+          ),
           onPressed: busy ? null : () => run(false),
           icon: const Icon(Icons.system_update_alt),
           label: Text(busy ? 'Attendi…' : 'Controlla aggiornamenti'),

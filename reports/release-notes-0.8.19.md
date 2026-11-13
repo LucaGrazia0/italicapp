@@ -1,4 +1,4 @@
-# Italic Go 0.8.19+33
+# Italic Go 0.8.19+34
 
 - Impostazioni essenziali: pulsante grande «Condividi risultati», pulsante
   «Controlla aggiornamenti» e sezione «Dati e archiviazione» richiudibile.
