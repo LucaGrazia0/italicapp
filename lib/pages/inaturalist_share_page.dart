@@ -4,8 +4,12 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/link.dart';
 import '../models/observation.dart';
 import '../services/field_dataset.dart';
+import '../services/dataset_export_jobs.dart';
 import '../services/diary_filter.dart';
 import 'observation_export_page.dart';
+import '../services/inaturalist_auth.dart';
+import '../services/inaturalist_upload.dart';
+import '../widgets/inaturalist_connection.dart';
 
 class INaturalistSharePage extends StatefulWidget {
   const INaturalistSharePage({
@@ -15,11 +19,15 @@ class INaturalistSharePage extends StatefulWidget {
     this.dataset,
     this.recordedBy = '',
     this.identifiedBy = '',
+    this.auth,
+    this.uploader,
   });
   final List<Observation> observations;
   final ObservationShareSender? sender;
   final FieldDataset? dataset;
   final String recordedBy, identifiedBy;
+  final INaturalistAuth? auth;
+  final INaturalistUploader? uploader;
   @override
   State<INaturalistSharePage> createState() => _INaturalistSharePageState();
 }
@@ -27,15 +35,105 @@ class INaturalistSharePage extends StatefulWidget {
 class _INaturalistSharePageState extends State<INaturalistSharePage> {
   bool busy = false, includeGps = false;
   ItalianRegions? regions;
+  INaturalistAuth get auth => widget.auth ?? INaturalistAuth.shared;
+  late final INaturalistUploader uploader =
+      widget.uploader ?? INaturalistUploader(auth: auth);
+  final sent = <String, Uri>{};
+  INaturalistPrivacy privacy = INaturalistPrivacy.private;
   @override
   void initState() {
     super.initState();
     regions = widget.dataset?.regions;
+    auth.addListener(refresh);
     ItalianRegions.load()
         .then((value) {
           if (mounted) setState(() => regions = value);
         })
         .catchError((Object _) {});
+  }
+
+  void refresh() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    auth.removeListener(refresh);
+    super.dispose();
+  }
+
+  Future<void> publish(Observation observation) async {
+    final payload = inaturalistObservationPayload(
+      observation,
+      data,
+      includeGps: includeGps,
+      privacy: privacy,
+      recordedBy: widget.recordedBy,
+      identifiedBy: widget.identifiedBy,
+    );
+    final point = includeGps && data.effective(observation).hasPosition;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Invia a iNaturalist'),
+        content: SingleChildScrollView(
+          child: Text(
+            [
+              'Account: ${auth.session?.login}',
+              observation.taxonName ?? 'Specie da determinare',
+              'Data: ${data.effective(observation).eventDate}',
+              if (point)
+                'Coordinate: ${payload['latitude']}, ${payload['longitude']}',
+              if (payload['positional_accuracy'] != null)
+                'Incertezza: ${payload['positional_accuracy']} m',
+              if (!point) 'Senza coordinate',
+              'Visibilità: ${privacyLabel(privacy)}',
+              'Foto e scheda DoLichens incluse. Il nome è una determinazione da verificare su iNaturalist.',
+            ].join('\n\n'),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Annulla'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Conferma invio'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    setState(() => busy = true);
+    try {
+      final result = await uploader.send(observation, payload);
+      if (!mounted) return;
+      setState(() => sent[observation.id] = result.url);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            result.alreadySent
+                ? 'Già inviata: apri l’osservazione su iNaturalist.'
+                : 'Osservazione e foto inviate a iNaturalist.',
+          ),
+        ),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e is INaturalistFailure
+                  ? e.message
+                  : 'Invio non confermato. Riprova: il controllo evita di creare duplicati.',
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
   }
 
   FieldDataset get data => FieldDataset(
@@ -62,11 +160,16 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
         : box.localToGlobal(Offset.zero) & box.size;
     setState(() => busy = true);
     try {
-      final file = data.inaturalistPackage(
-        includeGps: includeGps,
-        recordedBy: widget.recordedBy,
-        identifiedBy: widget.identifiedBy,
+      final file = await buildDatasetExport(
+        DatasetExportJob(
+          data,
+          forINaturalist: true,
+          includeGps: includeGps,
+          recordedBy: widget.recordedBy,
+          identifiedBy: widget.identifiedBy,
+        ),
       );
+      if (!mounted) return;
       await (widget.sender ?? SharePlus.instance.share)(
         ShareParams(
           title: 'Dati DoLichens / iNaturalist',
@@ -103,11 +206,13 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
     try {
       final name = FieldDataset.photoFileName(o).split('/').last;
       final extension = name.split('.').last;
-      // Images only: mixing a CSV/ZIP with the photo hides image receivers such
-      // as iNaturalist from the native share sheet. Metadata is separately copied.
+      // Keep one image attachment so image receivers stay available. The text
+      // carries the checklist name / selected coordinates, but some receivers
+      // ignore it. Only the authenticated API can fill their native fields.
       await (widget.sender ?? SharePlus.instance.share)(
         ShareParams(
-          title: 'Foto per iNaturalist',
+          title: o.taxonName ?? 'Foto per iNaturalist',
+          text: notesFor(o),
           files: [
             XFile.fromData(
               bytes,
@@ -143,27 +248,53 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
     body: ListView(
       padding: const EdgeInsets.all(20),
       children: [
+        INaturalistConnection(auth: auth),
+        if (auth.configured && auth.session != null)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            child: Text(
+              'Invia direttamente foto, nome e posizione. Controlla i dati prima di confermare.',
+            ),
+          ),
         const Text(
-          'Scegli una foto e poi iNaturalist nel menu di condivisione del telefono. Accedi e conferma la pubblicazione nell’app iNaturalist con il tuo account.',
+          'Puoi anche scegliere iNaturalist dal menu di condivisione del telefono.',
         ),
         const SizedBox(height: 12),
         const Text(
-          'Su iPhone usa la nuova app iNaturalist: Classic non accetta questo tipo di condivisione. Se iNaturalist non compare, cerca in “Altro” oppure importa la foto dalla galleria. Nel browser la foto viene scaricata.',
+          'Su iPhone usa la nuova app iNaturalist; Classic non riceve foto condivise. Nel browser si scarica il file.',
         ),
         const SizedBox(height: 12),
         const Text(
-          'Condividiamo la foto originale. Controlla specie, data e posizione nell’app ricevente: i dati aggiunti nel diario potrebbero non essere importati. Le foto originali possono già contenere coordinate proprie. Per più specie ripeti l’invio di ciascuna foto.',
+          'Il menu del telefono invia foto e scheda testuale: iNaturalist può ignorare il testo. Le foto originali possono contenere proprie coordinate. L’invio diretto usa invece i dati del diario.',
         ),
         SwitchListTile(
+          key: const ValueKey('inat-include-location'),
           contentPadding: EdgeInsets.zero,
-          title: const Text(
-            'Includi posizione e quota nei dati da condividere',
-          ),
+          title: const Text('Includi posizione e quota'),
           value: includeGps,
           onChanged: busy ? null : (v) => setState(() => includeGps = v),
         ),
+        if (auth.session != null)
+          DropdownButtonFormField<INaturalistPrivacy>(
+            initialValue: privacy,
+            decoration: const InputDecoration(
+              labelText: 'Posizione su iNaturalist',
+            ),
+            items: [
+              for (final value in INaturalistPrivacy.values)
+                DropdownMenuItem(
+                  value: value,
+                  child: Text(privacyLabel(value)),
+                ),
+            ],
+            onChanged: busy
+                ? null
+                : (v) {
+                    if (v != null) setState(() => privacy = v);
+                  },
+          ),
         const Text(
-          'Per conservare tutti i dati disponibili usa la scheda DoLichens/Darwin Core: copiala nelle note di iNaturalist dopo aver inviato la foto. L’app ricevente non importa automaticamente una tabella Darwin Core. I campi senza equivalente nativo restano nelle note.',
+          'Con il menu del telefono puoi copiare la scheda DoLichens e incollarla nelle note di iNaturalist.',
         ),
         const SizedBox(height: 12),
         Builder(
@@ -175,7 +306,7 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
           ),
         ),
         const Text(
-          'Il pacchetto contiene Excel/CSV DoLichens, CSV adattato al caricatore web di iNaturalist, schede e foto. Estrai il ZIP prima dell’importazione; le foto vanno associate alle osservazioni e i nomi verificati. I dati mancanti restano vuoti.',
+          'Il pacchetto ZIP contiene tabelle DoLichens, CSV per il sito iNaturalist e foto da associare dopo l’importazione.',
         ),
         const SizedBox(height: 16),
         if (widget.observations.every((o) => o.photoBytes?.isNotEmpty != true))
@@ -198,6 +329,26 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
                   Text(
                     '${o.eventDate.day}/${o.eventDate.month}/${o.eventDate.year}',
                   ),
+                  if (auth.session != null)
+                    FilledButton.icon(
+                      key: ValueKey('inat-publish-${o.id}'),
+                      onPressed: busy ? null : () => publish(o),
+                      icon: const Icon(Icons.cloud_upload_outlined),
+                      label: Text(
+                        sent.containsKey(o.id)
+                            ? 'Verifica invio'
+                            : 'Invia foto e dati',
+                      ),
+                    ),
+                  if (sent[o.id] != null)
+                    Link(
+                      uri: sent[o.id]!,
+                      target: LinkTarget.blank,
+                      builder: (_, follow) => TextButton(
+                        onPressed: follow,
+                        child: const Text('Apri osservazione su iNaturalist'),
+                      ),
+                    ),
                   Builder(
                     builder: (ctx) => FilledButton.icon(
                       key: ValueKey('inat-photo-${o.id}'),
@@ -242,3 +393,9 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
     ),
   );
 }
+
+String privacyLabel(INaturalistPrivacy value) => switch (value) {
+  INaturalistPrivacy.private => 'Privata',
+  INaturalistPrivacy.obscured => 'Oscurata',
+  INaturalistPrivacy.open => 'Pubblica',
+};

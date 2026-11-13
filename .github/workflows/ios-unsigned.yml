@@ -1,4 +1,4 @@
-name: Italic Go iPhone IPA 0.8.17 (unsigned)
+name: Italic Go iPhone IPA 0.8.18 (unsigned)
 
 on:
   workflow_dispatch:
@@ -32,20 +32,22 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Build the release application for a physical iPhone
-        run: flutter build ios --release --no-codesign --no-pub
+        env:
+          INATURALIST_CLIENT_ID: ${{ vars.INATURALIST_CLIENT_ID }}
+        run: flutter build ios --release --no-codesign --no-pub "--dart-define=INATURALIST_CLIENT_ID=$INATURALIST_CLIENT_ID"
       - name: Verify and package the unsigned IPA
         run: >-
           python3 tools/package_unsigned_ipa.py
           build/ios/iphoneos/Runner.app
-          dist/Italic-Go-0.8.17-iPhone-non-firmata.ipa
-          --version 0.8.17 --build 31
+          dist/Italic-Go-0.8.18-iPhone-non-firmata.ipa
+          --version 0.8.18 --build 32
       - uses: actions/upload-artifact@v4
         with:
-          name: Italic-Go-0.8.17-iPhone-non-firmata
+          name: Italic-Go-0.8.18-iPhone-non-firmata
           path: |
-            dist/Italic-Go-0.8.17-iPhone-non-firmata.ipa
-            dist/Italic-Go-0.8.17-iPhone-non-firmata.ipa.json
-            dist/Italic-Go-0.8.17-iPhone-non-firmata.ipa.sha256
+            dist/Italic-Go-0.8.18-iPhone-non-firmata.ipa
+            dist/Italic-Go-0.8.18-iPhone-non-firmata.ipa.json
+            dist/Italic-Go-0.8.18-iPhone-non-firmata.ipa.sha256
           if-no-files-found: error
           compression-level: 0
           retention-days: 1

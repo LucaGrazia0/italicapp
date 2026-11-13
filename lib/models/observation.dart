@@ -107,8 +107,7 @@ class Observation {
     if (!MapPosition.validUncertainty(uncertaintyInMeters)) {
       throw ArgumentError('Incertezza della posizione non valida.');
     }
-    return Observation.fromMap({
-      ...toMap(),
+    return copy({
       'latitude': lat,
       'longitude': lon,
       'horizontalAccuracy': null,
@@ -124,6 +123,11 @@ class Observation {
       'positionMocked': null,
     });
   }
+
+  /// Copy editable metadata without decoding or duplicating the photo buffer.
+  Observation copy([Map<String, Object?> changes = const {}]) =>
+      Observation.fromMap({...toMap(), ...changes, 'photoBytes': null})
+        ..photoBytes = photoBytes;
 
   Map<String, Object?> toMap() => {
     'id': id,

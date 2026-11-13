@@ -8,6 +8,7 @@ import '../widgets/iphone_install_card.dart';
 import '../app_store.dart';
 import 'observation_export_page.dart';
 import 'identification_page.dart';
+import '../widgets/inaturalist_connection.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -44,6 +45,8 @@ class SettingsPage extends StatelessWidget {
         'Informazioni sul progetto e sui dati disponibili sul dispositivo.',
       ),
       const SizedBox(height: 20),
+      const INaturalistConnection(),
+      const SizedBox(height: 14),
       const OfflineCard(),
       const SizedBox(height: 14),
       const DataUpdatesCard(),

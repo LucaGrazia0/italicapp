@@ -309,7 +309,7 @@ void main() {
     },
   );
   testWidgets(
-    'iNaturalist shares a real image alone through system sheet, without publishing or authentication',
+    'iNaturalist system sharing includes the name and Darwin Core text without publishing',
     (tester) async {
       ShareParams? sent;
       final o = samplePhoto('a');
@@ -330,10 +330,14 @@ void main() {
         250,
         scrollable: find.byType(Scrollable).first,
       );
+      await tester.ensureVisible(find.byKey(const ValueKey('inat-photo-a')));
+      await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('inat-photo-a')));
       await tester.pumpAndSettle();
       expect(sent?.files?.single.mimeType, 'image/png');
-      expect(sent?.text, isNull);
+      expect(sent?.text, contains('Italic Go · dati DoLichens / Darwin Core'));
+      expect(sent?.text, contains('scientificName: ${o.taxonName}'));
+      expect(sent?.text, isNot(contains('decimalLatitude:')));
       expect(sent?.fileNameOverrides, ['a.png']);
       expect(await sent!.files!.single.readAsBytes(), o.photoBytes);
       expect(tester.takeException(), isNull);

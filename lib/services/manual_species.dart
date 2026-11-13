@@ -22,7 +22,7 @@ IdentificationRank manualNameRank(String value) {
 }
 
 Observation assignSpecies(Observation original, ItalicTaxon taxon) =>
-    Observation.fromMap(original.toMap())
+    original.copy()
       ..taxonName = taxon.scientificName
       ..taxonItalicId = taxon.italicId
       ..rank = manualNameRank(taxon.scientificName)

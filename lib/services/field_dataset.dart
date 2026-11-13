@@ -29,9 +29,7 @@ class FieldDataset {
   static Observation copyForExport(
     Observation o, [
     Map<String, Object?> changes = const {},
-  ]) =>
-      Observation.fromMap({...o.toMap(), ...changes, 'photoBytes': null})
-        ..photoBytes = o.photoBytes;
+  ]) => o.copy(changes);
   final List<Observation> observations;
   final List<FieldPlot> plots;
   final ItalianRegions? regions;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import '../app_store.dart';
 import '../services/field_dataset.dart';
+import '../services/dataset_export_jobs.dart';
 import 'inaturalist_share_page.dart';
 import 'observation_export_page.dart';
 
@@ -43,13 +44,17 @@ class _DatasetExportPageState extends State<DatasetExportPage> {
       error = null;
     });
     try {
-      final file = data.export(
-        excel: excel,
-        includeGps: gps,
-        includePhotos: photos,
-        recordedBy: observer.text,
-        identifiedBy: identifier.text,
+      final file = await buildDatasetExport(
+        DatasetExportJob(
+          data,
+          excel: excel,
+          includeGps: gps,
+          includePhotos: photos,
+          recordedBy: observer.text,
+          identifiedBy: identifier.text,
+        ),
       );
+      if (!mounted) return;
       await (widget.sender ?? SharePlus.instance.share)(
         ShareParams(
           title: 'Diario Italic Go',
