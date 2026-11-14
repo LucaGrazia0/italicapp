@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:archive/archive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:idb_shim/idb_client_memory.dart';
 import 'package:share_plus/share_plus.dart';
@@ -309,10 +311,23 @@ void main() {
     },
   );
   testWidgets(
-    'iNaturalist system sharing includes the name and Darwin Core text without publishing',
+    'iNaturalist shares image-only on iPhone and retains optional Android text',
     (tester) async {
+      final platform = defaultTargetPlatform;
       ShareParams? sent;
-      final o = samplePhoto('a');
+      String? copied;
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (call) async {
+            if (call.method == 'Clipboard.setData') {
+              copied = (call.arguments as Map)['text'] as String;
+            }
+            return null;
+          });
+      addTearDown(
+        () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(SystemChannels.platform, null),
+      );
+      final o = samplePhoto('a', located: true);
       await tester.pumpWidget(
         MaterialApp(
           home: INaturalistSharePage(
@@ -335,13 +350,54 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('inat-photo-a')));
       await tester.pumpAndSettle();
       expect(sent?.files?.single.mimeType, 'image/png');
-      expect(sent?.text, contains('Italic Go · dati DoLichens / Darwin Core'));
-      expect(sent?.text, contains('scientificName: ${o.taxonName}'));
-      expect(sent?.text, isNot(contains('decimalLatitude:')));
+      if (platform == TargetPlatform.iOS) {
+        // Regression: a text activity item can hide image-only receivers.
+        expect(sent?.text, isNull);
+        expect(sent?.title, isNull);
+        expect(sent?.uri, isNull);
+        expect(sent?.subject, isNull);
+        expect(sent?.files, hasLength(1));
+      } else {
+        expect(
+          sent?.text,
+          contains('Italic Go · dati DoLichens / Darwin Core'),
+        );
+        expect(sent?.text, contains('scientificName: ${o.taxonName}'));
+        expect(sent?.text, isNot(contains('decimalLatitude:')));
+      }
       expect(sent?.fileNameOverrides, ['a.png']);
       expect(await sent!.files!.single.readAsBytes(), o.photoBytes);
+      if (platform == TargetPlatform.iOS) {
+        final gps = find.byKey(const ValueKey('inat-include-location'));
+        await tester.scrollUntilVisible(
+          gps,
+          -250,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.ensureVisible(gps);
+        await tester.pumpAndSettle();
+        await tester.tap(gps);
+        await tester.pumpAndSettle();
+        final copy = find.text('Copia scheda DoLichens completa');
+        await tester.scrollUntilVisible(
+          copy,
+          250,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.ensureVisible(copy);
+        await tester.pumpAndSettle();
+        await tester.tap(copy);
+        await tester.pumpAndSettle();
+        expect(copied, contains('scientificName: ${o.taxonName}'));
+        expect(copied, contains('decimalLatitude: 45.0'));
+        expect(copied, contains('decimalLongitude: 9.0'));
+      }
       expect(tester.takeException(), isNull);
     },
+    variant: TargetPlatformVariant({
+      TargetPlatform.iOS,
+      TargetPlatform.android,
+    }),
   );
   test(
     'iNaturalist adapter retains DoLichens metadata in notes and packages photos separately without inventing taxon IDs',

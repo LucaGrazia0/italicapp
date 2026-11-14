@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/link.dart';
@@ -206,13 +207,16 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
     try {
       final name = FieldDataset.photoFileName(o).split('/').last;
       final extension = name.split('.').last;
-      // Keep one image attachment so image receivers stay available. The text
-      // carries the checklist name / selected coordinates, but some receivers
-      // ignore it. Only the authenticated API can fill their native fields.
+      final imageOnly = defaultTargetPlatform == TargetPlatform.iOS;
+      // iNaturalist's iOS extension activates for images, not mixed image/text
+      // items. share_plus creates a separate activity item for non-empty text.
+      // Keep the iPhone payload image-only; the complete record remains in the
+      // explicit copy action and package export. Android can keep EXTRA_TEXT.
       await (widget.sender ?? SharePlus.instance.share)(
         ShareParams(
-          title: o.taxonName ?? 'Foto per iNaturalist',
-          text: notesFor(o),
+          // Also applies to the iPhone web app when Web Share is supported.
+          title: imageOnly ? null : o.taxonName ?? 'Foto per iNaturalist',
+          text: imageOnly ? null : notesFor(o),
           files: [
             XFile.fromData(
               bytes,
@@ -265,7 +269,7 @@ class _INaturalistSharePageState extends State<INaturalistSharePage> {
         ),
         const SizedBox(height: 12),
         const Text(
-          'Il menu del telefono invia foto e scheda testuale: iNaturalist può ignorare il testo. Le foto originali possono contenere proprie coordinate. L’invio diretto usa invece i dati del diario.',
+          'Su iPhone viene condivisa solo la foto, così iNaturalist può comparire nel menu. La scheda completa si copia con il pulsante dedicato. Le foto originali possono contenere proprie coordinate. L’invio diretto usa invece i dati del diario.',
         ),
         SwitchListTile(
           key: const ValueKey('inat-include-location'),

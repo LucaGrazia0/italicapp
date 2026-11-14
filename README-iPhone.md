@@ -1,11 +1,11 @@
-# Italic Go 0.8.19 · progetto iPhone e IPA non firmata
+# Italic Go 0.8.20 · progetto iPhone e IPA non firmata
 
 Il progetto include i sorgenti Flutter e il progetto iOS dell’ultima versione,
 con 3.406 foto offline. Sul Mac locale non sono installati Xcode e l’SDK iOS;
 la compilazione è predisposta su un runner macOS di GitHub Actions.
 
 Il workflow `.github/workflows/ios-unsigned.yml` produce
-`Italic-Go-0.8.19-iPhone-non-firmata.ipa`, un bundle arm64 per iPhone fisico con
+`Italic-Go-0.8.20-iPhone-non-firmata.ipa`, un bundle arm64 per iPhone fisico con
 versione e checksum delle foto verificati. **L’IPA non è firmata per
 l’installazione: va firmata e installata con un metodo compatibile, ad esempio
 AltStore Classic. Non si installa toccando il file nei Download e non è un
@@ -17,17 +17,20 @@ Sono predisposti il nome Italic Go, il logo, l'identificativo
 `it.italic.italicapp`, iOS 15 o successivo e le descrizioni dei permessi per
 fotocamera, galleria e posizione durante l'uso. Il codice comprende diario,
 chiavi e matrici offline, condivisione e scelta della posizione su mappa online
-della versione 0.8.19, i filtri iniziali, i plot con lista specie e foto multiple, i traguardi offline e le fotografie dimostrative.
-La versione 0.8.19 (build 34) usa la nuova icona con licheni e ITALIC GO.
+della versione 0.8.20, i filtri iniziali, i plot con lista specie e foto multiple, i traguardi offline e le fotografie dimostrative.
+La versione 0.8.20 (build 35) usa la nuova icona con licheni e ITALIC GO.
 Permette di scegliere la specie dalla lista dopo foto e posizione, oppure
 sulle schede del diario. Le celebrazioni delle medaglie aspettano il ritorno
 al diario. I testi ripetuti sono stati snelliti. Conserva l’apertura animata,
 i filtri, le chiavi e i dati offline della versione precedente.
-La versione 0.8.19 semplifica le Impostazioni: condivisione in due percorsi,
+La versione 0.8.20 semplifica le Impostazioni: condivisione in due percorsi,
 controllo aggiornamenti compatto e dati/istruzioni richiudibili. Include i
 miglioramenti di fluidità al diario e alle esportazioni della 0.8.18. Il login
 iNaturalist richiede ancora il Client ID pubblico della registrazione dedicata
 (vedi `reports/inaturalist-activation-0.8.18.md`).
+La 0.8.20 ripristina la condivisione della sola foto su iPhone per mantenere
+iNaturalist disponibile come destinatario. Nome e coordinate restano nella
+scheda DoLichens da copiare separatamente.
 La firma e il Team Apple non sono inclusi.
 
 ## Per compilare e provare su iPhone
@@ -67,7 +70,7 @@ Per creare manualmente l’IPA non firmata su un Mac con Xcode:
 flutter pub get
 flutter build ios --release --no-codesign --no-pub
 python3 tools/package_unsigned_ipa.py build/ios/iphoneos/Runner.app \
-  dist/Italic-Go-0.8.19-iPhone-non-firmata.ipa --version 0.8.19 --build 34
+  dist/Italic-Go-0.8.20-iPhone-non-firmata.ipa --version 0.8.20 --build 35
 ```
 
 Fonti ufficiali:
