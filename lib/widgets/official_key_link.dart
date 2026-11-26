@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/link.dart';
 import '../data/identification_repository.dart';
+import '../data/original_key_repository.dart';
+import '../pages/original_key_page.dart';
 
 class OfficialKeyLink extends StatelessWidget {
   const OfficialKeyLink({super.key, required this.entry});
   final GenusKey entry;
   @override
-  Widget build(BuildContext context) => Link(
-    uri: entry.url,
-    target: LinkTarget.blank,
-    builder: (context, followLink) => TextButton.icon(
-      onPressed: followLink,
-      icon: const Icon(Icons.open_in_new),
-      label: Text('Chiave ITALIC · ${entry.name}'),
-    ),
+  Widget build(BuildContext context) => FutureBuilder<OriginalKeyArchive>(
+    future: OriginalKeyArchive.load(),
+    builder: (context, snapshot) {
+      final available = snapshot.data?.forEntry(entry) != null;
+      return TextButton.icon(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (_) => OriginalKeyPage(entry: entry),
+          ),
+        ),
+        icon: Icon(
+          available ? Icons.offline_pin_outlined : Icons.account_tree_outlined,
+        ),
+        label: Text(
+          'Chiave ITALIC · ${entry.name}'
+          '${snapshot.hasData ? (available ? " · offline" : " · copia non disponibile") : ""}',
+        ),
+      );
+    },
   );
 }
 
@@ -34,7 +47,7 @@ class GenusKeyLinks extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
-          const Text('Chiavi originali ITALIC · richiedono una connessione'),
+          const Text('Chiavi originali ITALIC'),
           for (final entry in entries) OfficialKeyLink(entry: entry),
         ],
       );

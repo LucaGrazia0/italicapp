@@ -57,7 +57,7 @@ def main():
     args = parser.parse_args()
     keys = read_keys(args.sql)
     payload = {'metadata': {'source': 'ITALIC SQL: Generi_note', 'count': len(keys),
-        'content': 'Links only; external keys require an internet connection'}, 'keys': keys}
+        'content': 'Official key links; original offline text is bundled separately in original_keys_v1.json'}, 'keys': keys}
     args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(f'Exported {len(keys)} official genus key links')
 

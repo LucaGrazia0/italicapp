@@ -8,7 +8,7 @@ import struct
 import zipfile
 
 
-def package(app, destination, version, build):
+def package(app, destination, version, build, original_keys=None):
     app, destination = Path(app), Path(destination)
     if not app.is_dir() or app.suffix != '.app':
         raise ValueError('Serve un bundle iPhoneOS .app compilato da Xcode.')
@@ -42,6 +42,18 @@ def package(app, destination, version, build):
             raise ValueError('Percorso fotografico non valido.')
         if hashlib.sha256((assets / path).read_bytes()).hexdigest() != photo['sha256']:
             raise ValueError('Foto offline incompleta: ' + str(photo['italicId']))
+    key_report = {}
+    if original_keys is not None:
+        expected = Path(original_keys).read_bytes()
+        actual = (assets / 'assets/italic/original_keys_v1.json').read_bytes()
+        if actual != expected:
+            raise ValueError('Le chiavi originali offline non corrispondono alla versione compilata.')
+        keys = json.loads(actual)['keys']
+        key_report = {
+            'originalKeysSha256': hashlib.sha256(actual).hexdigest(),
+            'originalKeysAvailable': sum(k['status'] == 'available' for k in keys),
+            'originalKeysBytes': len(actual),
+        }
     destination.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(destination, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
         for path in sorted(app.rglob('*')):
@@ -53,7 +65,7 @@ def package(app, destination, version, build):
     report = {'version': version, 'build': str(build), 'bundleIdentifier': info['CFBundleIdentifier'],
               'platform': 'iPhoneOS', 'architecture': 'arm64', 'signedForInstallation': False,
               'photoChecksumsVerified': len(catalogue['photos']), 'sha256': digest,
-              'bytes': destination.stat().st_size,
+              'bytes': destination.stat().st_size, **key_report,
               'installation': 'Requires signing/provisioning, for example through a compatible sideloading tool.'}
     destination.with_suffix('.ipa.json').write_text(json.dumps(report, indent=2) + '\n')
     destination.with_suffix('.ipa.sha256').write_text(digest + '  ' + destination.name + '\n')
@@ -67,5 +79,6 @@ if __name__ == '__main__':
     parser.add_argument('destination', type=Path)
     parser.add_argument('--version', required=True)
     parser.add_argument('--build', required=True)
+    parser.add_argument('--original-keys', type=Path)
     args = parser.parse_args()
-    package(args.app, args.destination, args.version, args.build)
+    package(args.app, args.destination, args.version, args.build, args.original_keys)

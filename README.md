@@ -44,6 +44,26 @@ un metodo di installazione compatibile prima dell’uso su un iPhone.
 
 ## Avvio
 
+Le **Chiavi originali ITALIC** in **Impostazioni → Dati e archiviazione →
+Strumenti e dati** aprono ora i bivi testuali direttamente nell’app, senza rete.
+Il catalogo di 509 voci rimanda a 150 chiavi distinte: 149 sono state acquisite,
+mentre la chiave 1750 è segnalata come non disponibile perché la fonte restituisce
+un errore. Le chiavi condivise da più generi mantengono il proprio ambito completo;
+non sono sostituite da una selezione della chiave generale. Testi inglesi, autori,
+numerazione, descrizioni terminali e riferimenti sono conservati. Sono disponibili
+ritorno al bivio precedente, elenco dei taxa rimasti e testo completo offline.
+La chiave alpina (1611), Phacographa (14577) e Psilolechia (14982) conservano anche
+i problemi di collegamento della fonte, evidenziati senza correzioni automatiche.
+Le illustrazioni online dei bivi non sono incluse in questo archivio; le schede
+locali usano le foto delle specie già disponibili offline.
+
+Lo snapshot `assets/italic/original_keys_v1.json` è separato dagli archivi della
+chiave generale e dalle osservazioni. Si rigenera con
+`python3 tools/import_original_keys.py`; l’HTML sorgente rimane in cache esclusa
+da Git. Il testo viene distribuito con attribuzioni e licenza CC BY-SA 4.0.
+Questa prima edizione dell’archivio originale si aggiorna con una nuova build
+dell’app; non è parte dei precedenti pacchetti di aggiornamento scientifico.
+
 Con Flutter installato e disponibile nel PATH:
 
 ```sh
@@ -146,9 +166,10 @@ Da **ITALIC → Chiavi di determinazione** si accede senza foto o GPS a:
   le citazioni sono in `assets/italic/flavoparmelia_key.json`, con stato
   `needs_expert_review`. È una selezione manuale da descrizioni, non una chiave
   originale ITALIC riprodotta o una determinazione scientificamente approvata.
-- **Chiavi originali ITALIC**: indice cercabile di 509 collegamenti per genere,
-  esportati dal solo campo `Generi_note.chiave`. Sono conservate anche più chiavi
-  riferite allo stesso genere. I collegamenti richiedono una connessione.
+- **Chiavi originali ITALIC**: catalogo cercabile di 509 voci per genere,
+  esportate dal solo campo `Generi_note.chiave`, con 149 chiavi testuali originali
+  disponibili offline. Più voci possono condividere la stessa chiave; i riferimenti
+  alla fonte online restano facoltativi nella pagina degli autori.
 
 Ogni bivio propone due alternative e **Non so / Non verificato**. Risposte
 discordanti possono lasciare zero candidati; nessuna specie viene forzata.

@@ -68,6 +68,22 @@ class IpaTests(unittest.TestCase):
                 self.package(app, root)
             self.assertFalse((root / 'out.ipa').exists())
 
+    def test_original_key_archive_must_match_the_release_source(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            app = self.fixture(root)
+            source = root / 'original_keys.json'
+            source.write_text(json.dumps({'keys': [{'id': 1566, 'status': 'available'}]}))
+            target = app / 'Frameworks/App.framework/flutter_assets/assets/italic/original_keys_v1.json'
+            target.write_bytes(source.read_bytes())
+            with contextlib.redirect_stdout(io.StringIO()):
+                report = module.package(app, root / 'out.ipa', '0.8.10', '23', source)
+            self.assertEqual(report['originalKeysAvailable'], 1)
+            target.write_text('{}')
+            with self.assertRaises(ValueError):
+                module.package(app, root / 'bad.ipa', '0.8.10', '23', source)
+            self.assertFalse((root / 'bad.ipa').exists())
+
 
 if __name__ == '__main__':
     unittest.main()

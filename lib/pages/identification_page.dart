@@ -249,7 +249,7 @@ class _DeterminationStartPageState extends State<DeterminationStartPage> {
       ),
       _routeCard(
         'Chiavi originali ITALIC',
-        '${repo.genusKeys.length} collegamenti per genere. Le chiavi si aprono online.',
+        '${repo.genusKeys.length} voci per genere. Segui i bivi originali nella copia offline.',
         Icons.menu_book_outlined,
         () => Navigator.push(
           context,
@@ -849,7 +849,7 @@ class _OfficialKeysPageState extends State<OfficialKeysPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'I collegamenti provengono dal database ITALIC. Le chiavi si aprono nel browser e richiedono una connessione.',
+                      'Apri le chiavi originali nell’app, senza connessione. Più generi possono condividere la stessa chiave: testi, numerazione e ambito restano quelli della fonte.',
                     ),
                     const SizedBox(height: 12),
                     TextField(
@@ -874,7 +874,7 @@ class _OfficialKeysPageState extends State<OfficialKeysPage> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      '${entries.length} ${entries.length == 1 ? "chiave disponibile" : "chiavi disponibili"}',
+                      '${entries.length} ${entries.length == 1 ? "voce del catalogo" : "voci del catalogo"}',
                     ),
                   ],
                 ),

@@ -1,0 +1,53 @@
+{
+  "keys": 150,
+  "available": 149,
+  "catalogueEntries": 509,
+  "offlineEntries": 506,
+  "couplets": 7932,
+  "terminalOccurrences": 8077,
+  "bytes": 15891222,
+  "unavailable": [
+    {
+      "id": 1750,
+      "status": "unavailable",
+      "reason": "HTTPError: HTTP Error 500: Internal Server Error"
+    }
+  ],
+  "sourceIssues": [
+    {
+      "id": 1611,
+      "title": "Lichens of the Italian Alps occurring near and above tree-line: an interactive guide",
+      "missingTargets": [],
+      "unreachableCouplets": [
+        1423
+      ]
+    },
+    {
+      "id": 14577,
+      "title": "KEYS TO THE LICHENS OF ITALY -138) PHACOGRAPHA",
+      "missingTargets": [
+        4
+      ],
+      "unreachableCouplets": [
+        3
+      ]
+    },
+    {
+      "id": 14982,
+      "title": "KEYS TO THE LICHENS OF ITALY -141) PSILOLECHIA",
+      "missingTargets": [],
+      "unreachableCouplets": [
+        2,
+        3
+      ]
+    }
+  ],
+  "verification": {
+    "flutterTestsPassed": 24,
+    "pythonTestsPassed": 7,
+    "gitDiffCheck": "passed",
+    "scope": "Navigation, source graph validation, all catalogue IDs, existing general key and data update compatibility",
+    "staticAnalysis": "Not completed: analyzer waited on cloud-backed SDK files; functional tests compiled and passed in a temporary checkout."
+  },
+  "archiveSha256": "130992a82913620e60a30bbaaa49421797e1bcc195606fff17822b649f39319a"
+}
