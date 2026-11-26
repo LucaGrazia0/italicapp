@@ -44,6 +44,40 @@ un metodo di installazione compatibile prima dell’uso su un iPhone.
 
 ## Avvio
 
+### Pacchetti portatili Windows e Mac 0.8.23
+
+I file `Italic-Go-0.8.23-Windows-portatile.zip` e
+`Italic-Go-0.8.23-Mac-portatile.zip` includono la build web release della
+stessa versione dell'APK, i dati offline e un runtime Python locale.
+Si possono trasferire ad altri computer senza installare Flutter o Python.
+Estrarre l'intera cartella e aprire `Apri Italic Go.cmd` su Windows oppure
+`Apri Italic Go.command` su Mac. L'interfaccia si apre nel browser; lasciare
+aperta la finestra del terminale durante l'uso. Ogni ZIP contiene `LEGGIMI.txt`.
+
+Sono inclusi runtime per Windows x64/ARM64 e Mac Intel/Apple Silicon.
+I pacchetti non sono applicazioni desktop native: foto, geolocalizzazione
+e condivisione usano le possibilità del browser e dell'hardware disponibile.
+Mappe e servizi online richiedono internet. Il diario rimane nel browser del
+computer, all'indirizzo fisso `http://127.0.0.1:8782/`; trasferire lo ZIP
+non trasferisce le osservazioni personali. La porta coincide con la precedente
+edizione Mac per mantenere l'accesso ai dati nello stesso browser e profilo.
+
+`tools/package_desktop.py` verifica il manifesto offline e crea gli ZIP usando
+soltanto i file dell'app e i runtime preparati. `tools/launch_desktop.py`
+controlla i file di avvio, serve esclusivamente la cartella web su loopback,
+rifiuta richieste con host estraneo e impedisce l'elenco delle directory.
+L'opzione `--verify` del lanciatore controlla tutti gli hash del pacchetto.
+`RUNTIME-SOURCES.json` e `CONTENUTO.json` documentano provenienza e integrità.
+I runtime Windows provengono da Python.org; quelli Mac da Python Standalone
+Builds di Astral, con gli hash dei download verificati prima dell'inclusione.
+
+Le prove locali di questa edizione comprendono avvio dalla cartella estratta,
+runtime Mac ARM64 e x64 tramite Rosetta, ricerca Peltigera e passaggio tra i bivi,
+integrità completa degli ZIP e architetture PE Windows. L'esecuzione del
+lanciatore Windows su un PC Windows resta da verificare.
+
+### Chiavi offline
+
 Le **Chiavi originali ITALIC** in **Impostazioni → Dati e archiviazione →
 Strumenti e dati** aprono ora i bivi testuali direttamente nell’app, senza rete.
 Il catalogo di 509 voci rimanda a 150 chiavi distinte: 149 sono state acquisite,
