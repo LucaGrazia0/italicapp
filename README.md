@@ -108,6 +108,13 @@ flutter build web --no-pub --no-wasm-dry-run
 python3 tools/prepare_offline_web.py
 ```
 
+Per compilare Android, eseguire `flutter pub get` **dopo** aver preparato il
+progetto Android completo. Prima della distribuzione verificare anche le classi
+native con `python3 tools/verify_android_startup.py /percorso/app-release.apk`
+e provare l’avvio dell’APK release su Android. La verifica rifiuta un riferimento
+alla registrazione dei plugin se la relativa classe non è effettivamente compilata.
+La versione 0.8.22 corregge questa mancanza nel pacchetto Android 0.8.21.
+
 La determinazione morfologica completa e il riconoscimento fotografico non fanno parte
 del motore ecologico. Il sottoprogetto `morphology_extractor` prepara dati morfologici
 da sottoporre a revisione specialistica.

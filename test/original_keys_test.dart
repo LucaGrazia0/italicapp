@@ -168,12 +168,14 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.text('Bivio 1'), findsOneWidget);
-      expect(find.text('3 taxa rimasti · mostra elenco'), findsOneWidget);
+      expect(find.text('3 taxa rimasti'), findsOneWidget);
       await tester.tap(find.byKey(const ValueKey('original-choice-0')));
       await tester.pumpAndSettle();
       expect(find.text('Bivio 2'), findsOneWidget);
-      expect(find.text('2 taxa rimasti · mostra elenco'), findsOneWidget);
-      await tester.tap(find.byKey(const ValueKey('original-key-candidates')));
+      expect(find.text('2 taxa rimasti'), findsOneWidget);
+      await tester.tap(
+        find.byKey(const ValueKey('original-key-candidates-toolbar')),
+      );
       await tester.pumpAndSettle();
       expect(find.text('Peltigera test'), findsOneWidget);
       expect(find.text('Unknown species'), findsOneWidget);

@@ -838,64 +838,90 @@ class _OfficialKeysPageState extends State<OfficialKeysPage> {
         .toList();
     return Scaffold(
       appBar: AppBar(title: const Text('Chiavi originali ITALIC')),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 760),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Apri le chiavi originali nell’app, senza connessione. Più generi possono condividere la stessa chiave: testi, numerazione e ambito restano quelli della fonte.',
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      key: const ValueKey('genus-key-search'),
-                      controller: searchController,
-                      onChanged: (value) => setState(() => query = value),
-                      decoration: InputDecoration(
-                        labelText: 'Cerca un genere',
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: query.isEmpty
-                            ? null
-                            : IconButton(
-                                key: const ValueKey('clear-genus-search'),
-                                tooltip: 'Cancella ricerca',
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  searchController.clear();
-                                  setState(() => query = '');
-                                },
+      body: SafeArea(
+        top: false,
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 760),
+            child: CustomScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          'Esplora le chiavi originali',
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                color: AppTheme.forest,
+                                fontWeight: FontWeight.w700,
                               ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      '${entries.length} ${entries.length == 1 ? "voce del catalogo" : "voci del catalogo"}',
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: entries.isEmpty
-                    ? const Center(
-                        child: Text('Nessuna chiave per questa ricerca.'),
-                      )
-                    : ListView.builder(
-                        itemCount: entries.length,
-                        itemBuilder: (_, index) => Card(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 4,
-                          ),
-                          child: OfficialKeyLink(entry: entries[index]),
                         ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Testi e bivi disponibili senza connessione. Più generi possono condividere la stessa chiave: l’ambito resta quello della fonte.',
+                          style: TextStyle(height: 1.5),
+                        ),
+                        const SizedBox(height: 20),
+                        TextField(
+                          key: const ValueKey('genus-key-search'),
+                          controller: searchController,
+                          onTapOutside: (_) =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
+                          onChanged: (value) => setState(() => query = value),
+                          decoration: InputDecoration(
+                            labelText: 'Cerca un genere',
+                            prefixIcon: const Icon(Icons.search),
+                            suffixIcon: query.isEmpty
+                                ? null
+                                : IconButton(
+                                    key: const ValueKey('clear-genus-search'),
+                                    tooltip: 'Cancella ricerca',
+                                    icon: const Icon(Icons.clear),
+                                    onPressed: () {
+                                      searchController.clear();
+                                      setState(() => query = '');
+                                    },
+                                  ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          '${entries.length} ${entries.length == 1 ? "voce del catalogo" : "voci del catalogo"}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.forest,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (entries.isEmpty)
+                  const SliverPadding(
+                    padding: EdgeInsets.all(20),
+                    sliver: SliverToBoxAdapter(
+                      child: Text('Nessuna chiave per questa ricerca.'),
+                    ),
+                  )
+                else
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                    sliver: SliverList.builder(
+                      itemCount: entries.length,
+                      itemBuilder: (_, index) => Card(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        clipBehavior: Clip.antiAlias,
+                        child: OfficialKeyLink(entry: entries[index]),
                       ),
-              ),
-            ],
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
