@@ -39,6 +39,18 @@ def prepare(root: Path):
             paths.add(path.relative_to(root).as_posix())
     paths.update('icons/' + name for name in (
         'Icon-192.png', 'Icon-512.png', 'Icon-maskable-192.png', 'Icon-maskable-512.png'))
+    # CanvasKit requests these through the local fontFallbackBaseUrl. Keep an
+    # explicit, checksummed list rather than depending on an external font CDN.
+    fallback_manifest = root / 'offline_fonts.json'
+    if fallback_manifest.exists():
+        paths.add('offline_fonts.json')
+        for font in json.loads(fallback_manifest.read_text())['resources']:
+            name = font['path']
+            if not re.fullmatch(r'fonts/[A-Za-z0-9_./+\-]+', name) or '..' in Path(name).parts:
+                raise ValueError('Invalid fallback font path: ' + name)
+            if hashlib.sha256((root / name).read_bytes()).hexdigest() != font['sha256']:
+                raise ValueError('Fallback font checksum mismatch: ' + name)
+            paths.add(name)
     resources = []
     size = 0
     for path in sorted(paths):

@@ -46,6 +46,7 @@ def verify_files(full=False):
 class Handler(SimpleHTTPRequestHandler):
     extensions_map = {**SimpleHTTPRequestHandler.extensions_map,
                       '.wasm': 'application/wasm', '.webp': 'image/webp',
+                      '.woff2': 'font/woff2',
                       '.js': 'text/javascript; charset=utf-8',
                       '.json': 'application/json; charset=utf-8'}
 
