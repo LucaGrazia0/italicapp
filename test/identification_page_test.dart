@@ -414,7 +414,7 @@ void main() {
       '  CALOPLACA ',
     );
     await tester.pumpAndSettle();
-    expect(find.text('2 chiavi disponibili'), findsOneWidget);
+    expect(find.text('2 voci del catalogo'), findsOneWidget);
     await tester.enterText(
       find.byKey(const ValueKey('genus-key-search')),
       'inesistente',
@@ -423,7 +423,7 @@ void main() {
     expect(find.text('Nessuna chiave per questa ricerca.'), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('clear-genus-search')));
     await tester.pumpAndSettle();
-    expect(find.text('3 chiavi disponibili'), findsOneWidget);
+    expect(find.text('3 voci del catalogo'), findsOneWidget);
     expect(
       tester
           .widget<TextField>(find.byKey(const ValueKey('genus-key-search')))
